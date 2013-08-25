@@ -4,7 +4,7 @@ HtmlBuilders
 C#'s TagBuilder on steroids
 
 
-TagBuilder was definitely a good effort on Microsoft's part, but there are a few things that always irked me about it:
+TagBuilder is great and definitely a step above raw HTMl concatenation in my book, but there are a few things that always irked me about it:
 - No support for DOM traversal. You have a tag and its InnerHtml, that's it.
 - No builder-style construction. Making a tag with a few attributes and a few children quickly resulted into tens of lines of code.
 - You can render TagBuilders to a string, but you can't load a TagBuilder *from* a string. 
