@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilders", "HtmlBuilders\HtmlBuilders.csproj", "{D25216D8-517F-436A-9553-E57908B0B7EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilders.Tests", "HtmlBuilders.Tests\HtmlBuilders.Tests.csproj", "{7D827AB0-6381-49D1-BBF4-07CADB1232BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D25216D8-517F-436A-9553-E57908B0B7EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25216D8-517F-436A-9553-E57908B0B7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D25216D8-517F-436A-9553-E57908B0B7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D25216D8-517F-436A-9553-E57908B0B7EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
