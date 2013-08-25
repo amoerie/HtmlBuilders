@@ -46,8 +46,6 @@ The API is also quite a bit richer than what you're used to from the TagBuilder,
 
 There's also some extra support for data attributes, which I find myself using a lot recently
 
-new HtmlTag("div").Data("test", "datatest");
-
 ```c#
             // results in <div data-test="datatest"></div>
             new HtmlTag("div").Data("test", "datatest");
@@ -66,5 +64,10 @@ its attributes. It also allows for some language sugar:
             Assert.That(div["name"], Is.EqualTo("div-name"));
             Assert.That(div["id"], Is.EqualTo("div-id"));
 ```
+
+One more thing: it's tested! There's about 88 unit tests, which provide some 85% code coverage, and I intend to add more in the foreseeable future.
+
+![Unit tests](http://i.imgur.com/ZrD8A92.png)
+
 
 
