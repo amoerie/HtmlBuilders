@@ -8,6 +8,20 @@ namespace HtmlBuilders.Tests
     [TestFixture]
     public class TestsForHtmlTag
     {
+        #region Constructor
+
+        [Test]
+        public void Constructor_TestQuickInitializationWithTwoAttributes_ShouldAddTwoAttributes()
+        {
+            var div = new HtmlTag("div") {{"name", "div-name"}, {"id", "div-id"}};
+            Assert.That(div.HasAttribute("name"));
+            Assert.That(div.HasAttribute("id"));
+            Assert.That(div["name"], Is.EqualTo("div-name"));
+            Assert.That(div["id"], Is.EqualTo("div-id"));
+        }
+
+        #endregion 
+
         #region Parse
         [Test]
         public void Parse_EmptyDiv_ReturnsHtmlTagWithoutAttributesOrContent()
@@ -88,8 +102,8 @@ namespace HtmlBuilders.Tests
             div.Prepend(new HtmlText("These are the items"));
             Assert.That(div.Children.Count(), Is.EqualTo(1));
             Assert.That(div.Contents.Count(), Is.EqualTo(2));
-            Assert.That(div.Contents.First().ToHtml().ToHtmlString(), Is.EqualTo("These are the items"));
-            Assert.That(div.Contents.Last().ToHtml().ToString(), Is.EqualTo("<li>This is the first item</li>"));
+            Assert.That(div.Contents.First(), Is.EqualTo(new HtmlText("These are the items")));
+            Assert.That(div.Contents.Last(), Is.EqualTo(HtmlTag.Parse("<li>This is the first item</li>")));
         } 
         #endregion
 
