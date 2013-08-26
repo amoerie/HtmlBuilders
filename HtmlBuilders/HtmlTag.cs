@@ -107,9 +107,19 @@ namespace HtmlBuilders
         /// <summary>
         ///     Prepends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
-        /// <param name="elements">The element that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
+        /// <param name="elements">The elements that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
         public HtmlTag Prepend(params HtmlElement[] elements)
+        {
+            return Insert(0, elements);
+        }
+
+        /// <summary>
+        ///     Prepends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        /// </summary>
+        /// <param name="elements">The elements that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
+        /// <returns>this <see cref="HtmlTag"/></returns>
+        public HtmlTag Prepend(IEnumerable<HtmlElement> elements)
         {
             return Insert(0, elements);
         }
@@ -136,7 +146,20 @@ namespace HtmlBuilders
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
-            if(index < 0 || index > _contents.Count)
+            return Insert(index, elements.AsEnumerable());
+        }
+
+        /// <summary>
+        ///     Inserts an <see cref="HtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
+        /// </summary>
+        /// <param name="index">The index at which the <paramref name="elements"/> should be inserted</param>
+        /// <param name="elements">The elements that will be inserted at the specifix <paramref name="index"/> of the contents of this tag</param>
+        /// <returns>this <see cref="HtmlTag"/></returns>
+        public HtmlTag Insert(int index, IEnumerable<HtmlElement> elements)
+        {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+            if (index < 0 || index > _contents.Count)
                 throw new IndexOutOfRangeException(string.Format("Cannot insert anything at index '{0}', content elements count = {1}", index, Contents.Count()));
             foreach (var element in elements.Reverse())
             {
@@ -165,6 +188,18 @@ namespace HtmlBuilders
         /// <param name="elements">The elements that will be inserted at the end of the contents of this tag, after all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
         public HtmlTag Append(params HtmlElement[] elements)
+        {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+            return Append(elements.AsEnumerable());
+        }
+
+        /// <summary>
+        ///     Appends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        /// </summary>
+        /// <param name="elements">The elements that will be inserted at the end of the contents of this tag, after all other content elements</param>
+        /// <returns>this <see cref="HtmlTag"/></returns>
+        public HtmlTag Append(IEnumerable<HtmlElement> elements)
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
