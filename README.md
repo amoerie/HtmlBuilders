@@ -1,17 +1,22 @@
 HtmlBuilders
 ============
 
-***
-
-_Now available as a [Nuget Package](https://www.nuget.org/packages/HtmlBuilders/)!
+_C#'s TagBuilder on steroids_
 
 ***
 
-C#'s TagBuilder on steroids
+Now available as a [Nuget Package](https://www.nuget.org/packages/HtmlBuilders/)!
 
-# Crash course with code snippets
+***
 
-## Part 1: Creating HTML
+# Summary
+
+HtmlBuilders is a mini project that aims to simplify HTML creation, parsing and manipulating. The end result is shorter, better readable and more flexible code!
+You could see it as a more advanced version of C#'s built-in TagBuilder.
+
+## Crash course with code snippets
+
+### Part 1: Creating HTML
 
 What if we wanted to make this HTML in C#:
 
@@ -26,7 +31,7 @@ What if we wanted to make this HTML in C#:
 	</div>
 ```
 
-### Remember how you used to do this back in the days with the TagBuilder?
+Remember how you used to do this back in the days with the TagBuilder?
 
 ```c#
 	var controlGroup = new TagBuilder("div");
@@ -46,7 +51,7 @@ What if we wanted to make this HTML in C#:
 	controlGroup.InnerHtml = controls.ToString();
 ```
 
-### Would you like some fluent syntax with that?
+Would you like some fluent syntax with that?
 
 ```c#
 	var fluent = new HtmlTag("div").Class("control-group")
@@ -57,7 +62,7 @@ What if we wanted to make this HTML in C#:
 		.Append(new HtmlTag("button").Type("submit").Class("btn").Append("Sign in"));
 ```
 
-### Or maybe you just want to write the HTML like you've been doing since the olden days?
+Or you can just write the HTML
 
 ```c#
 	var parsed =
@@ -69,7 +74,7 @@ What if we wanted to make this HTML in C#:
 					  "</div>");
 ```
 
-## Part 2: Manipulating the Html
+### Part 2: Manipulating the Html
 
 What if you have this:
                
@@ -87,9 +92,9 @@ And you want to make this:
 	</label>
 ```
 
-But here's the catch: you get the object as an incoming parameter in a method!
+_But here's the catch: you get the object as an incoming parameter in a method!_
 
-### TagBuilder madness
+Before: TagBuilder madness
 
 ```c#
 	public TagBuilder AddSomeAttributes(TagBuilder label)
@@ -111,7 +116,7 @@ But here's the catch: you get the object as an incoming parameter in a method!
 	}
 ```
 
-### HtmlTag glory
+Now: HtmlTag glory
 
 ```c#
 	public HtmlTag AddSomeAttributes(HtmlTag label)
@@ -126,12 +131,10 @@ But here's the catch: you get the object as an incoming parameter in a method!
 	}
 ```
 
-# Summary
+# It's tested! 
 
-HtmlBuilders is a mini project that aims to simplify HTML creation, parsing and manipulating. The end result is shorter, better readable and more flexible code!
-You could see it as a more advanced version of C#'s built-in TagBuilder.
-
-Here's some random snippets from the suite of 100 unit tests:
+There's an extensive suite of about 100 unit tests making sure I haven't forgotten anything. 
+For those of you who get a kick out of juicy syntax and unit tests, here are some snippets from the tests:
 
 ```c#
 	// parsing from a string!
@@ -170,8 +173,8 @@ There's also some extra support for data attributes, which I find myself using a
 	// results in <div data-test="datatest"></div>
 	new HtmlTag("div").Data("test", "datatest");
 	
-	// support for anonymous objects too, like what you're used to from the MVC html helpers
-	new HtmlTag("div").Data(new { data_test = "data test", data_test2 = "data test 2", data_test3 = "data test 3" });
+	// support for anonymous objects too, like what you're used to from the MVC html helpers. Attributes will be automatically prefixed with data-
+	new HtmlTag("div").Data(new { test = "data test", test2 = "data test 2", test3 = "data test 3" });
 ```
 
 Have I mentioned that HtmlTag implements IDictionary<string,string>? Thats right, every HtmlTag can be used as a dictionary to manipulate
