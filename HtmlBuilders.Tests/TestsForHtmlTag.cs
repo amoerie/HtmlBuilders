@@ -142,6 +142,23 @@ namespace HtmlBuilders.Tests
         } 
         #endregion
 
+        #region ParseAll
+        [Test]
+        public void ParseAll_WhenEmpty_ShouldReturnEmpty()
+        {
+            Assert.That(HtmlTag.ParseAll(string.Empty), Is.Empty);
+        }
+
+        [Test]
+        public void ParseAll_WhenTwoElements_ShouldReturnTwoElements()
+        {
+            var tags = HtmlTag.ParseAll("<li>The first</li><li>The second</li>").ToArray();
+            Assert.That(tags.Length, Is.EqualTo(2));
+            Assert.That(tags[0], Is.EqualTo(new HtmlTag("li").Append("The first")));
+            Assert.That(tags[1], Is.EqualTo(new HtmlTag("li").Append("The second")));
+        } 
+        #endregion
+
         #region Prepend
         [Test]
         public void Prepend_HtmlElementOnHtmlTagWithNoChildren_ShouldAddHtmlElement()
@@ -183,6 +200,19 @@ namespace HtmlBuilders.Tests
             Assert.That(div.Contents.First(), Is.EqualTo(new HtmlText("These are the items")));
             Assert.That(div.Contents.Last(), Is.EqualTo(HtmlTag.Parse("<li>This is the first item</li>")));
         } 
+
+        [Test]
+        public void Prepend_ManyElementsOnHtmlTagWith1ElementChild_ShouldPrependHtmlText()
+        {
+            var div = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
+            div.Prepend(new HtmlText("These are the items"), new HtmlText("So much prepending"));
+            Assert.That(div.Children.Count(), Is.EqualTo(1));
+            var contents = div.Contents.ToArray();
+            Assert.That(contents.Length, Is.EqualTo(3));
+            Assert.That(contents[0], Is.EqualTo(new HtmlText("These are the items")));
+            Assert.That(contents[1], Is.EqualTo(new HtmlText("So much prepending")));
+            Assert.That(contents[2], Is.EqualTo(HtmlTag.Parse("<li>This is the first item</li>")));
+        } 
         #endregion
 
         #region Insert
@@ -205,6 +235,19 @@ namespace HtmlBuilders.Tests
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
             Assert.That(div.Insert(2, new HtmlTag("li").Append("This is the third item")).Children.Count(), Is.EqualTo(3));
+        } 
+
+        [Test]
+        public void Insert_WhenInsertingMultipleElements_ShouldRetainOrderOfAddedElements()
+        {
+            var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the fourth item</li></ul>");
+            div.Insert(1, HtmlTag.Parse("<li>This is the second item</li>"), HtmlTag.Parse("<li>This is the third item</li>"));
+            var children = div.Children.ToArray();
+            Assert.That(children.Length, Is.EqualTo(4));
+            Assert.That(children[0], Is.EqualTo(HtmlTag.Parse("<li>This is the first item</li>")));
+            Assert.That(children[1], Is.EqualTo(HtmlTag.Parse("<li>This is the second item</li>")));
+            Assert.That(children[2], Is.EqualTo(HtmlTag.Parse("<li>This is the third item</li>")));
+            Assert.That(children[3], Is.EqualTo(HtmlTag.Parse("<li>This is the fourth item</li>")));
         } 
         #endregion
 
@@ -248,6 +291,19 @@ namespace HtmlBuilders.Tests
             Assert.That(div.Contents.Count(), Is.EqualTo(2));
             Assert.That(div.Contents.Last().ToHtml().ToHtmlString(), Is.EqualTo("These are the items"));
             Assert.That(div.Contents.First().ToHtml().ToString(), Is.EqualTo("<li>This is the first item</li>"));
+        } 
+
+        [Test]
+        public void Append_WhenAppendingMultipleElements_ShouldRetainOrderOfAddedElements()
+        {
+            var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
+            div.Append(HtmlTag.Parse("<li>This is the third item</li>"), HtmlTag.Parse("<li>This is the fourth item</li>"));
+            var children = div.Children.ToArray();
+            Assert.That(children.Length, Is.EqualTo(4));
+            Assert.That(children[0], Is.EqualTo(HtmlTag.Parse("<li>This is the first item</li>")));
+            Assert.That(children[1], Is.EqualTo(HtmlTag.Parse("<li>This is the second item</li>")));
+            Assert.That(children[2], Is.EqualTo(HtmlTag.Parse("<li>This is the third item</li>")));
+            Assert.That(children[3], Is.EqualTo(HtmlTag.Parse("<li>This is the fourth item</li>")));
         } 
         #endregion
 

@@ -107,11 +107,11 @@ namespace HtmlBuilders
         /// <summary>
         ///     Prepends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
-        /// <param name="element">The element that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
+        /// <param name="elements">The element that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Prepend(HtmlElement element)
+        public HtmlTag Prepend(params HtmlElement[] elements)
         {
-            return Insert(0, element);
+            return Insert(0, elements);
         }
 
         /// <summary>
@@ -129,17 +129,20 @@ namespace HtmlBuilders
         /// <summary>
         ///     Inserts an <see cref="HtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
         /// </summary>
-        /// <param name="index">The index at which the <paramref name="element"/> should be inserted</param>
-        /// <param name="element">The element that will be inserted at the specifix <paramref name="index"/> of the contents of this tag</param>
+        /// <param name="index">The index at which the <paramref name="elements"/> should be inserted</param>
+        /// <param name="elements">The elements that will be inserted at the specifix <paramref name="index"/> of the contents of this tag</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Insert(int index, HtmlElement element)
+        public HtmlTag Insert(int index, params HtmlElement[] elements)
         {
-            if (element == null)
-                throw new ArgumentNullException("element");
+            if (elements == null)
+                throw new ArgumentNullException("elements");
             if(index < 0 || index > _contents.Count)
-                throw new IndexOutOfRangeException(string.Format("Cannot insert element '{0}' at index '{1}', content elements count = {2}", element, index, Contents.Count()));
-            _contents.Insert(index, element);
-            element.Parent = this;
+                throw new IndexOutOfRangeException(string.Format("Cannot insert anything at index '{0}', content elements count = {1}", index, Contents.Count()));
+            foreach (var element in elements.Reverse())
+            {
+                _contents.Insert(index, element);
+                element.Parent = this;
+            }
             return this;
         }
 
@@ -159,12 +162,17 @@ namespace HtmlBuilders
         /// <summary>
         ///     Appends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
-        /// <param name="element">The element that will be inserted at the end of the contents of this tag, after all other content elements</param>
+        /// <param name="elements">The elements that will be inserted at the end of the contents of this tag, after all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Append(HtmlElement element)
+        public HtmlTag Append(params HtmlElement[] elements)
         {
-            _contents.Add(element);
-            element.Parent = this;
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+            foreach (var element in elements)
+            {
+                _contents.Add(element);
+                element.Parent = this;
+            }
             return this;
         }
 
@@ -730,6 +738,18 @@ namespace HtmlBuilders
         /// </summary>
         /// <param name="html">The html</param>
         /// <returns>A new <see cref="HtmlTag"/> that is an object representation of the <paramref name="html"/></returns>
+        public static HtmlTag Parse(IHtmlString html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+            return Parse(html.ToString());
+        }
+
+        /// <summary>
+        ///     Parses an <see cref="HtmlTag"/> from the given <paramref name="html"/>
+        /// </summary>
+        /// <param name="html">The html</param>
+        /// <returns>A new <see cref="HtmlTag"/> that is an object representation of the <paramref name="html"/></returns>
         public static HtmlTag Parse(string html)
         {
             if (html == null)
@@ -756,7 +776,7 @@ namespace HtmlBuilders
         ///     Parses an <see cref="HtmlTag"/> from the given <paramref name="htmlDocument"/>
         /// </summary>
         /// <param name="htmlDocument">The html document containing the html</param>
-        /// <returns>A new <see cref="HtmlTag"/> that is an object representation of the <paramref name="htmlDocument"/></returns>
+        /// <returns>Multiple <see cref="HtmlTag"/>s that is an object representation of the <paramref name="htmlDocument"/></returns>
         public static HtmlTag Parse(HtmlDocument htmlDocument)
         {
             if (htmlDocument.ParseErrors.Any())
@@ -768,6 +788,60 @@ namespace HtmlBuilders
                 throw new ArgumentException("Html contains more than one element. The parse method can only be used for single html tags! Input was : " + htmlDocument.DocumentNode);
 
             return ParseHtmlTag(htmlDocument.DocumentNode.ChildNodes.Single());
+        }
+
+        /// <summary>
+        ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="html"/>
+        /// </summary>
+        /// <param name="html">The html</param>
+        /// <returns>A collection of <see cref="HtmlTag"/></returns>
+        public static IEnumerable<HtmlTag> ParseAll(IHtmlString html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+            return ParseAll(html.ToString());
+        }
+
+        /// <summary>
+        ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="html"/>
+        /// </summary>
+        /// <param name="html">The html</param>
+        /// <returns>A collection of <see cref="HtmlTag"/></returns>
+        public static IEnumerable<HtmlTag> ParseAll(string html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+            return ParseAll(new StringReader(html));
+        }
+
+
+        /// <summary>
+        ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="textReader"/>
+        /// </summary>
+        /// <param name="textReader">The text reader</param>
+        /// <returns>A collection of <see cref="HtmlTag"/></returns>
+        public static IEnumerable<HtmlTag> ParseAll(TextReader textReader)
+        {
+            if (textReader == null)
+                throw new ArgumentNullException("textReader");
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.Load(textReader);
+            return ParseAll(htmlDocument);
+        }
+
+        /// <summary>
+        ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="htmlDocument"/>
+        /// </summary>
+        /// <param name="htmlDocument">The html document</param>
+        /// <returns>A collection of <see cref="HtmlTag"/></returns>
+        public static IEnumerable<HtmlTag> ParseAll(HtmlDocument htmlDocument)
+        {
+            if (htmlDocument.ParseErrors.Any())
+            {
+                var readableErrors = htmlDocument.ParseErrors.Select(e => string.Format("Code = {0}, SourceText = {1}, Reason = {2}", e.Code, e.SourceText, e.Reason));
+                throw new InvalidOperationException(string.Format("Parse errors found: \n{0}", string.Join("\n", readableErrors)));
+            }
+            return htmlDocument.DocumentNode.ChildNodes.Elements().Select(ParseHtmlTag);
         }
 
         private static HtmlTag ParseHtmlTag(HtmlNode htmlNode)
