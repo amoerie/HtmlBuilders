@@ -97,8 +97,8 @@ namespace HtmlBuilders
         /// <summary>
         ///     Finds the children or the children of those children, etc. that match the <paramref name="filter"/>
         /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
+        /// <param name="filter">The filter that specifies the conditions that each subnode must satisfy</param>
+        /// <returns>The sub elements that satisfied the filter</returns>
         public IEnumerable<HtmlTag> Find(Func<HtmlTag, bool> filter)
         {
             return Children.Where(filter).Concat(Children.SelectMany(c => c.Find(filter)));
@@ -203,7 +203,7 @@ namespace HtmlBuilders
         {
             get { return _tagBuilder.Attributes.Values; }
         }
-
+        
         public string this[string attribute]
         {
             get { return _tagBuilder.Attributes[attribute]; }
@@ -678,7 +678,7 @@ namespace HtmlBuilders
         ///     This is because when you have more than 1 content element, it does not make sense to only render the start or end tags. Since the API exposes the
         ///     <see cref="Contents"/> and <see cref="Children"/> separately, the responsibility is with the user of this class to render the HTML as he wishes.
         ///     However, when using <see cref="TagRenderMode.Normal"/> (or passing no parameters, since <see cref="TagRenderMode.Normal"/> is the default value),
-        ///     the <see cref="Contents"/> <strong>will</strong> be taken into account since it is what you would expect.
+        ///     the <see cref="Contents"/> <strong> will</strong> be taken into account since there can't be any confusion as to what the expected HTML output would be.
         /// </param>
         /// <returns>The rendered HTML tag by using the specified render mode</returns>
         /// <exception cref="InvalidOperationException">When <see cref="TagRenderMode.SelfClosing"/> is used but the <see cref="HtmlTag"/> is not empty. (The <see cref="Contents"/> are not empty)</exception>

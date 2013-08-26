@@ -20,7 +20,85 @@ namespace HtmlBuilders.Tests
             Assert.That(div["id"], Is.EqualTo("div-id"));
         }
 
-        #endregion 
+        #endregion
+
+        #region Contents
+        [Test]
+        public void Contents_WhenSettingNewValue_ContentsShouldBeReplace()
+        {
+            var tag = HtmlTag.Parse("<div><span>This is the span</span></div>");
+            Assert.That(tag.Contents.Count(), Is.EqualTo(1));
+            Assert.That(tag.Contents.First(), Is.EqualTo(new HtmlTag("span").Append("this is the span")));
+            tag.Contents = new[] { HtmlTag.Parse("<span>This is the new span!</span>") };
+            Assert.That(tag.Contents.Count(), Is.EqualTo(1));
+            Assert.That(tag.Contents.First(), Is.EqualTo(new HtmlTag("span").Append("this is the new span!")));
+        }
+
+        [Test]
+        public void Contents_WhenSettingEmptyValue_ContentsShouldBeEmpty()
+        {
+            var tag = HtmlTag.Parse("<div><span>This is the span</span></div>");
+            Assert.That(tag.Contents.Count(), Is.EqualTo(1));
+            Assert.That(tag.Contents.First(), Is.EqualTo(new HtmlTag("span").Append("this is the span")));
+            tag.Contents = Enumerable.Empty<HtmlTag>();
+            Assert.That(tag.Contents.Count(), Is.EqualTo(0));
+        } 
+        #endregion
+
+        #region Siblings
+        [Test]
+        public void Siblings_WhenThereAreThreeChildren_ShouldReturnTwoSiblings()
+        {
+            var first = new HtmlTag("li").Id("first");
+            var second = new HtmlTag("li").Id("second");
+            var third = new HtmlTag("li").Id("third");
+            var ul = new HtmlTag("ul").Append(first).Append(second).Append(third);
+            var siblings = second.Siblings.ToArray();
+            Assert.That(siblings.Length, Is.EqualTo(2));
+            Assert.That(siblings[0], Is.EqualTo(first));
+            Assert.That(siblings[1], Is.EqualTo(third));
+        }
+
+        [Test]
+        public void Siblings_WhenThereIsJustOneChild_ShouldReturnEmptyEnumerable()
+        {
+            var first = new HtmlTag("li").Id("first");
+            var ul = new HtmlTag("ul").Append(first);
+            var siblings = first.Siblings.ToArray();
+            Assert.That(siblings.Length, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Siblings_WhenThereIsNoParent_ShouldReturnEmptyEnumerable()
+        {
+            var first = new HtmlTag("li").Id("first");
+            Assert.That(first.Siblings, Is.Empty);
+        }
+        #endregion
+
+        [Test]
+        public void Find_WhenThereAreNoChildren_ShouldReturnEmptyEnumerable()
+        {
+            Assert.That(new HtmlTag("li").Find(tag => tag.TagName == "li"), Is.Empty);
+        }
+
+        [Test]
+        public void Find_WhenOnlyOneChildMatches_ShouldReturnThatChild()
+        {
+            var ul = HtmlTag.Parse("<ul><li class='active'>This is the first</li><li>This is the second</li></ul>");
+            var active = ul.Find(tag => tag.HasClass("active")).Single();
+            Assert.That(active, Is.EqualTo(new HtmlTag("li").Class("active").Append("This is the first")));
+        }
+
+        [Test]
+        public void Find_WhenOneGrandchildMatches_ShouldReturnGrandChild()
+        {
+            var ul =
+                HtmlTag.Parse(
+                    "<ul><li class='active'><span id='first'>This is the first</span></li><li><label>This is the second</label></li></ul>");
+            var first = ul.Find(tag => tag.HasAttribute("id") && tag["id"] == "first").Single();
+            Assert.That(first, Is.EqualTo(new HtmlTag("span").Id("first").Append("This is the first")));
+        }
 
         #region Parse
         [Test]
@@ -99,7 +177,7 @@ namespace HtmlBuilders.Tests
         public void Prepend_HtmlTextOnHtmlTagWith1ElementChild_ShouldPrependHtmlText()
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
-            div.Prepend(new HtmlText("These are the items"));
+            div.Prepend("These are the items");
             Assert.That(div.Children.Count(), Is.EqualTo(1));
             Assert.That(div.Contents.Count(), Is.EqualTo(2));
             Assert.That(div.Contents.First(), Is.EqualTo(new HtmlText("These are the items")));
@@ -165,7 +243,7 @@ namespace HtmlBuilders.Tests
         public void Append_HtmlTextOnHtmlTagWith1ElementChild_ShouldAppendHtmlText()
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
-            div.Append(new HtmlText("These are the items"));
+            div.Append("These are the items");
             Assert.That(div.Children.Count(), Is.EqualTo(1));
             Assert.That(div.Contents.Count(), Is.EqualTo(2));
             Assert.That(div.Contents.Last().ToHtml().ToHtmlString(), Is.EqualTo("These are the items"));
