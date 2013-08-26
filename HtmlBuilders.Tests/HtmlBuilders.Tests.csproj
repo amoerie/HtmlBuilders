@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsForHtmlTag.cs" />
-    <Compile Include="Comparers\TestsForStyleEqualityComparer.cs" />
+    <Compile Include="Comparers\TestsForDictionaryComparer.cs" />
     <Compile Include="TestsForHtmlText.cs" />
   </ItemGroup>
   <ItemGroup>
