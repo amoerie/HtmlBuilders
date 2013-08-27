@@ -50,6 +50,7 @@
     <Compile Include="Comparers\DictionaryComparer.cs" />
     <Compile Include="HtmlElement.cs" />
     <Compile Include="HtmlTag.cs" />
+    <Compile Include="HtmlTags.cs" />
     <Compile Include="HtmlText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -39,7 +39,7 @@ namespace HtmlBuilders.Tests
         {
             var tag = HtmlTag.Parse("<div><span>This is the span</span></div>");
             Assert.That(tag.Contents.Count(), Is.EqualTo(1));
-            Assert.That(tag.Contents.First(), Is.EqualTo(new HtmlTag("span").Append("this is the span")));
+            Assert.That(tag.Contents.First(), Is.EqualTo(HtmlTags.Span.Append("this is the span")));
             tag.Contents = Enumerable.Empty<HtmlTag>();
             Assert.That(tag.Contents.Count(), Is.EqualTo(0));
         } 
@@ -49,9 +49,9 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Siblings_WhenThereAreThreeChildren_ShouldReturnTwoSiblings()
         {
-            var first = new HtmlTag("li").Id("first");
-            var second = new HtmlTag("li").Id("second");
-            var third = new HtmlTag("li").Id("third");
+            var first = HtmlTags.Li.Id("first");
+            var second = HtmlTags.Li.Id("second");
+            var third = HtmlTags.Li.Id("third");
             var ul = new HtmlTag("ul").Append(first).Append(second).Append(third);
             var siblings = second.Siblings.ToArray();
             Assert.That(siblings.Length, Is.EqualTo(2));
@@ -62,7 +62,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Siblings_WhenThereIsJustOneChild_ShouldReturnEmptyEnumerable()
         {
-            var first = new HtmlTag("li").Id("first");
+            var first = HtmlTags.Li.Id("first");
             var ul = new HtmlTag("ul").Append(first);
             var siblings = first.Siblings.ToArray();
             Assert.That(siblings.Length, Is.EqualTo(0));
@@ -71,7 +71,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Siblings_WhenThereIsNoParent_ShouldReturnEmptyEnumerable()
         {
-            var first = new HtmlTag("li").Id("first");
+            var first = HtmlTags.Li.Id("first");
             Assert.That(first.Siblings, Is.Empty);
         }
         #endregion
@@ -79,7 +79,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Find_WhenThereAreNoChildren_ShouldReturnEmptyEnumerable()
         {
-            Assert.That(new HtmlTag("li").Find(tag => tag.TagName == "li"), Is.Empty);
+            Assert.That(HtmlTags.Li.Find(tag => tag.TagName == "li"), Is.Empty);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace HtmlBuilders.Tests
         {
             var ul = HtmlTag.Parse("<ul><li class='active'>This is the first</li><li>This is the second</li></ul>");
             var active = ul.Find(tag => tag.HasClass("active")).Single();
-            Assert.That(active, Is.EqualTo(new HtmlTag("li").Class("active").Append("This is the first")));
+            Assert.That(active, Is.EqualTo(HtmlTags.Li.Class("active").Append("This is the first")));
         }
 
         [Test]
@@ -154,8 +154,8 @@ namespace HtmlBuilders.Tests
         {
             var tags = HtmlTag.ParseAll("<li>The first</li><li>The second</li>").ToArray();
             Assert.That(tags.Length, Is.EqualTo(2));
-            Assert.That(tags[0], Is.EqualTo(new HtmlTag("li").Append("The first")));
-            Assert.That(tags[1], Is.EqualTo(new HtmlTag("li").Append("The second")));
+            Assert.That(tags[0], Is.EqualTo(HtmlTags.Li.Append("The first")));
+            Assert.That(tags[1], Is.EqualTo(HtmlTags.Li.Append("The second")));
         } 
         #endregion
 
@@ -163,8 +163,8 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Prepend_HtmlElementOnHtmlTagWithNoChildren_ShouldAddHtmlElement()
         {
-            var div = new HtmlTag("div");
-            var child = new HtmlTag("div");
+            var div = HtmlTags.Div;
+            var child = HtmlTags.Div;
             div.Prepend(child);
             Assert.That(div.Children.Count(), Is.EqualTo(1));
             Assert.That(div.Children.Single(), Is.EqualTo(child));
@@ -174,7 +174,7 @@ namespace HtmlBuilders.Tests
         public void Prepend_HtmlElementOnHtmlTagWith1Child_ShouldPrependHtmlElement()
         {
             var div = HtmlTag.Parse("<div><div id='child1'></div></div>");
-            div.Prepend(new HtmlTag("div").Id("child2"));
+            div.Prepend(HtmlTags.Div.Id("child2"));
             Assert.That(div.Children.Count(), Is.EqualTo(2));
             Assert.That(div.Children.First()["id"], Is.EqualTo("child2"));
         }
@@ -183,7 +183,7 @@ namespace HtmlBuilders.Tests
         public void Prepend_HtmlElementOnHtmlTagWith1TextChild_ShouldPrependHtmlElement()
         {
             var div = HtmlTag.Parse("<label>This is a label</label>");
-            div.Prepend(new HtmlTag("i").Class("icon icon-label"));
+            div.Prepend(HtmlTags.I.Class("icon icon-label"));
             Assert.That(div.Children.Count(), Is.EqualTo(1)); // text nodes don't count as a child, so the count should be 1
             Assert.That(div.Contents.Count(), Is.EqualTo(2));
             Assert.That(div.Children.First()["class"], Is.EqualTo("icon icon-label"));
@@ -220,21 +220,21 @@ namespace HtmlBuilders.Tests
         public void Insert_WhenIndexIsLargerThanContentsCount_ThrowsArgumentOutOfRangeException()
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
-            Assert.That(() => div.Insert(3, new HtmlTag("li").Append("This is the fourth item")), Throws.InstanceOf<IndexOutOfRangeException>());
+            Assert.That(() => div.Insert(3, HtmlTags.Li.Append("This is the fourth item")), Throws.InstanceOf<IndexOutOfRangeException>());
         }
 
         [Test]
         public void Insert_WhenIndexIsLowerThanZero_ThrowsArgumentOutOfRangeException()
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
-            Assert.That(() => div.Insert(-1, new HtmlTag("li").Append("This is the minus first item")), Throws.InstanceOf<IndexOutOfRangeException>());
+            Assert.That(() => div.Insert(-1, HtmlTags.Li.Append("This is the minus first item")), Throws.InstanceOf<IndexOutOfRangeException>());
         }
 
         [Test]
         public void Insert_WhenIndexIsEqualToContentsCount_AddsTheElement()
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
-            Assert.That(div.Insert(2, new HtmlTag("li").Append("This is the third item")).Children.Count(), Is.EqualTo(3));
+            Assert.That(div.Insert(2, HtmlTags.Li.Append("This is the third item")).Children.Count(), Is.EqualTo(3));
         } 
 
         [Test]
@@ -255,8 +255,8 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Append_HtmlElementOnHtmlTagWithNoChildren_ShouldAddHtmlElement()
         {
-            var div = new HtmlTag("div");
-            var child = new HtmlTag("div");
+            var div = HtmlTags.Div;
+            var child = HtmlTags.Div;
             div.Append(child);
             Assert.That(div.Children.Count(), Is.EqualTo(1));
             Assert.That(div.Children.Single(), Is.EqualTo(child));
@@ -266,7 +266,7 @@ namespace HtmlBuilders.Tests
         public void Append_HtmlElementOnHtmlTagWith1Child_ShouldAppendHtmlElement()
         {
             var div = HtmlTag.Parse("<div><div id='child1'></div></div>");
-            div.Append(new HtmlTag("div").Id("child2"));
+            div.Append(HtmlTags.Div.Id("child2"));
             Assert.That(div.Children.Count(), Is.EqualTo(2));
             Assert.That(div.Children.Last()["id"], Is.EqualTo("child2"));
         }
@@ -275,7 +275,7 @@ namespace HtmlBuilders.Tests
         public void Append_HtmlElementOnHtmlTagWith1TextChild_ShouldAppendHtmlElement()
         {
             var div = HtmlTag.Parse("<label>This is a label</label>");
-            div.Append(new HtmlTag("i").Class("icon icon-label"));
+            div.Append(HtmlTags.I.Class("icon icon-label"));
             Assert.That(div.Children.Count(), Is.EqualTo(1)); // text nodes don't count as a child, so the count should be 1
             Assert.That(div.Contents.Count(), Is.EqualTo(2));
             Assert.That(div.Children.Last()["class"], Is.EqualTo("icon icon-label"));
@@ -311,7 +311,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Attribute_AddingNewAttribute_ShouldHaveNewAttribute()
         {
-            var div = new HtmlTag("div").Attribute("id", "testid");
+            var div = HtmlTags.Div.Attribute("id", "testid");
             Assert.That(div.HasAttribute("id"), Is.True);
             Assert.That(div["id"], Is.EqualTo("testid"));
         }
@@ -319,7 +319,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Attribute_UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
         {
-            var div = new HtmlTag("div").Attribute("id", "testid");
+            var div = HtmlTags.Div.Attribute("id", "testid");
             div.Attribute("id", "newid");
             Assert.That(div.HasAttribute("id"), Is.True);
             Assert.That(div["id"], Is.EqualTo("newid"));
@@ -328,7 +328,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Attribute_UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
         {
-            var div = new HtmlTag("div").Attribute("id", "testid");
+            var div = HtmlTags.Div.Attribute("id", "testid");
             div.Attribute("id", "newid", replaceExisting: false);
             Assert.That(div.HasAttribute("id"), Is.True);
             Assert.That(div["id"], Is.EqualTo("testid"));
@@ -339,7 +339,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Name_AddingNewAttribute_ShouldHaveNewAttribute()
         {
-            var div = new HtmlTag("div").Name("test name");
+            var div = HtmlTags.Div.Name("test name");
             Assert.That(div.HasAttribute("name"), Is.True);
             Assert.That(div["name"], Is.EqualTo("test name"));
         }
@@ -347,7 +347,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Name_UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
         {
-            var div = new HtmlTag("div").Name("test name");
+            var div = HtmlTags.Div.Name("test name");
             div.Name("new name");
             Assert.That(div.HasAttribute("name"), Is.True);
             Assert.That(div["name"], Is.EqualTo("new name"));
@@ -356,7 +356,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Name_UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
         {
-            var div = new HtmlTag("div").Name("test name");
+            var div = HtmlTags.Div.Name("test name");
             div.Name("new name", replaceExisting:false);
             Assert.That(div.HasAttribute("name"), Is.True);
             Assert.That(div["name"], Is.EqualTo("test name"));
@@ -367,7 +367,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Title_AddingNewAttribute_ShouldHaveNewAttribute()
         {
-            var div = new HtmlTag("div").Title("test title");
+            var div = HtmlTags.Div.Title("test title");
             Assert.That(div.HasAttribute("title"), Is.True);
             Assert.That(div["title"], Is.EqualTo("test title"));
         }
@@ -375,7 +375,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Title_UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
         {
-            var div = new HtmlTag("div").Title("test title");
+            var div = HtmlTags.Div.Title("test title");
             div.Title("new title");
             Assert.That(div.HasAttribute("title"), Is.True);
             Assert.That(div["title"], Is.EqualTo("new title"));
@@ -384,7 +384,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Title_UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
         {
-            var div = new HtmlTag("div").Title("test title");
+            var div = HtmlTags.Div.Title("test title");
             div.Title("new title", replaceExisting:false);
             Assert.That(div.HasAttribute("title"), Is.True);
             Assert.That(div["title"], Is.EqualTo("test title"));
@@ -395,7 +395,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Id_AddingNewAttribute_ShouldHaveNewAttribute()
         {
-            var div = new HtmlTag("div").Id("test id");
+            var div = HtmlTags.Div.Id("test id");
             Assert.That(div.HasAttribute("id"), Is.True);
             Assert.That(div["id"], Is.EqualTo("test id"));
         }
@@ -403,7 +403,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Id_UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
         {
-            var div = new HtmlTag("div").Id("test id");
+            var div = HtmlTags.Div.Id("test id");
             div.Id("new id");
             Assert.That(div.HasAttribute("id"), Is.True);
             Assert.That(div["id"], Is.EqualTo("new id"));
@@ -412,7 +412,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Id_UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
         {
-            var div = new HtmlTag("div").Id("test id");
+            var div = HtmlTags.Div.Id("test id");
             div.Id("new id", replaceExisting:false);
             Assert.That(div.HasAttribute("id"), Is.True);
             Assert.That(div["id"], Is.EqualTo("test id"));
@@ -423,7 +423,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Type_AddingNewAttribute_ShouldHaveNewAttribute()
         {
-            var div = new HtmlTag("div").Type("test type");
+            var div = HtmlTags.Div.Type("test type");
             Assert.That(div.HasAttribute("type"), Is.True);
             Assert.That(div["type"], Is.EqualTo("test type"));
         }
@@ -431,7 +431,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Type_UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
         {
-            var div = new HtmlTag("div").Type("test type");
+            var div = HtmlTags.Div.Type("test type");
             div.Type("new type");
             Assert.That(div.HasAttribute("type"), Is.True);
             Assert.That(div["type"], Is.EqualTo("new type"));
@@ -440,7 +440,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Type_UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
         {
-            var div = new HtmlTag("div").Type("test type");
+            var div = HtmlTags.Div.Type("test type");
             div.Type("new type", replaceExisting:false);
             Assert.That(div.HasAttribute("type"), Is.True);
             Assert.That(div["type"], Is.EqualTo("test type"));
@@ -519,7 +519,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Data_WhenNewAttribute_NewDataAttributeShouldBeAdded()
         {
-            var div = new HtmlTag("div").Data("test", "datatest");
+            var div = HtmlTags.Div.Data("test", "datatest");
             Assert.That(div.HasAttribute("data-test"), Is.True);
             Assert.That(div["data-test"], Is.EqualTo("datatest"));
         }
@@ -527,7 +527,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Data_WhenExistingAttributeAndReplaceExistingIsTrue_ExistingAttributeValueShouldBeUpdated()
         {
-            var div = new HtmlTag("div").Data("test", "datatest").Data("test", "new datatest");
+            var div = HtmlTags.Div.Data("test", "datatest").Data("test", "new datatest");
             Assert.That(div.HasAttribute("data-test"), Is.True);
             Assert.That(div["data-test"], Is.EqualTo("new datatest"));
         }
@@ -535,7 +535,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Data_WhenExistingAttributeAndReplaceExistingIsFalse_OldAttributeValueIsStillPresent()
         {
-            var div = new HtmlTag("div").Data("test", "datatest").Data("test", "new datatest", replaceExisting: false);
+            var div = HtmlTags.Div.Data("test", "datatest").Data("test", "new datatest", replaceExisting: false);
             Assert.That(div.HasAttribute("data-test"), Is.True);
             Assert.That(div["data-test"], Is.EqualTo("datatest"));
         }
@@ -543,7 +543,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Data_WhenAttributeIsAlreadyPrefixedWithData_AttributeShouldNotBePrefixedAgain()
         {
-            var div = new HtmlTag("div").Data("data-test", "datatest");
+            var div = HtmlTags.Div.Data("data-test", "datatest");
             Assert.That(div.HasAttribute("data-test"), Is.True);
             Assert.That(div["data-test"], Is.EqualTo("datatest"));
         }
@@ -551,7 +551,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Data_WhenAddingAnonymousObjectAndReplaceExistingIsTrue_AllAttributesOfObjectShouldBeAdded()
         {
-            var div = new HtmlTag("div").Data(new { data_test = "data test", data_test2 = "data test 2", data_test3 = "data test 3" });
+            var div = HtmlTags.Div.Data(new { data_test = "data test", data_test2 = "data test 2", data_test3 = "data test 3" });
             Assert.That(div.HasAttribute("data-test"), Is.True);
             Assert.That(div["data-test"], Is.EqualTo("data test"));
             Assert.That(div.HasAttribute("data-test2"), Is.True);
@@ -563,7 +563,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Data_WhenAddingAnonymousObjectAndReplaceExistingIsFalse_OnlyNewAttributesAreAdded()
         {
-            var div = new HtmlTag("div").Data("data-test", "data test").Data(new { data_test = "new data test", data_test2 = "data test 2", data_test3 = "data test 3" }, replaceExisting: false);
+            var div = HtmlTags.Div.Data("data-test", "data test").Data(new { data_test = "new data test", data_test2 = "data test 2", data_test3 = "data test 3" }, replaceExisting: false);
             Assert.That(div.HasAttribute("data-test"), Is.True);
             Assert.That(div["data-test"], Is.EqualTo("data test"));
             Assert.That(div.HasAttribute("data-test2"), Is.True);
@@ -577,7 +577,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Style_AddingNewStyleToElementWithoutStyleAttribute_ShouldAddStyle()
         {
-            var div = new HtmlTag("div").Style("width", "10px");
+            var div = HtmlTags.Div.Style("width", "10px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -587,7 +587,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Style_AddingNewStyleToElementWithStyleAttribute_ShouldUpdateStyle()
         {
-            var div = new HtmlTag("div").Style("width", "10px").Style("height", "15px");
+            var div = HtmlTags.Div.Style("width", "10px").Style("height", "15px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(2));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -599,7 +599,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Style_UpdatingStyleWithReplaceExistingTrue_ShouldUpdateStyle()
         {
-            var div = new HtmlTag("div").Style("width", "10px").Style("width", "25px");
+            var div = HtmlTags.Div.Style("width", "10px").Style("width", "25px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -609,7 +609,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Style_UpdatingStyleWithReplaceExistingFalse_ShouldNotUpdateStyle()
         {
-            var div = new HtmlTag("div").Style("width", "10px").Style("width", "25px", replaceExisting: false);
+            var div = HtmlTags.Div.Style("width", "10px").Style("width", "25px", replaceExisting: false);
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -621,26 +621,26 @@ namespace HtmlBuilders.Tests
         [Test]
         public void RemoveStyle_WhenElementDoesntEvenHaveStyleAttribute_ShouldDoNothing()
         {
-            Assert.DoesNotThrow(() => new HtmlTag("div").RemoveStyle("width"));
+            Assert.DoesNotThrow(() => HtmlTags.Div.RemoveStyle("width"));
         }
 
         [Test]
         public void RemoveStyle_WhenElementDoesNotHaveSuchAStyle_ShouldDoNothing()
         {
-            Assert.DoesNotThrow(() => new HtmlTag("div").Style("height", "15px").RemoveStyle("width"));
+            Assert.DoesNotThrow(() => HtmlTags.Div.Style("height", "15px").RemoveStyle("width"));
         }
 
         [Test]
         public void RemoveStyle_WhenElementHasOnlyThatStyle_ShouldRemoveStyle()
         {
-            var div = new HtmlTag("div").Style("width", "15px").RemoveStyle("width");
+            var div = HtmlTags.Div.Style("width", "15px").RemoveStyle("width");
             Assert.That(div.Styles.ContainsKey("width"), Is.False);
         }
 
         [Test]
         public void RemoveStyle_WhenElementHasThatStyleAndOthers_ShouldRemoveStyle()
         {
-            var div = new HtmlTag("div").Style("width", "15px").Style("height", "15px").RemoveStyle("width");
+            var div = HtmlTags.Div.Style("width", "15px").Style("height", "15px").RemoveStyle("width");
             Assert.That(div.Styles.ContainsKey("width"), Is.False);
             Assert.That(div.Styles.ContainsKey("height"), Is.True);
             Assert.That(div.Styles["height"], Is.EqualTo("15px"));
@@ -651,7 +651,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Width_AddingNewWidthToElementWithoutStyleAttribute_ShouldAddStyleAndWidth()
         {
-            var div = new HtmlTag("div").Width("10px");
+            var div = HtmlTags.Div.Width("10px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -661,7 +661,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Width_AddingNewWidthToElementWithStyleAttribute_ShouldUpdateStyle()
         {
-            var div = new HtmlTag("div").Style("padding", "10px").Width("15px");
+            var div = HtmlTags.Div.Style("padding", "10px").Width("15px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(2));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -673,7 +673,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Width_UpdatingWidthWithReplaceExistingTrue_ShouldUpdateWidth()
         {
-            var div = new HtmlTag("div").Width("10px").Width("25px");
+            var div = HtmlTags.Div.Width("10px").Width("25px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -683,7 +683,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Width_UpdatingWidthWithReplaceExistingFalse_ShouldNotUpdateWidth()
         {
-            var div = new HtmlTag("div").Width("10px").Width("25px", false);
+            var div = HtmlTags.Div.Width("10px").Width("25px", false);
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
@@ -695,7 +695,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Height_AddingNewHeightToElementWithoutStyleAttribute_ShouldAddStyleAndHeight()
         {
-            var div = new HtmlTag("div").Height("10px");
+            var div = HtmlTags.Div.Height("10px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("height"), Is.True);
@@ -705,7 +705,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Height_AddingNewHeightToElementWithStyleAttribute_ShouldUpdateStyle()
         {
-            var div = new HtmlTag("div").Style("padding", "10px").Height("15px");
+            var div = HtmlTags.Div.Style("padding", "10px").Height("15px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(2));
             Assert.That(div.Styles.ContainsKey("height"), Is.True);
@@ -717,7 +717,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Height_UpdatingHeightWithReplaceExistingTrue_ShouldUpdateHeight()
         {
-            var div = new HtmlTag("div").Height("10px").Height("25px");
+            var div = HtmlTags.Div.Height("10px").Height("25px");
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("height"), Is.True);
@@ -727,7 +727,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Height_UpdatingHeightWithReplaceExistingFalse_ShouldNotUpdateHeight()
         {
-            var div = new HtmlTag("div").Height("10px").Height("25px", false);
+            var div = HtmlTags.Div.Height("10px").Height("25px", false);
             Assert.That(div.HasAttribute("style"), Is.True);
             Assert.That(div.Styles.Count, Is.EqualTo(1));
             Assert.That(div.Styles.ContainsKey("height"), Is.True);
@@ -739,7 +739,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Class_SettingClassToElementWithoutClassAttribute_ShouldAddClassAttributeAndValue()
         {
-            var div = new HtmlTag("div").Class("new");
+            var div = HtmlTags.Div.Class("new");
             Assert.That(div.HasAttribute("class"), Is.True);
             Assert.That(div.HasClass("new"), Is.True);
         }
@@ -747,7 +747,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Class_SettingClassToElementWithClassAttribute_ShouldUpdateClassAttributeWithNewValue()
         {
-            var div = new HtmlTag("div").Class("existing").Class("new");
+            var div = HtmlTags.Div.Class("existing").Class("new");
             Assert.That(div.HasAttribute("class"), Is.True);
             Assert.That(div.HasClass("existing"), Is.True);
             Assert.That(div.HasClass("new"), Is.True);
@@ -758,19 +758,19 @@ namespace HtmlBuilders.Tests
         [Test]
         public void RemoveClass_WhenElementDoesNotHaveClassAttribute_ShouldDoNothing()
         {
-            Assert.DoesNotThrow(() => new HtmlTag("div").RemoveClass("test"));
+            Assert.DoesNotThrow(() => HtmlTags.Div.RemoveClass("test"));
         }
 
         [Test]
         public void RemoveClass_WhenElementDoesNotHaveThatClass_ShouldDoNothing()
         {
-            Assert.DoesNotThrow(() => new HtmlTag("div").Class("some other classes").RemoveClass("test"));
+            Assert.DoesNotThrow(() => HtmlTags.Div.Class("some other classes").RemoveClass("test"));
         }
 
         [Test]
         public void RemoveClass_WhenElementHasOnlyThatClass_ShouldRemoveItAndRemoveAttribute()
         {
-            var div = new HtmlTag("div").Class("test").RemoveClass("test");
+            var div = HtmlTags.Div.Class("test").RemoveClass("test");
             Assert.That(div.HasAttribute("class"), Is.False);
             Assert.That(div.HasClass("test"), Is.False);
         }
@@ -778,7 +778,7 @@ namespace HtmlBuilders.Tests
         [Test]
         public void RemoveClass_WhenElementHasThatClassButAlsoOthers_ShouldRemoveTheClassButKeepTheAttribute()
         {
-            var div = new HtmlTag("div").Class("test othertest").RemoveClass("test");
+            var div = HtmlTags.Div.Class("test othertest").RemoveClass("test");
             Assert.That(div.HasAttribute("class"), Is.True);
             Assert.That(div.HasClass("test"), Is.False);
             Assert.That(div.HasClass("othertest"), Is.True);
@@ -830,8 +830,8 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Equals_TwoEmptyHtmlTagsWithSameTagName_ShouldBeEqual()
         {
-            var tag1 = new HtmlTag("div");
-            var tag2 = new HtmlTag("div");
+            var tag1 = HtmlTags.Div;
+            var tag2 = HtmlTags.Div;
             Assert.That(tag1.Equals(tag2), Is.True);
         }
 
@@ -839,7 +839,7 @@ namespace HtmlBuilders.Tests
         public void Equals_TwoEmptyHtmlTagsWithDifferentTagNames_ShouldNotBeEqual()
         {
             var tag1 = new HtmlTag("span");
-            var tag2 = new HtmlTag("div");
+            var tag2 = HtmlTags.Div;
             Assert.That(tag1.Equals(tag2), Is.False);
         }
 
