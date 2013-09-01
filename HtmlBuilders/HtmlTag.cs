@@ -15,12 +15,12 @@ namespace HtmlBuilders
     /// <summary>
     ///     Represents an html tag that can have a parent, children, attributes, etc.
     /// </summary>
-    public class HtmlTag : HtmlElement, IDictionary<string, string>
+    public class HtmlTag : IHtmlElement, IDictionary<string, string>
     {
         /// <summary>
         ///     The inner list of contents
         /// </summary>
-        private IList<HtmlElement> _contents = new List<HtmlElement>();
+        private IList<IHtmlElement> _contents = new List<IHtmlElement>();
 
         /// <summary>
         ///     The inner <see cref="TagBuilder"/>
@@ -63,12 +63,12 @@ namespace HtmlBuilders
         ///     This property is very similar to the <see cref="TagBuilder.InnerHtml"/> property, save for the fact that instead of just a string 
         ///     this is now a collection of elements. This allows for more extensive manipulation and DOM traversal similar to what can be done with jQuery.
         /// </summary>
-        public IEnumerable<HtmlElement> Contents { get { return _contents; } set { _contents = value.ToList(); } }
+        public IEnumerable<IHtmlElement> Contents { get { return _contents; } set { _contents = value.ToList(); } }
 
         /// <summary>
         ///     Gets the (optional) parent of this <see cref="HtmlTag"/>.
         /// </summary>
-        public override sealed HtmlTag Parent { get; internal set; }
+        public HtmlTag Parent { get; set; }
 
         /// <summary>
         ///     Gets the parents of this <see cref="HtmlTag"/> in a 'from inside out' order.
@@ -90,7 +90,7 @@ namespace HtmlBuilders
             {
                 if (Parent == null)
                     return Enumerable.Empty<HtmlTag>();
-                return Parent.Children.Where(child => child != this);
+                return Parent.Children.Where(child => !ReferenceEquals(child, this));
             }
         }
 
@@ -105,21 +105,21 @@ namespace HtmlBuilders
         }  
 
         /// <summary>
-        ///     Prepends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        ///     Prepends an <see cref="IHtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
         /// <param name="elements">The elements that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Prepend(params HtmlElement[] elements)
+        public HtmlTag Prepend(params IHtmlElement[] elements)
         {
             return Insert(0, elements);
         }
 
         /// <summary>
-        ///     Prepends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        ///     Prepends an <see cref="IHtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
         /// <param name="elements">The elements that will be inserted at the beginning of the contents of this tag, before all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Prepend(IEnumerable<HtmlElement> elements)
+        public HtmlTag Prepend(IEnumerable<IHtmlElement> elements)
         {
             return Insert(0, elements);
         }
@@ -137,12 +137,12 @@ namespace HtmlBuilders
         }
 
         /// <summary>
-        ///     Inserts an <see cref="HtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
+        ///     Inserts an <see cref="IHtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
         /// </summary>
         /// <param name="index">The index at which the <paramref name="elements"/> should be inserted</param>
         /// <param name="elements">The elements that will be inserted at the specifix <paramref name="index"/> of the contents of this tag</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Insert(int index, params HtmlElement[] elements)
+        public HtmlTag Insert(int index, params IHtmlElement[] elements)
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
@@ -150,12 +150,12 @@ namespace HtmlBuilders
         }
 
         /// <summary>
-        ///     Inserts an <see cref="HtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
+        ///     Inserts an <see cref="IHtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
         /// </summary>
         /// <param name="index">The index at which the <paramref name="elements"/> should be inserted</param>
         /// <param name="elements">The elements that will be inserted at the specifix <paramref name="index"/> of the contents of this tag</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Insert(int index, IEnumerable<HtmlElement> elements)
+        public HtmlTag Insert(int index, IEnumerable<IHtmlElement> elements)
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
@@ -170,7 +170,7 @@ namespace HtmlBuilders
         }
 
         /// <summary>
-        ///     Inserts an <see cref="HtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
+        ///     Inserts an <see cref="IHtmlElement"/> to the <see cref="Contents"/> at the given <paramref name="index"/>
         /// </summary>
         /// <param name="index">The index at which the <paramref name="text"/> should be inserted</param>
         /// <param name="text">The text that will be inserted as a <see cref="HtmlText"/> at the specifix <paramref name="index"/> of the contents of this tag</param>
@@ -183,11 +183,11 @@ namespace HtmlBuilders
         }
 
         /// <summary>
-        ///     Appends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        ///     Appends an <see cref="IHtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
         /// <param name="elements">The elements that will be inserted at the end of the contents of this tag, after all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Append(params HtmlElement[] elements)
+        public HtmlTag Append(params IHtmlElement[] elements)
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
@@ -195,11 +195,11 @@ namespace HtmlBuilders
         }
 
         /// <summary>
-        ///     Appends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        ///     Appends an <see cref="IHtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
         /// <param name="elements">The elements that will be inserted at the end of the contents of this tag, after all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
-        public HtmlTag Append(IEnumerable<HtmlElement> elements)
+        public HtmlTag Append(IEnumerable<IHtmlElement> elements)
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
@@ -212,7 +212,7 @@ namespace HtmlBuilders
         }
 
         /// <summary>
-        ///     Appends an <see cref="HtmlElement"/> to the <see cref="Contents"/>
+        ///     Appends an <see cref="IHtmlElement"/> to the <see cref="Contents"/>
         /// </summary>
         /// <param name="text">The text that will be inserted as a <see cref="HtmlText"/> at the end of the contents of this tag, after all other content elements</param>
         /// <returns>this <see cref="HtmlTag"/></returns>
@@ -725,7 +725,7 @@ namespace HtmlBuilders
         /// </param>
         /// <returns>The rendered HTML tag by using the specified render mode</returns>
         /// <exception cref="InvalidOperationException">When <see cref="TagRenderMode.SelfClosing"/> is used but the <see cref="HtmlTag"/> is not empty. (The <see cref="Contents"/> are not empty)</exception>
-        public override sealed IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal)
+        public IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal)
         {
             var stringBuilder = new StringBuilder();
             switch (tagRenderMode)
@@ -888,7 +888,7 @@ namespace HtmlBuilders
             }
             foreach (var childNode in htmlNode.ChildNodes)
             {
-                HtmlElement childElement = null;
+                IHtmlElement childElement = null;
                 switch (childNode.NodeType)
                 {
                     case HtmlNodeType.Element:

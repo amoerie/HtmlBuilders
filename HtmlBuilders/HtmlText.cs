@@ -7,7 +7,7 @@ namespace HtmlBuilders
     /// <summary>
     ///     Represents a text node that has an optional parent and some text
     /// </summary>
-    public class HtmlText: HtmlElement
+    public class HtmlText: IHtmlElement
     {
         /// <summary>
         ///     The inner text
@@ -25,9 +25,9 @@ namespace HtmlBuilders
             _text = text;
         }
 
-        public override sealed HtmlTag Parent { get; internal set; }
+        public HtmlTag Parent { get; set; }
 
-        public override sealed IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal)
+        public IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal)
         {
             return MvcHtmlString.Create(_text);
         }
@@ -37,7 +37,7 @@ namespace HtmlBuilders
             return _text;
         }
 
-        protected bool Equals(HtmlText other)
+        private bool Equals(HtmlText other)
         {
             return string.Equals(_text, other._text);
         }
@@ -48,7 +48,7 @@ namespace HtmlBuilders
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
                 return false;
             return Equals((HtmlText) obj);
         }
