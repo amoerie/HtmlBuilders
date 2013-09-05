@@ -6,7 +6,7 @@ namespace HtmlBuilders.Comparers
 {
     internal static class DictionaryComparer
     {
-        internal static bool Equals(IEnumerable<KeyValuePair<string, string>> leftKeyValuePairs,
+        private static bool Equals(IEnumerable<KeyValuePair<string, string>> leftKeyValuePairs,
             IEnumerable<KeyValuePair<string, string>> rightKeyValuePairs,
             IEqualityComparer<string> equalityComparer,
             params string[] keysToExclude)

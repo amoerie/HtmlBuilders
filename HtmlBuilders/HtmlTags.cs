@@ -1,5 +1,8 @@
 ﻿namespace HtmlBuilders
 {
+    /// <summary>
+    /// Provides convenience properties to create instances of <see cref="HtmlTag"/>
+    /// </summary>
     public static class HtmlTags
     {
         public static HtmlTag A                 { get { return new HtmlTag("a"); } }

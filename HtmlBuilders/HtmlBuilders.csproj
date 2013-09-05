@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\HtmlBuilders.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\DictionaryComparer.cs" />
+    <Compile Include="ExtensionsForHtmlTag.cs" />
     <Compile Include="IHtmlElement.cs" />
     <Compile Include="HtmlTag.cs" />
     <Compile Include="HtmlTags.cs" />

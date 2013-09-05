@@ -341,62 +341,6 @@ namespace HtmlBuilders
 
         #endregion
 
-        #region Conventional attribute methods
-
-        /// <summary>
-        ///     Sets the name property. This is a shorthand for the <see cref="Attribute"/> method with 'name' as the attribute parameter value.
-        /// </summary>
-        /// <param name="name">The value for the 'name' attribute</param>
-        ///<param name="replaceExisting">A value indicating whether the existing attribute, if any, should have its value replaced by the <paramref name="name"/> provided.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Name(string name, bool replaceExisting = true)
-        {
-            if (name == null)
-                throw new ArgumentNullException("name");
-            return Attribute("name", name, replaceExisting);
-        }
-
-        /// <summary>
-        ///     Sets the title property. This is a shorthand for the <see cref="Attribute"/> method with 'title' as the attribute parameter value.
-        /// </summary>
-        /// <param name="title">The value for the 'title' attribute</param>
-        ///<param name="replaceExisting">A value indicating whether the existing attribute, if any, should have its value replaced by the <paramref name="title"/> provided.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Title(string title, bool replaceExisting = true)
-        {
-            if (title == null)
-                throw new ArgumentNullException("title");
-            return Attribute("title", title, replaceExisting);
-        }
-
-        /// <summary>
-        ///     Sets the id property. This is a shorthand for the <see cref="Attribute"/> method with 'id' as the attribute parameter value.
-        /// </summary>
-        /// <param name="id">The value for the 'id' attribute</param>
-        ///<param name="replaceExisting">A value indicating whether the existing attribute, if any, should have its value replaced by the <paramref name="id"/> provided.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Id(string id, bool replaceExisting = true)
-        {
-            if (id == null)
-                throw new ArgumentNullException("id");
-            return Attribute("id", id, replaceExisting);
-        }
-
-        /// <summary>
-        ///     Sets the type property. This is a shorthand for the <see cref="Attribute"/> method with 'type' as the attribute parameter value.
-        /// </summary>
-        /// <param name="type">The value for the 'type' attribute</param>
-        ///<param name="replaceExisting">A value indicating whether the existing attribute, if any, should have its value replaced by the <paramref name="type"/> provided.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Type(string type, bool replaceExisting = true)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            return Attribute("type", type, replaceExisting);
-        }
-
-        #endregion
-
         #region Attributes that can be toggled
 
         /// <summary>
@@ -413,36 +357,6 @@ namespace HtmlBuilders
                 return Attribute(attribute, attribute);
             Remove(attribute);
             return this;
-        }
-
-        /// <summary>
-        ///     Sets the 'checked' attribute to 'checked' if <paramref name="checked"/> is true or removes the attribute if <paramref name="checked"/> is false
-        /// </summary>
-        /// <param name="checked">A value indicating whether this tag should have the attribute 'checked' with value 'checked' or not.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Checked(bool @checked)
-        {
-            return ToggleAttribute("checked", @checked);
-        }
-
-        /// <summary>
-        ///     Sets the 'disabled' attribute to 'disabled' if <paramref name="disabled"/> is true or removes the attribute if <paramref name="disabled"/> is false
-        /// </summary>
-        /// <param name="disabled">A value indicating whether this tag should have the attribute 'disabled' with value 'disabled' or not.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Disabled(bool disabled)
-        {
-            return ToggleAttribute("disabled", disabled);
-        }
-
-        /// <summary>
-        ///     Sets the 'selected' attribute to 'selected' if <paramref name="selected"/> is true or removes the attribute if <paramref name="selected"/> is false
-        /// </summary>
-        /// <param name="selected">A value indicating whether this tag should have the attribute 'selected' with value 'selected' or not.</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Selected(bool selected)
-        {
-            return ToggleAttribute("selected", selected);
         }
 
         #endregion
@@ -558,32 +472,6 @@ namespace HtmlBuilders
                 throw new ArgumentNullException("key");
             Styles = Styles.Where(s => !string.Equals(s.Key, key)).ToDictionary(s => s.Key, s => s.Value);
             return this;
-        }
-
-        /// <summary>
-        ///     Sets the width style. This is a shorthand for calling the <see cref="Style"/> method with the 'width' key
-        /// </summary>
-        /// <param name="width">The width. This can be any valid css value for 'width'</param>
-        /// <param name="replaceExisting">A value indicating whether the existing width, if any, should be overriden or not</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Width(string width, bool replaceExisting = true)
-        {
-            if (width == null)
-                throw new ArgumentNullException("width");
-            return Style("width", width, replaceExisting);
-        }
-
-        /// <summary>
-        ///     Sets the height style. This is a shorthand for calling the <see cref="Style"/> method with the 'height' key
-        /// </summary>
-        /// <param name="height">The height. This can be any valid css value for 'height'</param>
-        /// <param name="replaceExisting">A value indicating whether the existing height, if any, should be overriden or not</param>
-        /// <returns>This <see cref="HtmlTag"/></returns>
-        public HtmlTag Height(string height, bool replaceExisting = true)
-        {
-            if (height == null)
-                throw new ArgumentNullException("height");
-            return Style("height", height, replaceExisting);
         }
 
         #endregion
@@ -912,7 +800,7 @@ namespace HtmlBuilders
         #endregion
 
         #region Equality
-        // compare parent, tag name & attributes
+
         private bool Equals(HtmlTag other)
         {
             if (ReferenceEquals(null, other))
@@ -931,6 +819,14 @@ namespace HtmlBuilders
                 && Contents.SequenceEqual(other.Contents);
         }
 
+        /// <summary>
+        ///     Returns true if this <see cref="HtmlTag"/> is equivalent to <paramref name="other"/>. If any of the attributes or the children are different,
+        ///     this method will return false. It is important to note that the order in which styles and classes appear will not affect the equality in any way.
+        ///     However, the order of the <see cref="Contents"/> <strong>does</strong> matter. 
+        ///     As a rule of thumb, if one <see cref="HtmlTag"/> would have the same display presentation and behavior in a browser as another <see cref="HtmlTag"/>, they are considered equal.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public override bool Equals(object other)
         {
             if (ReferenceEquals(null, other))
@@ -955,7 +851,8 @@ namespace HtmlBuilders
                 hash = hash * 23 + style.Key.GetHashCode();
                 hash = hash * 23 + style.Value.GetHashCode();
             }
-            return Classes.OrderBy(c => c).Aggregate(hash, (current, @class) => current * 23 + @class.GetHashCode());
+            hash = Classes.OrderBy(c => c).Aggregate(hash, (current, @class) => current*23 + @class.GetHashCode());
+            return Contents.Aggregate(hash, (current, content) => current*23 + content.GetHashCode());
         }
 
         #endregion
