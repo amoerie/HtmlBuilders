@@ -575,6 +575,27 @@ namespace HtmlBuilders.Tests
             var reparsedDiv = HtmlTag.Parse(html);
             Assert.That(div.Equals(reparsedDiv), Is.True);
         } 
+
+
+        [Test]
+        public void ToHtml_InputWithRenderModeSelfClosing_ShouldRenderAsSelfClosing()
+        {
+            var input = HtmlTag.Parse("<input/>").Render(TagRenderMode.SelfClosing);
+            var html = input.ToHtml().ToHtmlString().Replace(" ", "");
+            Assert.That(html, Is.EqualTo("<input/>"));
+        } 
+
+        [Test]
+        public void ToHtml_InputAsChildWithRenderModeSelfClosing_ShouldRenderAsSelfClosing()
+        {
+            var div = HtmlTag.Parse("<div><input/></div>");
+            var input = div.Children.Single();
+            input.Render(TagRenderMode.SelfClosing);
+            var html = div.ToHtml().ToHtmlString().Replace(" ", "");
+            Assert.That(html, Is.EqualTo("<div><input/></div>"));
+        } 
+
+
         #endregion
 
         #region Equals

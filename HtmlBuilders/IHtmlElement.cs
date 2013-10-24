@@ -18,6 +18,6 @@ namespace HtmlBuilders
         /// </summary>
         /// <param name="tagRenderMode">The mode with which to render this node</param>
         /// <returns>An <see cref="IHtmlString"/> representation of this <see cref="IHtmlElement"/> using the specified <paramref name="tagRenderMode"/></returns>
-        IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal);
+        IHtmlString ToHtml(TagRenderMode? tagRenderMode = null);
     }
 }

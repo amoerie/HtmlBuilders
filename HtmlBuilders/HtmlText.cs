@@ -27,7 +27,7 @@ namespace HtmlBuilders
 
         public HtmlTag Parent { get; set; }
 
-        public IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal)
+        public IHtmlString ToHtml(TagRenderMode? tagRenderMode = null)
         {
             return MvcHtmlString.Create(_text);
         }

@@ -28,6 +28,11 @@ namespace HtmlBuilders
         private readonly TagBuilder _tagBuilder;
 
         /// <summary>
+        ///     The inner <see cref="TagRenderMode"/>
+        /// </summary>
+        private TagRenderMode? _tagRenderMode;
+
+        /// <summary>
         ///     Initializes a new instance of <see cref="HtmlTag"/>
         /// </summary>
         /// <param name="tagName">The tag name</param>
@@ -531,7 +536,7 @@ namespace HtmlBuilders
         ///     Removes one or more classes from this tag.
         /// </summary>
         /// <param name="class">The class(es) to remove</param>
-        /// <returns></returns>
+        /// <returns>This <see cref="HtmlTag"/</returns>
         public HtmlTag RemoveClass(string @class)
         {
             if(@class == null)
@@ -598,23 +603,39 @@ namespace HtmlBuilders
         #endregion
 
         #region To Html
+
+        /// <summary>
+        ///     Sets the <see cref="TagRenderMode"/> that will be used when rendering this <see cref="HtmlTag"/>.
+        ///     This is a convenient way to build up an <see cref="HtmlTag"/> tree, configure the <see cref="TagRenderMode"/> for each node in the tree,
+        ///     and then render it entirely in one go.
+        /// </summary>
+        /// <param name="tagRenderMode">The tag render mode</param>
+        /// <returns>This <see cref="HtmlTag"/></returns>
+        public HtmlTag Render(TagRenderMode tagRenderMode)
+        {
+            _tagRenderMode = tagRenderMode;
+            return this;
+        }
         
         /// <summary>
         ///     Renders and returns the HTML tag by using the specified render mode.
         /// </summary>
         /// <param name="tagRenderMode">
-        ///     The render mode. 
+        ///     The render mode. If this parameter is not specified, the <see cref="TagRenderMode"/> that was specified with the <see cref="Render"/> method will be used.
+        ///     If the <see cref="Render"/> method was never called for this <see cref="HtmlTag"/>, the <see cref="TagRenderMode"/> will default to <see cref="TagRenderMode.Normal"/>
         ///     <br/><strong>IMPORTANT: </strong> When using <see cref="TagRenderMode.StartTag"/> or <see cref="TagRenderMode.EndTag"/>, 
         ///     the <see cref="Contents"/> of this <see cref="HtmlTag"/> will not be rendered.
         ///     This is because when you have more than 1 content element, it does not make sense to only render the start or end tags. Since the API exposes the
-        ///     <see cref="Contents"/> and <see cref="Children"/> separately, the responsibility is with the user of this class to render the HTML as he wishes.
+        ///     <see cref="Contents"/> and <see cref="Children"/> separately, the responsibility is then with the developer to render the HTML as he or she wishes.
         ///     However, when using <see cref="TagRenderMode.Normal"/> (or passing no parameters, since <see cref="TagRenderMode.Normal"/> is the default value),
         ///     the <see cref="Contents"/> <strong> will</strong> be taken into account since there can't be any confusion as to what the expected HTML output would be.
+        ///     You can specify <see cref="TagRenderMode"/> for this <see cref="HtmlTag"/> (or any of its <see cref="Children"/> ) by using the <see cref="Render"/> method.
         /// </param>
         /// <returns>The rendered HTML tag by using the specified render mode</returns>
         /// <exception cref="InvalidOperationException">When <see cref="TagRenderMode.SelfClosing"/> is used but the <see cref="HtmlTag"/> is not empty. (The <see cref="Contents"/> are not empty)</exception>
-        public IHtmlString ToHtml(TagRenderMode tagRenderMode = TagRenderMode.Normal)
+        public IHtmlString ToHtml(TagRenderMode? tagRenderMode = null)
         {
+            tagRenderMode = tagRenderMode ?? _tagRenderMode ?? TagRenderMode.Normal;
             var stringBuilder = new StringBuilder();
             switch (tagRenderMode)
             {
