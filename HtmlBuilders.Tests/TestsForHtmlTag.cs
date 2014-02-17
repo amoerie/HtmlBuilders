@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using HtmlAgilityPack;
 using NUnit.Framework;
 
 namespace HtmlBuilders.Tests
@@ -141,7 +143,8 @@ namespace HtmlBuilders.Tests
             Assert.That(img.TagName, Is.EqualTo("img"));
             Assert.That(img.HasAttribute("src"), Is.True);
             Assert.That(img["src"], Is.EqualTo("testsrc"));
-        } 
+        }
+
         #endregion
 
         #region ParseAll
@@ -158,7 +161,22 @@ namespace HtmlBuilders.Tests
             Assert.That(tags.Length, Is.EqualTo(2));
             Assert.That(tags[0], Is.EqualTo(HtmlTags.Li.Append("The first")));
             Assert.That(tags[1], Is.EqualTo(HtmlTags.Li.Append("The second")));
-        } 
+        }
+
+        [Test]
+        public void ParseAll_WhenOneElement_ShouldReturnOneElement()
+        {
+            var tags = HtmlTag.ParseAll("<select class='test'>" +
+                                              "<option>Select</option>" +
+                                              "<option value='0'>1</option>" +
+                                              "<option value='1'>2</option>" +
+                                              "<option value='2'>3</option>" +
+                                              "</select>");
+            Assert.That(tags.Count(), Is.EqualTo(1));
+            var tag = tags.Single();
+            Assert.That(tag.TagName, Is.EqualTo("select"));
+            Assert.That(tag.Children.Count(), Is.EqualTo(4));
+        }
         #endregion
 
         #region Prepend

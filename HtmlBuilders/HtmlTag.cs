@@ -536,7 +536,7 @@ namespace HtmlBuilders
         ///     Removes one or more classes from this tag.
         /// </summary>
         /// <param name="class">The class(es) to remove</param>
-        /// <returns>This <see cref="HtmlTag"/</returns>
+        /// <returns>This <see cref="HtmlTag"/></returns>
         public HtmlTag RemoveClass(string @class)
         {
             if(@class == null)
@@ -681,24 +681,28 @@ namespace HtmlBuilders
         ///     Parses an <see cref="HtmlTag"/> from the given <paramref name="html"/>
         /// </summary>
         /// <param name="html">The html</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A new <see cref="HtmlTag"/> that is an object representation of the <paramref name="html"/></returns>
-        public static HtmlTag Parse(IHtmlString html)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="html"/></exception>
+        public static HtmlTag Parse(IHtmlString html, bool validateSyntax = false)
         {
             if (html == null)
                 throw new ArgumentNullException("html");
-            return Parse(html.ToString());
+            return Parse(html.ToString(), validateSyntax);
         }
 
         /// <summary>
         ///     Parses an <see cref="HtmlTag"/> from the given <paramref name="html"/>
         /// </summary>
         /// <param name="html">The html</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A new <see cref="HtmlTag"/> that is an object representation of the <paramref name="html"/></returns>
-        public static HtmlTag Parse(string html)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="html"/></exception>
+        public static HtmlTag Parse(string html, bool validateSyntax = false)
         {
             if (html == null)
                 throw new ArgumentNullException("html");
-            return Parse(new StringReader(html));
+            return Parse(new StringReader(html), validateSyntax);
         }
 
 
@@ -706,31 +710,35 @@ namespace HtmlBuilders
         ///     Parses an <see cref="HtmlTag"/> from the given <paramref name="textReader"/>
         /// </summary>
         /// <param name="textReader">The text reader</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A new <see cref="HtmlTag"/> that is an object representation of the <paramref name="textReader"/></returns>
-        public static HtmlTag Parse(TextReader textReader)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="textReader"/></exception>
+        public static HtmlTag Parse(TextReader textReader, bool validateSyntax = false)
         {
             if (textReader == null)
                 throw new ArgumentNullException("textReader");
-            var htmlDocument = new HtmlDocument();
+            var htmlDocument = new HtmlDocument {  OptionCheckSyntax = validateSyntax};
             htmlDocument.Load(textReader);
-            return Parse(htmlDocument);
+            return Parse(htmlDocument, validateSyntax);
         }
 
         /// <summary>
         ///     Parses an <see cref="HtmlTag"/> from the given <paramref name="htmlDocument"/>
         /// </summary>
         /// <param name="htmlDocument">The html document containing the html</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>Multiple <see cref="HtmlTag"/>s that is an object representation of the <paramref name="htmlDocument"/></returns>
-        public static HtmlTag Parse(HtmlDocument htmlDocument)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="htmlDocument"/></exception>
+        public static HtmlTag Parse(HtmlDocument htmlDocument, bool validateSyntax = false)
         {
-            if (htmlDocument.ParseErrors.Any())
+            if (htmlDocument.ParseErrors.Any() && validateSyntax)
             {
                 var readableErrors = htmlDocument.ParseErrors.Select(e => string.Format("Code = {0}, SourceText = {1}, Reason = {2}", e.Code, e.SourceText, e.Reason));
                 throw new InvalidOperationException(string.Format("Parse errors found: \n{0}", string.Join("\n", readableErrors)));
             }
             if(htmlDocument.DocumentNode.ChildNodes.Count != 1)
                 throw new ArgumentException("Html contains more than one element. The parse method can only be used for single html tags! Input was : " + htmlDocument.DocumentNode);
-
+            htmlDocument.OptionWriteEmptyNodes = true;
             return ParseHtmlTag(htmlDocument.DocumentNode.ChildNodes.Single());
         }
 
@@ -738,24 +746,28 @@ namespace HtmlBuilders
         ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="html"/>
         /// </summary>
         /// <param name="html">The html</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A collection of <see cref="HtmlTag"/></returns>
-        public static IEnumerable<HtmlTag> ParseAll(IHtmlString html)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="html"/></exception>
+        public static IEnumerable<HtmlTag> ParseAll(IHtmlString html, bool validateSyntax = false)
         {
             if (html == null)
                 throw new ArgumentNullException("html");
-            return ParseAll(html.ToString());
+            return ParseAll(html.ToString(), validateSyntax);
         }
 
         /// <summary>
         ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="html"/>
         /// </summary>
         /// <param name="html">The html</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A collection of <see cref="HtmlTag"/></returns>
-        public static IEnumerable<HtmlTag> ParseAll(string html)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="html"/></exception>
+        public static IEnumerable<HtmlTag> ParseAll(string html, bool validateSyntax = false)
         {
             if (html == null)
                 throw new ArgumentNullException("html");
-            return ParseAll(new StringReader(html));
+            return ParseAll(new StringReader(html), validateSyntax);
         }
 
 
@@ -763,34 +775,40 @@ namespace HtmlBuilders
         ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="textReader"/>
         /// </summary>
         /// <param name="textReader">The text reader</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A collection of <see cref="HtmlTag"/></returns>
-        public static IEnumerable<HtmlTag> ParseAll(TextReader textReader)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="textReader"/></exception>
+        public static IEnumerable<HtmlTag> ParseAll(TextReader textReader, bool validateSyntax = false)
         {
             if (textReader == null)
                 throw new ArgumentNullException("textReader");
-            var htmlDocument = new HtmlDocument();
+            var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
             htmlDocument.Load(textReader);
-            return ParseAll(htmlDocument);
+            return ParseAll(htmlDocument, validateSyntax);
         }
 
         /// <summary>
         ///     Parses multiple <see cref="HtmlTag"/>s from the given <paramref name="htmlDocument"/>
         /// </summary>
         /// <param name="htmlDocument">The html document</param>
+        /// <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
         /// <returns>A collection of <see cref="HtmlTag"/></returns>
-        public static IEnumerable<HtmlTag> ParseAll(HtmlDocument htmlDocument)
+        /// <exception cref="InvalidOperationException">If <paramref name="validateSyntax"/> is true and syntax errors are encountered in the <paramref name="htmlDocument"/></exception>
+        public static IEnumerable<HtmlTag> ParseAll(HtmlDocument htmlDocument, bool validateSyntax = false)
         {
-            if (htmlDocument.ParseErrors.Any())
+            if (htmlDocument.ParseErrors.Any() && validateSyntax)
             {
                 var readableErrors = htmlDocument.ParseErrors.Select(e => string.Format("Code = {0}, SourceText = {1}, Reason = {2}", e.Code, e.SourceText, e.Reason));
                 throw new InvalidOperationException(string.Format("Parse errors found: \n{0}", string.Join("\n", readableErrors)));
             }
-            return htmlDocument.DocumentNode.ChildNodes.Elements().Select(ParseHtmlTag);
+            return htmlDocument.DocumentNode.ChildNodes.Select(ParseHtmlTag);
         }
 
         private static HtmlTag ParseHtmlTag(HtmlNode htmlNode)
         {
             var htmlTag = new HtmlTag(htmlNode.Name);
+            if (htmlNode.Closed && !htmlNode.HasChildNodes)
+                htmlTag.Render(TagRenderMode.SelfClosing);
             foreach (var attribute in htmlNode.Attributes)
             {
                 htmlTag.Attribute(attribute.Name, attribute.Value);
