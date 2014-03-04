@@ -611,8 +611,14 @@ namespace HtmlBuilders.Tests
             input.Render(TagRenderMode.SelfClosing);
             var html = div.ToHtml().ToHtmlString().Replace(" ", "");
             Assert.That(html, Is.EqualTo("<div><input/></div>"));
-        } 
+        }
 
+        [Test]
+        public void ToHtml_ImgShouldBeSelfclosingByDefault()
+        {
+            var img = HtmlTags.Img;
+            Assert.That(img.ToHtml().ToHtmlString(), Is.EqualTo("<img />"));
+        }
 
         #endregion
 
