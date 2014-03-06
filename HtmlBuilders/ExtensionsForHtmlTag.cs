@@ -17,8 +17,6 @@ namespace HtmlBuilders
         ///  <returns>This <see cref="HtmlTag"/></returns>
         public static HtmlTag Name(this HtmlTag htmlTag, string name, bool replaceExisting = true)
         {
-            if (name == null)
-                throw new ArgumentNullException("name");
             return htmlTag.Attribute("name", name, replaceExisting);
         }
 
@@ -31,8 +29,6 @@ namespace HtmlBuilders
         /// <returns>This <see cref="HtmlTag"/></returns>
         public static HtmlTag Title(this HtmlTag htmlTag, string title, bool replaceExisting = true)
         {
-            if (title == null)
-                throw new ArgumentNullException("title");
             return htmlTag.Attribute("title", title, replaceExisting);
         }
 
@@ -45,8 +41,6 @@ namespace HtmlBuilders
         /// <returns>This <see cref="HtmlTag"/></returns>
         public static HtmlTag Id(this HtmlTag htmlTag, string id, bool replaceExisting = true)
         {
-            if (id == null)
-                throw new ArgumentNullException("id");
             return htmlTag.Attribute("id", id, replaceExisting);
         }
 
@@ -59,8 +53,6 @@ namespace HtmlBuilders
         /// <returns>This <see cref="HtmlTag"/></returns>
         public static HtmlTag Type(this HtmlTag htmlTag, string type, bool replaceExisting = true)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
             return htmlTag.Attribute("type", type, replaceExisting);
         } 
 
@@ -73,8 +65,6 @@ namespace HtmlBuilders
         /// <returns>This <see cref="HtmlTag"/></returns>
         public static HtmlTag Value(this HtmlTag htmlTag, string value, bool replaceExisting = true)
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
             return htmlTag.Attribute("value", value, replaceExisting);
         }
 
@@ -87,10 +77,9 @@ namespace HtmlBuilders
         /// <returns>This <see cref="HtmlTag"/></returns>
         public static HtmlTag Href(this HtmlTag htmlTag, string href, bool replaceExisting = true)
         {
-            if (href == null)
-                throw new ArgumentNullException("href");
             return htmlTag.Attribute("href", href, replaceExisting);
         } 
+
         #endregion
 
         #region Attributes that can be toggled
