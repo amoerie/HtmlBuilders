@@ -718,6 +718,7 @@ namespace HtmlBuilders
             if (textReader == null)
                 throw new ArgumentNullException("textReader");
             var htmlDocument = new HtmlDocument {  OptionCheckSyntax = validateSyntax};
+            HtmlNode.ElementsFlags.Remove("option");
             htmlDocument.Load(textReader);
             return Parse(htmlDocument, validateSyntax);
         }
