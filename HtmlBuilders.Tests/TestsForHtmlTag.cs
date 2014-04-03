@@ -177,6 +177,37 @@ namespace HtmlBuilders.Tests
             Assert.That(tag.TagName, Is.EqualTo("select"));
             Assert.That(tag.Children.Count(), Is.EqualTo(4));
         }
+
+        [Test]
+        public void ParseAll_WhenHtmlIsSelectWithTwoOptions_ShouldContain2Children()
+        {
+            var tags = HtmlTag.ParseAll("<select " +
+                                        "data-val=\"true\" " +
+                                        "data-val-number=\"The field Tarief must be a number.\" " +
+                                        "data-val-required=\"Tarief is een vereist veld\" " +
+                                        "id=\"DriverDto_Tarrif_ID\" " +
+                                        "name=\"DriverDto.Tarrif_ID\">" +
+                                            "<option value=\"41\">test</option>" +
+                                            "<option value=\"42\">tweede</option>" +
+                                        "</select>").ToList();
+            Assert.That(tags, Has.Count.EqualTo(1));
+            var select = tags.Single();
+            Assert.That(select["data-val"], Is.EqualTo("true"));
+            Assert.That(select["data-val-number"], Is.EqualTo("The field Tarief must be a number."));
+            Assert.That(select["data-val-required"], Is.EqualTo("Tarief is een vereist veld"));
+            Assert.That(select.Children.ToList(), Has.Count.EqualTo(2));
+            var option41 = select.Children.ElementAt(0);
+            Assert.That(option41["value"], Is.EqualTo("41"));
+            Assert.That(option41.Contents.ToList(), Has.Count.EqualTo(1));
+            Assert.That(option41.Contents.First(), Is.TypeOf<HtmlText>());
+            Assert.That(option41.Contents.First().ToString(), Is.EqualTo("test"));
+            var option42 = select.Children.ElementAt(1);
+            Assert.That(option42["value"], Is.EqualTo("42"));
+            Assert.That(option42.Contents.ToList(), Has.Count.EqualTo(1));
+            Assert.That(option42.Contents.First(), Is.TypeOf<HtmlText>());
+            Assert.That(option42.Contents.First().ToString(), Is.EqualTo("tweede"));
+        }
+
         #endregion
 
         #region Prepend
@@ -305,12 +336,13 @@ namespace HtmlBuilders.Tests
         [Test]
         public void Append_HtmlTextOnHtmlTagWith1ElementChild_ShouldAppendHtmlText()
         {
-            var div = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
-            div.Append("These are the items");
-            Assert.That(div.Children.Count(), Is.EqualTo(1));
-            Assert.That(div.Contents.Count(), Is.EqualTo(2));
-            Assert.That(div.Contents.Last().ToHtml().ToHtmlString(), Is.EqualTo("These are the items"));
-            Assert.That(div.Contents.First().ToHtml().ToString(), Is.EqualTo("<li>This is the first item</li>"));
+            var ul = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
+            ul.Append("These are the items");
+            var s = ul.ToHtml();
+            Assert.That(ul.Children.Count(), Is.EqualTo(1));
+            Assert.That(ul.Contents.Count(), Is.EqualTo(2));
+            Assert.That(ul.Contents.Last().ToHtml().ToHtmlString(), Is.EqualTo("These are the items"));
+            Assert.That(ul.Contents.First().ToHtml().ToString(), Is.EqualTo("<li>This is the first item</li>"));
         } 
 
         [Test]

@@ -783,6 +783,7 @@ namespace HtmlBuilders
             if (textReader == null)
                 throw new ArgumentNullException("textReader");
             var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
+            HtmlNode.ElementsFlags.Remove("option");
             htmlDocument.Load(textReader);
             return ParseAll(htmlDocument, validateSyntax);
         }
@@ -807,7 +808,7 @@ namespace HtmlBuilders
         private static HtmlTag ParseHtmlTag(HtmlNode htmlNode)
         {
             var htmlTag = new HtmlTag(htmlNode.Name);
-            if (htmlNode.Closed && !htmlNode.HasChildNodes)
+            if (htmlNode.Closed && !htmlNode.ChildNodes.Any())
                 htmlTag.Render(TagRenderMode.SelfClosing);
             foreach (var attribute in htmlNode.Attributes)
             {
