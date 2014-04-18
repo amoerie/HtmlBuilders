@@ -12,7 +12,7 @@ namespace HtmlBuilders
         /// <summary>
         ///     The inner text
         /// </summary>
-        private readonly string _text;
+        public string Text { get; set; }
         
         /// <summary>
         ///     Initializes a new instance of <see cref="HtmlText"/>
@@ -21,25 +21,25 @@ namespace HtmlBuilders
         public HtmlText(string text)
         {
             if(text == null)
-                throw new ArgumentNullException("text");
-            _text = text;
+                Text = string.Empty;
+            Text = text;
         }
 
-        public HtmlTag Parent { get; set; }
+        public virtual HtmlTag Parent { get; set; }
 
-        public IHtmlString ToHtml(TagRenderMode? tagRenderMode = null)
+        public virtual IHtmlString ToHtml(TagRenderMode? tagRenderMode = null)
         {
-            return MvcHtmlString.Create(_text);
+            return MvcHtmlString.Create(Text);
         }
 
         public override string ToString()
         {
-            return _text;
+            return Text;
         }
 
         private bool Equals(HtmlText other)
         {
-            return string.Equals(_text, other._text);
+            return string.Equals(Text, other.Text);
         }
 
         public override bool Equals(object obj)
@@ -55,7 +55,7 @@ namespace HtmlBuilders
 
         public override int GetHashCode()
         {
-            return _text.GetHashCode();
+            return Text.GetHashCode();
         }
     }
 }

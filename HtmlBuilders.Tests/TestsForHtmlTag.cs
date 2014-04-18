@@ -173,6 +173,30 @@ namespace HtmlBuilders.Tests
             Assert.That(option42.Contents.First(), Is.TypeOf<HtmlText>());
             Assert.That(option42.Contents.First().ToString(), Is.EqualTo("tweede"));
         }
+
+        [Test]
+        public void Parse_WhenHtmlIsSingleDiv_ShouldReturnSingleDiv()
+        {
+            var div = HtmlTag.Parse(@"<div>" +
+                                        "<input id=\"VehicleDto_Counter1Limit\" name=\"VehicleDto.Counter1Limit\" type=\"text\" value=\"0\" />" +
+                                        "<div class=\"row minuteSplitter\">" +
+                                            "<div class=\"col-md-6\">" +
+                                                "<div class=\"input-group\">" +
+                                                    "<input type=\"number\" class=\"hours\" />" +
+                                                    "<span class=\"input-group-addon\">h</span>" +
+                                                "</div>" +
+                                            "</div>" +
+                                            "<div class=\"col-md-6\">" +
+                                                "<div class=\"input-group\">" +
+                                                    "<input type=\"number\" class=\"minutes\" />" +
+                                                    "<span class=\"input-group-addon\">m</span>" +
+                                                "</div>" +
+                                            "</div>" +
+                                        "</div>" +
+                                    "</div>");
+            Assert.That(div, Is.Not.Null);
+        }
+
         #endregion
 
         #region ParseAll
