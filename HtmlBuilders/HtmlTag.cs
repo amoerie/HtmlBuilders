@@ -136,8 +136,6 @@ namespace HtmlBuilders
         /// <returns>this <see cref="HtmlTag"/></returns>
         public HtmlTag Prepend(string text)
         {
-            if(text == null)
-                throw new ArgumentNullException("text");
             return Insert(0, new HtmlText(text));
         }
 
@@ -223,8 +221,6 @@ namespace HtmlBuilders
         /// <returns>this <see cref="HtmlTag"/></returns>
         public HtmlTag Append(string text)
         {
-            if (text == null)
-                throw new ArgumentNullException("text");
             return Append(new HtmlText(text));
         }
 
