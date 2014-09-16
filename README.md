@@ -62,6 +62,17 @@ Would you like some fluent syntax with that?
 		.Append(new HtmlTag("button").Type("submit").Class("btn").Append("Sign in"));
 ```
 
+Or use the HtmlTags class that provides ultrafast access to all standard HTML elements
+
+```c#
+	var fluent = HtmlTags.Div.Class("control-group")
+		.Append(HtmlTags.Div.Class("controls")
+			.Append(HtmlTags.Label.Class("checkbox")
+				.Append(HtmlTags.Input.Checkbox)
+				.Append(" Remember me")))
+		.Append(HtmlTags.Button.Type("submit").Class("btn").Append("Sign in"));
+```
+
 Or you can just write the HTML
 
 ```c#
