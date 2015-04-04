@@ -454,6 +454,20 @@ namespace HtmlBuilders.Tests
             Assert.That(div.Styles.ContainsKey("width"), Is.True);
             Assert.That(div.Styles["width"], Is.EqualTo("10px"));
         } 
+
+        [Test]
+        public void Style_WhenStyleIsIEFilter_ShouldNotCrashStyles()
+        {
+            var div = HtmlTags.Div.Style("filter", "\"progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')\"");
+            Assert.That(div.HasAttribute("style"), Is.True);
+            Assert.That(div.Styles.Count, Is.EqualTo(1));
+            Assert.That(div.Styles.ContainsKey("filter"), Is.True);
+            Assert.That(div.Styles["filter"], Is.EqualTo("\"progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')\""));
+            var toHtml = div.ToHtml().ToHtmlString();
+            Assert.That(toHtml, Is.EqualTo("<div style=\"filter:\"progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')\"\"></div>"));
+        } 
+
+
         #endregion
 
         #region RemoveStyle
@@ -694,6 +708,18 @@ namespace HtmlBuilders.Tests
             var tag2 = HtmlTag.Parse("<div><ul><li>This is some text<li></ul></div>");
             Assert.That(tag1.Equals(tag2), Is.False);
         } 
+        #endregion
+
+        #region Merge
+
+        [Test]
+        public void Merge_AddingASecondClass_ShouldMergeCorrectly() {
+          var div = HtmlTags.Div.Class("class1");
+          div.Merge(new { @class = "class2" });
+          Assert.That(div.HasClass("class1"));
+          Assert.That(div.HasClass("class2"));
+        }
+
         #endregion
     }
 }
