@@ -71,13 +71,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionsForHtmlTag.AttributeShorthands.cs" />
     <Compile Include="Comparers\DictionaryComparer.cs" />
-    <Compile Include="ExtensionsForHtmlTag.cs" />
+    <Compile Include="ExtensionsForHtmlTag.Text.cs" />
     <Compile Include="IHtmlElement.cs" />
     <Compile Include="HtmlTag.cs" />
     <Compile Include="HtmlTags.cs" />
     <Compile Include="HtmlText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExtensionsForHtmlTag.Styles.cs" />
+    <Compile Include="ExtensionsForHtmlTag.TogglableAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
