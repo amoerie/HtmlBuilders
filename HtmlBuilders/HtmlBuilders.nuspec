@@ -18,5 +18,8 @@
         <dependency id="Microsoft.AspNet.Mvc" version="4.0.20505" />
       </group>
     </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Web" />
+    </frameworkAssemblies>
   </metadata>
 </package>

@@ -10,10 +10,11 @@ using System.Runtime.InteropServices;
 
 // Versioning uses Semantic Versioning 2.0.0 (http://semver.org/): MAJOR.MINOR.PATCH.<UNUSED>
 
-[assembly: AssemblyInformationalVersion("2.0.5")]
-[assembly: AssemblyVersion("2.0.5.0")]
-[assembly: AssemblyFileVersion("2.0.5.0")]
+[assembly: AssemblyInformationalVersion("2.0.6")]
+[assembly: AssemblyVersion("2.0.6.0")]
+[assembly: AssemblyFileVersion("2.0.6.0")]
 [assembly: AssemblyDescription( // put releaseNotes in here:
+    "2.0.6: Added reference to System.Web to NuGet-Package to allow successful installation in empty-project. \n" +
     "2.0.5: Updated NuGet package file to reflect downgraded minimum .NET MVC version.\n" +
     "2.0.4: Downgraded required .NET MVC version from 5.2 to 4.0 to increase availability.\n" +
     "2.0.3: Updated 'Merge' to include class, fix encoding issue with quotes in attributes.\n" +
