@@ -6,10 +6,24 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("HtmlBuilders")]
-[assembly: AssemblyDescription("")]
+#region Update this region before creating a new release with 'BuildAndPushPackage.cmd'
+
+// Versioning uses Semantic Versioning 2.0.0 (http://semver.org/): MAJOR.MINOR.PATCH.<UNUSED>
+
+[assembly: AssemblyInformationalVersion("2.0.6")]
+[assembly: AssemblyVersion("2.0.6.0")]
+[assembly: AssemblyFileVersion("2.0.6.0")]
+[assembly: AssemblyDescription( // put releaseNotes in here:
+    "2.0.6: Added reference to System.Web to NuGet-Package to allow successful installation in empty-project. \n" +
+    "2.0.5: Updated NuGet package file to reflect downgraded minimum .NET MVC version.\n" +
+    "2.0.4: Downgraded required .NET MVC version from 5.2 to 4.0 to increase availability.\n" +
+    "2.0.3: Updated 'Merge' to include class, fix encoding issue with quotes in attributes.\n" +
+    "2.0.1: Built in release, had some errors during latest publish so this is mostly a republish just to be safe.")]
+
+#endregion
+
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Alexander Moerman")]
 [assembly: AssemblyProduct("HtmlBuilders")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
@@ -22,20 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-
 [assembly: Guid("d90bb1d0-6f1d-48db-b4a8-32d32a641ec7")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("HtmlBuilders.Tests")]
