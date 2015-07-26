@@ -199,5 +199,7 @@ its attributes. It also allows for some language sugar:
 	Assert.That(div["id"], Is.EqualTo("div-id"));
 ```
 
+# Contributors
 
-
+- [amoerie](https://github.com/amoerie)
+- [KriNiTo](https://github.com/KriNiTo)
