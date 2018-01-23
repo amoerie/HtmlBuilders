@@ -56,14 +56,14 @@ namespace HtmlBuilders {
     /// <summary>
     ///   Creates a new HtmlTag replacing the inner TagBuilder
     /// </summary>
-    HtmlTag WithAttributes(IImmutableDictionary<string, string> attributes) {
+    public HtmlTag WithAttributes(IImmutableDictionary<string, string> attributes) {
       return new HtmlTag(_tagName, attributes, _contents, _tagRenderMode);
     }
 
     /// <summary>
     ///   Creates a new HtmlTag replacing the inner Contents
     /// </summary>
-    HtmlTag WithContents(IImmutableList<IHtmlElement> contents) {
+    public HtmlTag WithContents(IImmutableList<IHtmlElement> contents) {
       return new HtmlTag(_tagName, _attributes, contents, _tagRenderMode);
     }
 

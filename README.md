@@ -78,70 +78,14 @@ Or use the HtmlTags class that provides ultrafast access to all standard HTML el
 Or you can just write the HTML
 
 ```c#
-	var parsed =
-		HtmlTag.Parse("<div class='control-group'>" +
-					  "<div class='controls'>" +
-					  "<label class='checkbox'><input type='checkbox'> Remember me</label>" +
-					  "<button type='submit' class='btn'>Sign in</button>" +
-					  "</div>" +
-					  "</div>");
-```
-
-### Part 2: Manipulating the Html
-
-What if you have this:
-               
-```html
-	<label class="checkbox">
-		<input type="checkbox" style="width:5px"> Remember me
-	</label>
-```
-
-And you want to make this:
-   
-```html
-	<label class="checkbox" for="remember">
-		<input id="remember" style="width:5px;height:10px" type="checkbox"> Remember me
-	</label>
-```
-
-_But here's the catch: you get the object as an incoming parameter in a method!_
-
-Before: TagBuilder madness
-
-```c#
-	public TagBuilder AddSomeAttributes(TagBuilder label)
-	{
-		label.MergeAttribute("for", "remember");
-		// is there even a better way?
-		label.InnerHtml = label.InnerHtml.Replace("input", "input id='remember'");
-
-		// if there is already a style attribute
-		if (label.InnerHtml.IndexOf("style", StringComparison.Ordinal) != -1)
-		{
-			// meh, I give up
-		}
-		else
-		{
-			label.InnerHtml = label.InnerHtml.Replace("input", "input style='height:10px'");
-		}
-		return label;
-	}
-```
-
-Now: HtmlTag glory
-
-```c#
-	public HtmlTag AddSomeAttributes(HtmlTag label)
-	{
-		label.Attribute("for", "remember");
-		// LINQ search
-		var input = label.Children.Single(c => c.TagName.Equals("input") && c.HasAttribute("type") && c["type"].Equals("checkbox"));
-		// Immediate access to styles without having to worry about existing styles, correct formatting, etc.
-		input.Id("remember").Style("height", "10px");
-		// We don't need to update label, any changes made to the input will automatically affect the HTML rendered by label
-		return label;
-	}
+	var parsed = HtmlTag.Parse(
+		"<div class='control-group'>" +
+		"  <div class='controls'>" +
+		"    <label class='checkbox'><input type='checkbox'> Remember me</label>" +
+		"    <button type='submit' class='btn'>Sign in</button>" +
+		"  </div>" +
+		"</div>"
+	);
 ```
 
 # It's tested! 
