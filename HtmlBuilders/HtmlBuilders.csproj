@@ -7,7 +7,7 @@
     <AssemblyInformationalVersion>3.0.0</AssemblyInformationalVersion>
     <FileVersion>3.0.0.0</FileVersion>
     <AssemblyDescription>3.0.0.0</AssemblyDescription>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Alexander Moerman, Christian Pfahl</Authors>
     <Company />
     <Product />
