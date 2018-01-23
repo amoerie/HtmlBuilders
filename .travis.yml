@@ -1,8 +1,7 @@
 language: csharp
+mono: none
 solution: HtmlBuilders.sln
-install:
-  - nuget restore HtmlBuilders.sln
-  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release HtmlBuilders.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./HtmlBuilders.Tests/bin/Release/HtmlBuilders.Tests.dll
+  - dotnet restore "HtmlBuilder.sln"
+  - dotnet build "HtmlBuilders/HtmlBuilders.csproj" -c Release
+  - dotnet test "HtmlBuilders.Tests/HtmlBuilders.Tests.csproj" -c Release
