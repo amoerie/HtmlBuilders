@@ -11,8 +11,7 @@
     <Authors>Alexander Moerman, Christian Pfahl</Authors>
     <Company />
     <Product />
-    <Description>Introduces the "HtmlTag" object, a drop in replacement for the TagBuilder class which comes from .NET MVC.
-HtmlTag contains an immutable, fluent builder API to create or manipulate HTML in your .NET MVC applications and tends to be very useful in any Html Helpers or Tag Helpers. See the repository README for samples.</Description>
+    <Description>Contains HtmlTag, a drop in replacement for TagBuilder. See https://github.com/amoerie/HtmlBuilders</Description>
     <RepositoryUrl>https://github.com/amoerie/HtmlBuilders</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>HTML, Utility</PackageTags>
