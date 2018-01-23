@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilders", "HtmlBuilders\HtmlBuilders.csproj", "{D25216D8-517F-436A-9553-E57908B0B7EE}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilders", "HtmlBuilders\HtmlBuilders.csproj", "{E687A169-6B64-412D-9C87-FA4182693079}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilders.Tests", "HtmlBuilders.Tests\HtmlBuilders.Tests.csproj", "{7D827AB0-6381-49D1-BBF4-07CADB1232BB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56435447-6C8E-4DE3-AF1D-425685E66DB7}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilders.Tests", "HtmlBuilders.Tests\HtmlBuilders.Tests.csproj", "{2877C2C3-6363-41BA-9FE7-78D2C9CEF1AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,16 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D25216D8-517F-436A-9553-E57908B0B7EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D25216D8-517F-436A-9553-E57908B0B7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D25216D8-517F-436A-9553-E57908B0B7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D25216D8-517F-436A-9553-E57908B0B7EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D827AB0-6381-49D1-BBF4-07CADB1232BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E687A169-6B64-412D-9C87-FA4182693079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E687A169-6B64-412D-9C87-FA4182693079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E687A169-6B64-412D-9C87-FA4182693079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E687A169-6B64-412D-9C87-FA4182693079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2877C2C3-6363-41BA-9FE7-78D2C9CEF1AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2877C2C3-6363-41BA-9FE7-78D2C9CEF1AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2877C2C3-6363-41BA-9FE7-78D2C9CEF1AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2877C2C3-6363-41BA-9FE7-78D2C9CEF1AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BFDD7179-CA34-4046-91B6-B27165768E78}
 	EndGlobalSection
 EndGlobal
