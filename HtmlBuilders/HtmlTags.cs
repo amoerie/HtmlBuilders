@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace HtmlBuilders {
   /// <summary>
   ///   Provides convenience properties to create instances of <see cref="HtmlTag" />
@@ -272,3 +272,4 @@ namespace HtmlBuilders {
     }
   }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

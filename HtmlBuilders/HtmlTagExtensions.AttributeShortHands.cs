@@ -1,4 +1,7 @@
 namespace HtmlBuilders {
+  /// <summary>
+  /// Contains a whole series of useful methods to manipulate common HTML attributes of an HtmlTag 
+  /// </summary>
   public static partial class HtmlTagExtensions {
     /// <summary>
     ///   Sets the name property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'name' as the

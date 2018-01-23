@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Html;
 // ReSharper disable InconsistentNaming
 
 namespace HtmlBuilders {
+  /// <summary>
+  /// Contains useful methods that begin from <see cref="IHtmlContent"/>.
+  /// </summary>
   public static class IHtmlContentExtensions {
     /// <summary>
     /// Renders this <paramref name="htmlContent"/> to an HTML encoded string

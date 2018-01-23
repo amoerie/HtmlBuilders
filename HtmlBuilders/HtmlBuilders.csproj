@@ -23,6 +23,14 @@
 2.0.1: Built in release, had some errors during latest publish so this is mostly a republish just to be safe.</PackageReleaseNotes>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\HtmlBuilders.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\HtmlBuilders.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.6.15" />
     <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.0.0" />

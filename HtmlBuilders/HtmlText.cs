@@ -23,14 +23,17 @@ namespace HtmlBuilders {
     /// </summary>
     public string Text { get; }
 
+    /// <inheritdoc />
     public HtmlString ToHtml(TagRenderMode? tagRenderMode = null) {
       return new HtmlString(Text);
     }
 
+    /// <inheritdoc />
     public void WriteTo(TextWriter writer, HtmlEncoder encoder, TagRenderMode? tagRenderMode = null) {
       new HtmlString(Text).WriteTo(writer, encoder);
     }
 
+    /// <inheritdoc />
     public override string ToString() {
       return Text;
     }
@@ -39,6 +42,7 @@ namespace HtmlBuilders {
       return string.Equals(Text, other.Text);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object obj) {
       if (ReferenceEquals(null, obj))
         return false;
@@ -49,6 +53,7 @@ namespace HtmlBuilders {
       return Equals((HtmlText)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode() {
       return Text.GetHashCode();
     }

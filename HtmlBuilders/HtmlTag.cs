@@ -115,6 +115,7 @@ namespace HtmlBuilders {
 
     #region ToString
 
+    /// <inheritdoc />
     public override string ToString() {
       return ToHtml().ToString();
     }
@@ -586,6 +587,7 @@ namespace HtmlBuilders {
       }
     }
 
+    /// <inheritdoc />
     public void WriteTo(TextWriter writer, HtmlEncoder encoder, TagRenderMode? tagRenderMode = null) {
       var tagBuilder = new TagBuilder(_tagName) {
         TagRenderMode = tagRenderMode ?? _tagRenderMode ?? TagRenderMode.Normal
@@ -873,6 +875,10 @@ namespace HtmlBuilders {
       return other.GetType() == GetType() && Equals((HtmlTag) other);
     }
 
+    /// <summary>
+    /// Returns a number based off of the contents and attributes. See <see cref="Equals(HtmlBuilders.HtmlTag)"/>
+    /// </summary>
+    /// <returns>A hashcode</returns>
     public override int GetHashCode() {
       var hash = 17;
       hash = hash * 23 + TagName.GetHashCode();
