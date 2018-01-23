@@ -1,7 +1,7 @@
 using System;
 
 namespace HtmlBuilders {
-  public static class StyleExtensions {
+  public static partial class HtmlTagExtensions {
     /// <summary>
     ///   Sets the width style. This is a shorthand for calling the <see cref="HtmlTag.Style" /> method with the 'width' key
     /// </summary>
@@ -11,7 +11,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Width(this HtmlTag htmlTag, string width, bool replaceExisting = true) {
       if (width == null)
-        throw new ArgumentNullException("width");
+        throw new ArgumentNullException(nameof(width));
       return htmlTag.Style("width", width, replaceExisting);
     }
 
@@ -24,7 +24,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Height(this HtmlTag htmlTag, string height, bool replaceExisting = true) {
       if (height == null)
-        throw new ArgumentNullException("height");
+        throw new ArgumentNullException(nameof(height));
       return htmlTag.Style("height", height, replaceExisting);
     }
 
@@ -37,7 +37,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Margin(this HtmlTag htmlTag, string margin, bool replaceExisting = true) {
       if (margin == null)
-        throw new ArgumentNullException("margin");
+        throw new ArgumentNullException(nameof(margin));
       return htmlTag.Style("margin", margin, replaceExisting);
     }
 
@@ -51,7 +51,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Padding(this HtmlTag htmlTag, string padding, bool replaceExisting = true) {
       if (padding == null)
-        throw new ArgumentNullException("padding");
+        throw new ArgumentNullException(nameof(padding));
       return htmlTag.Style("padding", padding, replaceExisting);
     }
 
@@ -64,7 +64,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Color(this HtmlTag htmlTag, string color, bool replaceExisting = true) {
       if (color == null)
-        throw new ArgumentNullException("color");
+        throw new ArgumentNullException(nameof(color));
       return htmlTag.Style("color", color, replaceExisting);
     }
 
@@ -78,7 +78,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag TextAlign(this HtmlTag htmlTag, string textAlign, bool replaceExisting = true) {
       if (textAlign == null)
-        throw new ArgumentNullException("textAlign");
+        throw new ArgumentNullException(nameof(textAlign));
       return htmlTag.Style("text-align", textAlign, replaceExisting);
     }
 
@@ -91,7 +91,7 @@ namespace HtmlBuilders {
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Border(this HtmlTag htmlTag, string border, bool replaceExisting = true) {
       if (border == null)
-        throw new ArgumentNullException("border");
+        throw new ArgumentNullException(nameof(border));
       return htmlTag.Style("border", border, replaceExisting);
     }
   }

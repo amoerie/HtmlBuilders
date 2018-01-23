@@ -1,5 +1,7 @@
-﻿using System.Web;
-using System.Web.Mvc;
+using System.IO;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HtmlBuilders {
   /// <summary>
@@ -19,12 +21,14 @@ namespace HtmlBuilders {
     /// <summary>
     ///   The inner text
     /// </summary>
-    public string Text { get; set; }
+    public string Text { get; }
 
-    public virtual HtmlTag Parent { get; set; }
+    public HtmlString ToHtml(TagRenderMode? tagRenderMode = null) {
+      return new HtmlString(Text);
+    }
 
-    public virtual IHtmlString ToHtml(TagRenderMode? tagRenderMode = null) {
-      return MvcHtmlString.Create(Text);
+    public void WriteTo(TextWriter writer, HtmlEncoder encoder, TagRenderMode? tagRenderMode = null) {
+      new HtmlString(Text).WriteTo(writer, encoder);
     }
 
     public override string ToString() {
@@ -42,7 +46,7 @@ namespace HtmlBuilders {
         return true;
       if (obj.GetType() != GetType())
         return false;
-      return Equals((HtmlText) obj);
+      return Equals((HtmlText)obj);
     }
 
     public override int GetHashCode() {

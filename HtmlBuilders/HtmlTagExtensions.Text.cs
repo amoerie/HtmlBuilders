@@ -1,13 +1,7 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HtmlBuilders {
-  public static partial class ExtensionsForHtmlTag {
-
+  public static partial class HtmlTagExtensions {
     /// <summary>
     ///   Gets the HTML stripped content of this <see cref="HtmlTag"/>
     /// </summary>
@@ -32,7 +26,6 @@ namespace HtmlBuilders {
           yield return tag.Text();
         }
       }
-    } 
-
+    }
   }
 }

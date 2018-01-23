@@ -1,5 +1,5 @@
 namespace HtmlBuilders {
-  public static partial class ExtensionsForHtmlTag {
+  public static partial class HtmlTagExtensions {
     /// <summary>
     ///   Sets the 'checked' attribute to 'checked' if <paramref name="checked" /> is true or removes the attribute if
     ///   <paramref name="checked" /> is false
