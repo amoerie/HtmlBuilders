@@ -3,6 +3,5 @@ mono: none
 dotnet: 2.1.4
 solution: HtmlBuilders.sln
 script:
-  - dotnet restore "HtmlBuilder.sln"
   - dotnet build "HtmlBuilders/HtmlBuilders.csproj" -c Release
   - dotnet test "HtmlBuilders.Tests/HtmlBuilders.Tests.csproj" -c Release
