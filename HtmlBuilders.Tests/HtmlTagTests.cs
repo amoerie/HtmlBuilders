@@ -23,7 +23,7 @@ namespace HtmlBuilders.Tests {
         div.Children.Count().Should().Be(1); // text nodes don't count as a child, so the count should be 1
         div.Contents.Count().Should().Be(2);
         div.Children.Last()["class"].Should().Be("icon icon-label");
-        div.Contents.First().ToHtml().ToString().Should().Be("This is a label");
+        div.Contents.First().ToHtml().ToHtmlString().Should().Be("This is a label");
       }
 
       [Fact]
@@ -41,8 +41,8 @@ namespace HtmlBuilders.Tests {
         ul = ul.Append("These are the items");
         ul.Children.Count().Should().Be(1);
         ul.Contents.Count().Should().Be(2);
-        ul.Contents.Last().ToString().Should().Be("These are the items");
-        ul.Contents.First().ToString().Should().Be("<li>This is the first item</li>");
+        ul.Contents.Last().ToHtml().ToHtmlString().Should().Be("These are the items");
+        ul.Contents.First().ToHtml().ToHtmlString().Should().Be("<li>This is the first item</li>");
       }
 
       [Fact]
@@ -64,7 +64,7 @@ namespace HtmlBuilders.Tests {
 
         var result = hiEverybody.Append(hiDoctorNick);
 
-        result.ToHtml().ToString().Should().Be("<div>Hi everybody!<div>Hi doctor Nick!</div></div>");
+        result.ToHtml().ToHtmlString().Should().Be("<div>Hi everybody!<div>Hi doctor Nick!</div></div>");
       }
     }
 
@@ -129,7 +129,7 @@ namespace HtmlBuilders.Tests {
       public void WhenAddingAnonymousObjectAndReplaceExistingIsFalse_OnlyNewAttributesAreAdded() {
         var div =
           HtmlTags.Div.Data("data-test", "data test")
-            .Data(new {data_test = "new data test", data_test2 = "data test 2", data_test3 = "data test 3"}, false);
+            .Data(new { data_test = "new data test", data_test2 = "data test 2", data_test3 = "data test 3" }, false);
         div.HasAttribute("data-test").Should().BeTrue();
         div["data-test"].Should().Be("data test");
         div.HasAttribute("data-test2").Should().BeTrue();
@@ -141,7 +141,7 @@ namespace HtmlBuilders.Tests {
       [Fact]
       public void WhenAddingAnonymousObjectAndReplaceExistingIsTrue_AllAttributesOfObjectShouldBeAdded() {
         var div =
-          HtmlTags.Div.Data(new {data_test = "data test", data_test2 = "data test 2", data_test3 = "data test 3"});
+          HtmlTags.Div.Data(new { data_test = "data test", data_test2 = "data test 2", data_test3 = "data test 3" });
         div.HasAttribute("data-test").Should().BeTrue();
         div["data-test"].Should().Be("data test");
         div.HasAttribute("data-test2").Should().BeTrue();
@@ -298,13 +298,13 @@ namespace HtmlBuilders.Tests {
       [Fact]
       public void WhenIndexIsLargerThanContentsCount_ThrowsArgumentOutOfRangeException() {
         var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
-        new Action(() => div.Insert(3, HtmlTags.Li.Append("This is the fourth item"))).ShouldThrow<IndexOutOfRangeException>();
+        new Action(() => div.Insert(3, HtmlTags.Li.Append("This is the fourth item"))).Should().Throw<IndexOutOfRangeException>();
       }
 
       [Fact]
       public void WhenIndexIsLowerThanZero_ThrowsArgumentOutOfRangeException() {
         var div = HtmlTag.Parse("<ul><li>This is the first item</li><li>This is the second item</li></ul>");
-        new Action(() => div.Insert(-1, HtmlTags.Li.Append("This is the minus first item"))).ShouldThrow<IndexOutOfRangeException>();
+        new Action(() => div.Insert(-1, HtmlTags.Li.Append("This is the minus first item"))).Should().Throw<IndexOutOfRangeException>();
       }
 
       [Fact]
@@ -498,7 +498,7 @@ namespace HtmlBuilders.Tests {
         div.Children.Count().Should().Be(1); // text nodes don't count as a child, so the count should be 1
         div.Contents.Count().Should().Be(2);
         div.Children.First()["class"].Should().Be("icon icon-label");
-        div.Contents.Last().ToHtml().ToString().Should().Be("This is a label");
+        div.Contents.Last().ToHtml().ToHtmlString().Should().Be("This is a label");
       }
 
       [Fact]
@@ -536,12 +536,12 @@ namespace HtmlBuilders.Tests {
     public class RemoveClass : HtmlTagTests {
       [Fact]
       public void WhenElementDoesNotHaveClassAttribute_ShouldDoNothing() {
-        new Action(() => HtmlTags.Div.RemoveClass("test")).ShouldNotThrow();
+        new Action(() => HtmlTags.Div.RemoveClass("test")).Should().NotThrow();
       }
 
       [Fact]
       public void WhenElementDoesNotHaveThatClass_ShouldDoNothing() {
-        new Action(() => HtmlTags.Div.Class("some other classes").RemoveClass("test")).ShouldNotThrow();
+        new Action(() => HtmlTags.Div.Class("some other classes").RemoveClass("test")).Should().NotThrow();
       }
 
       [Fact]
@@ -563,12 +563,12 @@ namespace HtmlBuilders.Tests {
     public class RemoveStyle : HtmlTagTests {
       [Fact]
       public void WhenElementDoesNotHaveSuchAStyle_ShouldDoNothing() {
-        new Action(() => HtmlTags.Div.Style("height", "15px").RemoveStyle("width")).ShouldNotThrow();
+        new Action(() => HtmlTags.Div.Style("height", "15px").RemoveStyle("width")).Should().NotThrow();
       }
 
       [Fact]
       public void WhenElementDoesntEvenHaveStyleAttribute_ShouldDoNothing() {
-        new Action(() => HtmlTags.Div.RemoveStyle("width")).ShouldNotThrow();
+        new Action(() => HtmlTags.Div.RemoveStyle("width")).Should().NotThrow();
       }
 
       [Fact]
@@ -633,7 +633,7 @@ namespace HtmlBuilders.Tests {
         div.Styles.Count.Should().Be(1);
         div.Styles.ContainsKey("filter").Should().BeTrue();
         div.Styles["filter"].Should().Be("progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')");
-        var toHtml = div.ToString();
+        var toHtml = div.ToHtml().ToHtmlString();
         toHtml.Should().Be("<div style=\"filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=&#x27;#cccccc&#x27;, endColorstr=&#x27;#000000&#x27;)\"></div>");
       }
     }
@@ -644,7 +644,7 @@ namespace HtmlBuilders.Tests {
         var div =
           HtmlTag.Parse(
             "<div><ul><li class='active'><label data-url='/index'>This is the label &lgt;</label></li></ul></div>");
-        var html = div.ToHtml().ToString();
+        var html = div.ToHtml().ToHtmlString();
         var reparsedDiv = HtmlTag.Parse(html);
         div.Equals(reparsedDiv).Should().BeTrue();
       }
@@ -652,7 +652,7 @@ namespace HtmlBuilders.Tests {
       [Fact]
       public void DivWithThreeLevelsOfChildrenWithTagRenderModeNormal_ShouldRenderNormally() {
         var div = HtmlTag.Parse("<div><ul><li><label>This is the label</label></li></ul></div>");
-        var html = div.ToHtml().ToString();
+        var html = div.ToHtml().ToHtmlString();
         var reparsedDiv = HtmlTag.Parse(html);
         div.Equals(reparsedDiv).Should().BeTrue();
       }
@@ -660,25 +660,25 @@ namespace HtmlBuilders.Tests {
       [Fact]
       public void DivWithThreeLevelsOfChildrenWithTagRenderModeSelfClosingTag_ShouldThrowInvalidOperationException() {
         var div = HtmlTag.Parse("<div><ul><li><label>This is the label</label></li></ul></div>");
-        new Action(() => div.ToHtml(TagRenderMode.SelfClosing)).ShouldThrow<InvalidOperationException>();
+        new Action(() => div.Render(TagRenderMode.SelfClosing).ToHtml().ToHtmlString()).Should().Throw<InvalidOperationException>();
       }
 
       [Fact]
       public void DivWithThreeLevelsOfChildrenWithTagrenderModeEndTag_ShouldCloseTagsOfDivOnly() {
         var div = HtmlTag.Parse("<div><ul><li><label>This is the label</label></li></ul></div>");
-        div.ToHtml(TagRenderMode.EndTag).ToString().Should().Be("</div>");
+        div.Render(TagRenderMode.EndTag).ToHtml().ToHtmlString().Should().Be("</div>");
       }
 
       [Fact]
       public void DivWithThreeLevelsOfChildrenWithTagrenderModeStartTag_ShouldOpenTagsOfDivOnly() {
         var div = HtmlTag.Parse("<div><ul><li><label>This is the label</label></li></ul></div>");
-        div.ToHtml(TagRenderMode.StartTag).ToString().Should().Be("<div>");
+        div.Render(TagRenderMode.StartTag).ToHtml().ToHtmlString().Should().Be("<div>");
       }
 
       [Fact]
       public void ImgShouldBeSelfclosingByDefault() {
         var img = HtmlTags.Img;
-        img.ToHtml().ToString().Should().Be("<img />");
+        img.ToHtml().ToHtmlString().Should().Be("<img />");
       }
 
       [Fact]
@@ -686,14 +686,14 @@ namespace HtmlBuilders.Tests {
         var div = HtmlTag.Parse("<div><input/></div>");
         var input = div.Children.Single();
         input.Render(TagRenderMode.SelfClosing);
-        var html = div.ToHtml().ToString().Replace(" ", "");
+        var html = div.ToHtml().ToHtmlString().Replace(" ", "");
         html.Should().Be("<div><input/></div>");
       }
 
       [Fact]
       public void InputWithRenderModeSelfClosing_ShouldRenderAsSelfClosing() {
         var input = HtmlTag.Parse("<input/>").Render(TagRenderMode.SelfClosing);
-        var html = input.ToHtml().ToString().Replace(" ", "");
+        var html = input.ToHtml().ToHtmlString().Replace(" ", "");
         html.Should().Be("<input/>");
       }
     }

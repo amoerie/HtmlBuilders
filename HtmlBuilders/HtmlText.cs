@@ -1,48 +1,60 @@
 using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace HtmlBuilders {
   /// <summary>
   ///   Represents a text node that has an optional parent and some text
   /// </summary>
   public class HtmlText : IHtmlElement {
+    private readonly IHtmlContent _content;
+
     /// <summary>
     ///   Initializes a new instance of <see cref="HtmlText" />
     /// </summary>
-    /// <param name="text">The text</param>
+    /// <param name="text">The text that still needs to be encoded</param>
     public HtmlText(string text) {
-      if (text == null)
-        Text = string.Empty;
-      Text = text;
+      _content = new StringHtmlContent(text ?? string.Empty);
     }
 
     /// <summary>
-    ///   The inner text
+    ///   Initializes a new instance of <see cref="HtmlText" />
     /// </summary>
-    public string Text { get; }
+    /// <param name="htmlString">The already encoded HTML string</param>
+    public HtmlText(HtmlString htmlString) {
+      _content = htmlString ?? new HtmlString(string.Empty);
+    }
 
-    /// <inheritdoc />
-    public HtmlString ToHtml(TagRenderMode? tagRenderMode = null) {
-      return new HtmlString(Text);
+    /// <summary>
+    ///   Initializes a new instance of <see cref="HtmlText" />
+    /// </summary>
+    /// <param name="stringHtmlContent">The string HTML content that still needs to be encoded</param>
+    public HtmlText(StringHtmlContent stringHtmlContent) {
+      _content = stringHtmlContent ?? new StringHtmlContent(string.Empty);
     }
 
     /// <inheritdoc />
-    public void WriteTo(TextWriter writer, HtmlEncoder encoder, TagRenderMode? tagRenderMode = null) {
-      new HtmlString(Text).WriteTo(writer, encoder);
+    public IHtmlContent ToHtml() {
+      return _content;
     }
 
     /// <inheritdoc />
+    public void WriteTo(TextWriter writer, HtmlEncoder encoder) {
+      _content.WriteTo(writer, encoder);
+    }
+
     public override string ToString() {
-      return Text;
+      using (var writer = new StringWriter()) {
+        WriteTo(writer, HtmlEncoder.Default);
+        return writer.ToString();
+      }
     }
 
     private bool Equals(HtmlText other) {
-      return string.Equals(Text, other.Text);
+      return string.Equals(ToString(), other.ToString());
     }
 
-    /// <inheritdoc />
     public override bool Equals(object obj) {
       if (ReferenceEquals(null, obj))
         return false;
@@ -53,9 +65,8 @@ namespace HtmlBuilders {
       return Equals((HtmlText)obj);
     }
 
-    /// <inheritdoc />
     public override int GetHashCode() {
-      return Text.GetHashCode();
+      return ToString().GetHashCode();
     }
   }
 }

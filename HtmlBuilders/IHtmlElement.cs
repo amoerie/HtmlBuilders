@@ -9,21 +9,18 @@ namespace HtmlBuilders {
   /// </summary>
   public interface IHtmlElement {
     /// <summary>
-    ///   Renders this <see cref="IHtmlElement" /> to a <see cref="HtmlString" />
+    ///   Renders this <see cref="IHtmlElement" /> to <see cref="IHtmlContent" /> using the default HTML encoder
     /// </summary>
-    /// <param name="tagRenderMode">The mode with which to render this node</param>
     /// <returns>
-    ///   A <see cref="HtmlString" /> representation of this <see cref="IHtmlElement" /> using the specified
-    ///   <paramref name="tagRenderMode" />
+    ///   An <see cref="IHtmlContent" /> representation of this <see cref="IHtmlElement" />
     /// </returns>
-    HtmlString ToHtml(TagRenderMode? tagRenderMode = null);
+    IHtmlContent ToHtml();
 
     /// <summary>
     ///   Renders this <see cref="IHtmlElement" /> to a <see cref="StringWriter" /> using the provided <see cref="HtmlEncoder"/>
     /// </summary>
     /// <param name="writer">The writer to which the HTML should be written</param>
     /// <param name="encoder">The encoding that should be applied when writing the HTML</param>
-    /// <param name="tagRenderMode">The mode with which to render this node</param>
-    void WriteTo(TextWriter writer, HtmlEncoder encoder, TagRenderMode? tagRenderMode = null);
+    void WriteTo(TextWriter writer, HtmlEncoder encoder);
   }
 }

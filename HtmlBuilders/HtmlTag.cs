@@ -45,8 +45,7 @@ namespace HtmlBuilders {
 
     #region Immutable construction
 
-    HtmlTag(string tagName, IImmutableDictionary<string, string> attributes, IImmutableList<IHtmlElement> contents,
-      TagRenderMode? tagRenderMode) {
+    HtmlTag(string tagName, IImmutableDictionary<string, string> attributes, IImmutableList<IHtmlElement> contents, TagRenderMode? tagRenderMode) {
       _tagName = tagName;
       _attributes = attributes;
       _contents = contents;
@@ -54,16 +53,16 @@ namespace HtmlBuilders {
     }
 
     /// <summary>
-    ///   Creates a new HtmlTag replacing the inner attributes
+    ///   Creates a new HtmlTag replacing the inner TagBuilder
     /// </summary>
-    public HtmlTag WithAttributes(IImmutableDictionary<string, string> attributes) {
+    HtmlTag WithAttributes(IImmutableDictionary<string, string> attributes) {
       return new HtmlTag(_tagName, attributes, _contents, _tagRenderMode);
     }
 
     /// <summary>
     ///   Creates a new HtmlTag replacing the inner Contents
     /// </summary>
-    public HtmlTag WithContents(IImmutableList<IHtmlElement> contents) {
+    HtmlTag WithContents(IImmutableList<IHtmlElement> contents) {
       return new HtmlTag(_tagName, _attributes, contents, _tagRenderMode);
     }
 
@@ -115,9 +114,11 @@ namespace HtmlBuilders {
 
     #region ToString
 
-    /// <inheritdoc />
     public override string ToString() {
-      return ToHtml().ToString();
+      var tag = TagName;
+      var attributes = string.Join(" ", Attributes.Select(kvp => $"{kvp.Key}=\"{kvp.Value}\""));
+      var selfClosing = _tagRenderMode == TagRenderMode.SelfClosing ? " /" : "";
+      return $"<{tag} {attributes}{selfClosing}>";
     }
 
     #endregion
@@ -137,8 +138,7 @@ namespace HtmlBuilders {
     /// </summary>
     /// <param name="filter">The filter that specifies the conditions that each subnode must satisfy</param>
     /// <returns>The sub elements that satisfied the filter</returns>
-    public IEnumerable<HtmlTag> Find(Func<HtmlTag, bool> filter) =>
-      Children.Where(filter).Concat(Children.SelectMany(c => c.Find(filter)));
+    public IEnumerable<HtmlTag> Find(Func<HtmlTag, bool> filter) => Children.Where(filter).Concat(Children.SelectMany(c => c.Find(filter)));
 
     /// <summary>
     ///   Prepends <see cref="IHtmlContent" /> to the <see cref="Contents" />
@@ -147,8 +147,7 @@ namespace HtmlBuilders {
     ///   The html contents that will be inserted at the beginning of the contents of this tag, before all other content 
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(params IHtmlContent[] htmlContents) =>
-      htmlContents == null ? this : Prepend(htmlContents.AsEnumerable());
+    public HtmlTag Prepend(params IHtmlContent[] htmlContents) => htmlContents == null ? this : Prepend(htmlContents.AsEnumerable());
 
     /// <summary>
     ///   Prepends <see cref="IHtmlContent" /> to the <see cref="Contents" />
@@ -157,9 +156,7 @@ namespace HtmlBuilders {
     ///   The html contents that will be inserted at the beginning of the contents of this tag, before all other content
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(IEnumerable<IHtmlContent> htmlContents) => htmlContents == null
-      ? this
-      : Prepend(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+    public HtmlTag Prepend(IEnumerable<IHtmlContent> htmlContents) => htmlContents == null ? this : Prepend(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
 
     /// <summary>
     ///   Prepends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -200,8 +197,7 @@ namespace HtmlBuilders {
     ///   this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Insert(int index, params IHtmlElement[] elements) =>
-      elements == null ? this : Insert(index, elements.AsEnumerable());
+    public HtmlTag Insert(int index, params IHtmlElement[] elements) => elements == null ? this : Insert(index, elements.AsEnumerable());
 
     /// <summary>
     ///   Inserts an <see cref="IHtmlElement" /> to the <see cref="Contents" /> at the given <paramref name="index" />
@@ -233,8 +229,7 @@ namespace HtmlBuilders {
     ///   content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(params IHtmlContent[] htmlContents) =>
-      htmlContents == null ? this : Append(htmlContents.AsEnumerable());
+    public HtmlTag Append(params IHtmlContent[] htmlContents) => htmlContents == null ? this : Append(htmlContents.AsEnumerable());
 
     /// <summary>
     ///   Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
@@ -243,9 +238,7 @@ namespace HtmlBuilders {
     ///   The html contents that will be inserted at the end of the contents of this tag, after all other content
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IEnumerable<IHtmlContent> htmlContents) => htmlContents == null
-      ? this
-      : Append(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+    public HtmlTag Append(IEnumerable<IHtmlContent> htmlContents) => htmlContents == null ? this : Append(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
 
     /// <summary>
     ///   Inserts an <see cref="IHtmlElement" /> to the <see cref="Contents" /> at the given <paramref name="index" />
@@ -276,8 +269,7 @@ namespace HtmlBuilders {
     ///   content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IEnumerable<IHtmlElement> elements) =>
-      elements == null ? this : WithContents(_contents.AddRange(elements.Where(e => e != null)));
+    public HtmlTag Append(IEnumerable<IHtmlElement> elements) => elements == null ? this : WithContents(_contents.AddRange(elements.Where(e => e != null)));
 
     /// <summary>
     ///   Appends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -321,7 +313,6 @@ namespace HtmlBuilders {
       if (attribute == null) {
         throw new ArgumentNullException(nameof(attribute));
       }
-
       return replaceExisting || !_attributes.ContainsKey(attribute)
         ? WithAttributes(_attributes.SetItem(attribute, value))
         : this;
@@ -336,7 +327,6 @@ namespace HtmlBuilders {
       if (attribute == null) {
         throw new ArgumentNullException(nameof(attribute));
       }
-
       return WithAttributes(_attributes.Remove(attribute));
     }
 
@@ -390,8 +380,7 @@ namespace HtmlBuilders {
           Value = Convert.ToString(entry.Value)
         });
 
-      return newAttributes.Aggregate(this,
-        (htmlTag, next) => htmlTag.Attribute(next.Attribute, next.Value, replaceExisting));
+      return newAttributes.Aggregate(this, (htmlTag, next) => htmlTag.Attribute(next.Attribute, next.Value, replaceExisting));
     }
 
     #endregion
@@ -420,7 +409,7 @@ namespace HtmlBuilders {
 
         var styleRulesSplit = styles.Split(';');
         var styleRuleStep1 =
-          styleRulesSplit.Select(styleRule => new {StyleRule = styleRule, SeparatorIndex = styleRule.IndexOf(':')})
+          styleRulesSplit.Select(styleRule => new { StyleRule = styleRule, SeparatorIndex = styleRule.IndexOf(':') })
             .ToArray();
         var styleRuleStep2 = styleRuleStep1.Select(a =>
           new {
@@ -476,7 +465,6 @@ namespace HtmlBuilders {
       if (key == null) {
         throw new ArgumentNullException(nameof(key));
       }
-
       return WithStyles(Styles.Remove(key));
     }
 
@@ -554,10 +542,6 @@ namespace HtmlBuilders {
 
     /// <summary>
     ///   Renders and returns the HTML tag by using the specified render mode.
-    /// </summary>
-    /// <param name="tagRenderMode">
-    ///   The render mode. If this parameter is not specified, the <see cref="TagRenderMode" /> that was specified with the
-    ///   <see cref="Render" /> method will be used.
     ///   If the <see cref="Render" /> method was never called for this <see cref="HtmlTag" />, the
     ///   <see cref="TagRenderMode" /> will default to <see cref="TagRenderMode.Normal" />
     ///   <br /><strong>IMPORTANT: </strong> When using <see cref="TagRenderMode.StartTag" /> or
@@ -573,29 +557,27 @@ namespace HtmlBuilders {
     ///   what the expected HTML output would be.
     ///   You can specify <see cref="TagRenderMode" /> for this <see cref="HtmlTag" /> (or any of its <see cref="Children" /> )
     ///   by using the <see cref="Render" /> method.
-    /// </param>
+    /// </summary>
     /// <returns>The rendered HTML tag by using the specified render mode</returns>
     /// <exception cref="InvalidOperationException">
     ///   When <see cref="TagRenderMode.SelfClosing" /> is used but the
     ///   <see cref="HtmlTag" /> is not empty. (The <see cref="Contents" /> are not empty)
     /// </exception>
-    public HtmlString ToHtml(TagRenderMode? tagRenderMode = null) {
+    public IHtmlContent ToHtml() {
       var encoder = HtmlEncoder.Default;
       using (var writer = new StringWriter()) {
-        WriteTo(writer, encoder, tagRenderMode);
+        WriteTo(writer, encoder);
         return new HtmlString(writer.ToString());
       }
     }
 
-    /// <inheritdoc />
-    public void WriteTo(TextWriter writer, HtmlEncoder encoder, TagRenderMode? tagRenderMode = null) {
+    public void WriteTo(TextWriter writer, HtmlEncoder encoder) {
       var tagBuilder = new TagBuilder(_tagName) {
-        TagRenderMode = tagRenderMode ?? _tagRenderMode ?? TagRenderMode.Normal
+        TagRenderMode = _tagRenderMode ?? TagRenderMode.Normal
       };
       foreach (var attribute in _attributes) {
         tagBuilder.Attributes.Add(attribute);
       }
-
       switch (tagBuilder.TagRenderMode) {
         case TagRenderMode.StartTag:
           tagBuilder.RenderStartTag().WriteTo(writer, encoder);
@@ -606,8 +588,7 @@ namespace HtmlBuilders {
         case TagRenderMode.SelfClosing:
           if (Contents.Any()) {
             throw new InvalidOperationException(
-              "Cannot render this tag with the self closing TagRenderMode because this tag has inner contents: " +
-              this);
+              "Cannot render this tag with the self closing TagRenderMode because this tag has inner contents: " + this);
           }
 
           tagBuilder.RenderSelfClosingTag().WriteTo(writer, encoder);
@@ -662,7 +643,7 @@ namespace HtmlBuilders {
         throw new ArgumentNullException(nameof(textReader));
       }
 
-      var htmlDocument = new HtmlDocument {OptionCheckSyntax = validateSyntax};
+      var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
       HtmlNode.ElementsFlags.Remove("option");
       htmlDocument.Load(textReader);
       return Parse(htmlDocument, validateSyntax);
@@ -712,7 +693,10 @@ namespace HtmlBuilders {
       if (htmlContent == null) {
         throw new ArgumentNullException(nameof(htmlContent));
       }
-
+      // special case: string that may contain HTML but must be encoded when writing
+      if (htmlContent is StringHtmlContent s) {
+        return new[] { new HtmlText(s) };
+      }
       return ParseAll(htmlContent.ToHtmlString(), validateSyntax);
     }
 
@@ -751,7 +735,7 @@ namespace HtmlBuilders {
         throw new ArgumentNullException(nameof(textReader));
       }
 
-      var htmlDocument = new HtmlDocument {OptionCheckSyntax = validateSyntax};
+      var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
       HtmlNode.ElementsFlags.Remove("option");
       htmlDocument.Load(textReader);
       return ParseAll(htmlDocument, validateSyntax);
@@ -777,7 +761,12 @@ namespace HtmlBuilders {
 
       foreach (var childNode in htmlDocument.DocumentNode.ChildNodes) {
         if (childNode.NodeType == HtmlNodeType.Text) yield return ParseHtmlText(childNode);
-        if (childNode.NodeType == HtmlNodeType.Element) yield return ParseHtmlTag(childNode);
+        if (childNode.NodeType == HtmlNodeType.Element) {
+          if (string.IsNullOrEmpty(childNode.Name))
+            continue;
+          yield return ParseHtmlTag(childNode);
+
+        }
       }
     }
 
@@ -872,19 +861,14 @@ namespace HtmlBuilders {
         return true;
       }
 
-      return other.GetType() == GetType() && Equals((HtmlTag) other);
+      return other.GetType() == GetType() && Equals((HtmlTag)other);
     }
 
-    /// <summary>
-    /// Returns a number based off of the contents and attributes. See <see cref="Equals(HtmlBuilders.HtmlTag)"/>
-    /// </summary>
-    /// <returns>A hashcode</returns>
     public override int GetHashCode() {
       var hash = 17;
       hash = hash * 23 + TagName.GetHashCode();
       foreach (
-        var attribute in _attributes.Where(attribute =>
-            !string.Equals(attribute.Key, "style") && !string.Equals(attribute.Key, "class"))
+        var attribute in _attributes.Where(attribute => !string.Equals(attribute.Key, "style") && !string.Equals(attribute.Key, "class"))
           .OrderBy(attribute => attribute.Key)) {
         hash = hash * 23 + attribute.Key.GetHashCode();
         hash = hash * 23 + attribute.Value.GetHashCode();

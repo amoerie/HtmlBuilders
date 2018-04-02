@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Xunit;
 
 namespace HtmlBuilders.Tests {
@@ -20,11 +19,7 @@ namespace HtmlBuilders.Tests {
       [Fact]
       public void WhenTextIsAbc_ShouldAlwaysReturnAbc() {
         var htmlText = new HtmlText("abc");
-        htmlText.ToHtml(TagRenderMode.EndTag).ToString().Should().Be("abc");
-        htmlText.ToHtml(TagRenderMode.StartTag).ToString().Should().Be("abc");
-        htmlText.ToHtml(TagRenderMode.SelfClosing).ToString().Should().Be("abc");
-        htmlText.ToHtml(TagRenderMode.Normal).ToString().Should().Be("abc");
-        htmlText.ToHtml().ToString().Should().Be("abc");
+        htmlText.ToHtml().ToHtmlString().Should().Be("abc");
       }
     }
 

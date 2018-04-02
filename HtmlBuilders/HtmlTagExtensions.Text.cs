@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System.IO;
+using System.Text.Encodings.Web;
 
 namespace HtmlBuilders {
   public static partial class HtmlTagExtensions {
@@ -10,20 +11,19 @@ namespace HtmlBuilders {
     public static string Text(this HtmlTag htmlTag) {
       if (htmlTag == null)
         return string.Empty;
-      return string.Join(string.Empty, TextContents(htmlTag));
+      using (var writer = new StringWriter()) {
+        Write(htmlTag, writer, HtmlEncoder.Default);
+        return writer.ToString();
+      }
     }
 
-    private static IEnumerable<string> TextContents(this HtmlTag htmlTag) {
+    private static void Write(HtmlTag htmlTag, TextWriter writer, HtmlEncoder encoder) {
       foreach (var content in htmlTag.Contents) {
-        if (content is HtmlText) {
-          var text = content as HtmlText;
-          if (!string.IsNullOrEmpty(text.Text)) {
-            yield return text.Text;
-          }
+        if (content is HtmlText text) {
+          text.WriteTo(writer, encoder);
         }
-        else if (content is HtmlTag) {
-          var tag = content as HtmlTag;
-          yield return tag.Text();
+        else if (content is HtmlTag tag) {
+          Write(tag, writer, encoder);
         }
       }
     }
