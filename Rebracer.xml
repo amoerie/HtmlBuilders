@@ -327,6 +327,8 @@
         <PropertyValue name="Style_PreferExpressionBodiedMethods">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="false" DiagnosticSeverity="Hidden" /&gt;</PropertyValue>
         <PropertyValue name="Style_PreferExpressionBodiedOperators">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="false" DiagnosticSeverity="Hidden" /&gt;</PropertyValue>
         <PropertyValue name="Style_PreferExpressionBodiedProperties">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="true" DiagnosticSeverity="Hidden" /&gt;</PropertyValue>
+        <PropertyValue name="Style_PreferInferredAnonymousTypeMemberNames">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="true" DiagnosticSeverity="Info" /&gt;</PropertyValue>
+        <PropertyValue name="Style_PreferInferredTupleNames">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="true" DiagnosticSeverity="Info" /&gt;</PropertyValue>
         <PropertyValue name="Style_PreferInlinedVariableDeclaration">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="true" DiagnosticSeverity="Info" /&gt;</PropertyValue>
         <PropertyValue name="Style_PreferIntrinsicPredefinedTypeKeywordInDeclaration_CodeStyle">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="true" DiagnosticSeverity="Hidden" /&gt;</PropertyValue>
         <PropertyValue name="Style_PreferIntrinsicPredefinedTypeKeywordInMemberAccess_CodeStyle">&lt;CodeStyleOption SerializationVersion="1" Type="Boolean" Value="true" DiagnosticSeverity="Hidden" /&gt;</PropertyValue>
