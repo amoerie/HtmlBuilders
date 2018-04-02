@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>3.0.1</Version>
-    <AssemblyVersion>3.0.1.0</AssemblyVersion>
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <AssemblyInformationalVersion>3.0.0</AssemblyInformationalVersion>
-    <FileVersion>3.0.1.0</FileVersion>
+    <FileVersion>4.0.0.0</FileVersion>
     <AssemblyDescription>3.0.0.0</AssemblyDescription>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Alexander Moerman, Christian Pfahl</Authors>
