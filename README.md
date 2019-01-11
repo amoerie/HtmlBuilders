@@ -75,7 +75,7 @@ Or use the HtmlTags class that provides ultrafast access to all standard HTML el
 		.Append(HtmlTags.Button.Type("submit").Class("btn").Append("Sign in"));
 ```
 
-Or you can just write the HTML
+Or you can just write the HTML and parse it to an HTML tag
 
 ```c#
 	var parsed = HtmlTag.Parse(
@@ -88,9 +88,18 @@ Or you can just write the HTML
 	);
 ```
 
+# Implements IHtmlContent
+
+HtmlTag is fully compatible with IHtmlContent, the core interface in .NET MVC and Razor. This means you can do things like this:
+
+```c#
+	@HtmlTags.Div.Id("render-straight-to-razor");
+	@Html.TextBoxFor(m => m.Name).ToHtmlTag().Class("add-stuff-to-existing-MVC-things");
+```
+
 # It's tested! 
 
-There's an extensive suite of about 100 unit tests making sure I haven't forgotten anything. 
+There's an extensive suite of more than 100 unit tests making sure I haven't forgotten anything. 
 For those of you who get a kick out of juicy syntax and unit tests, here are some snippets from the tests:
 
 ```c#
@@ -124,7 +133,7 @@ The API is also quite a bit richer than what you're used to from the TagBuilder,
 	Assert.That(div.Styles["height"], Is.EqualTo("15px"));
 ```
 
-There's also some extra support for data attributes, which I find myself using a lot recently
+There's also some extra support for data attributes
 
 ```c#
 	// results in <div data-test="datatest"></div>
@@ -134,7 +143,7 @@ There's also some extra support for data attributes, which I find myself using a
 	new HtmlTag("div").Data(new { test = "data test", test2 = "data test 2", test3 = "data test 3" });
 ```
 
-Have I mentioned that HtmlTag implements IDictionary<string,string>? Thats right, every HtmlTag can be used as a dictionary to manipulate
+HtmlTag implements IDictionary<string,string>! Thats right, every HtmlTag can be used as a dictionary to manipulate
 its attributes. It also allows for some language sugar:
 
 ```c#
