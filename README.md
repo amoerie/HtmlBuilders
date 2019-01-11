@@ -7,7 +7,7 @@ _C#'s TagBuilder on steroids_
 
 ***
 
-Now available as a [Nuget Package](https://www.nuget.org/packages/HtmlBuilders/)!
+Available as a [Nuget Package](https://www.nuget.org/packages/HtmlBuilders/)!
 
 ***
 
