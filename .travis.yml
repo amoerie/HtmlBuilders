@@ -1,6 +1,7 @@
 language: csharp
 mono: none
-dotnet: 2.1.4
+dotnet: 2.2
+dist: xenial
 solution: HtmlBuilders.sln
 script:
   - dotnet build "HtmlBuilders/HtmlBuilders.csproj" -c Release
