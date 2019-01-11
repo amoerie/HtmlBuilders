@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Html;
 
 namespace HtmlBuilders {
   /// <summary>
-  /// Contains useful methods that begin from <see cref="IHtmlContent"/>.
+  /// Contains utility methods to convert <see cref="IHtmlContent"/> into other things, such as an <see cref="HtmlTag"/>.
   /// </summary>
   public static class IHtmlContentExtensions {
     /// <summary>
-    /// Renders this <paramref name="htmlContent"/> to an HTML encoded string
+    /// Renders this html content to an HTML string using the default HTML encoder
     /// </summary>
-    /// <param name="htmlContent">The HTML content that should be stringified</param>
-    /// <returns>An HTML encoded string</returns>
+    /// <param name="htmlContent">The HTML content to render</param>
+    /// <returns>A string representation of the HTML content</returns>
     public static string ToHtmlString(this IHtmlContent htmlContent) {
       using (var writer = new StringWriter()) {
         htmlContent.WriteTo(writer, HtmlEncoder.Default);
@@ -24,16 +24,16 @@ namespace HtmlBuilders {
     }
 
     /// <summary>
-    /// Parses the provided <paramref name="htmlContent"/> to an HtmlTag instance
+    /// Parses the provided HTML content and tries to extract an HTML tag from it.
+    /// 
     /// </summary>
-    /// <param name="htmlContent">The HTML content that should be parsed</param>
-    /// <returns>An instance of HtmlTag if any valid HTML is found, or null when the input did not contain an HTML element.</returns>
-    /// <exception cref="ArgumentException">When multiple HTML elements are found in the <paramref name="htmlContent"/></exception>
+    /// <param name="htmlContent"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static HtmlTag ToHtmlTag(this IHtmlContent htmlContent) {
       var htmlTags = HtmlTag.ParseAll(htmlContent).OfType<HtmlTag>().ToList();
-      if (htmlTags.Count > 1)
-        throw new ArgumentException($"Multiple tags parsed from html: {Environment.NewLine}" +
-                                    $"{string.Join(Environment.NewLine, htmlTags.Select(t => t.ToString()))}");
+      if(htmlTags.Count > 1) throw new ArgumentException($"Multiple tags parsed from html: {Environment.NewLine}" +
+                                                         $"{string.Join(Environment.NewLine, htmlTags.Select(t => t.ToString()))}");
       return htmlTags.SingleOrDefault();
     }
   }

@@ -142,5 +142,28 @@ namespace HtmlBuilders.Tests {
         div["value"].Should().Be("new value");
       }
     }
+    
+    public class Src : HtmlTagExtensionsTests {
+      [Fact]
+      public void AddingNewAttribute_ShouldHaveNewAttribute() {
+        HtmlTag div = HtmlTags.Div.Src("test src");
+        div.HasAttribute("src").Should().BeTrue();
+        div["src"].Should().Be("test src");
+      }
+
+      [Fact]
+      public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeSrc() {
+        HtmlTag div = HtmlTags.Div.Src("test src").Src("new src", false);
+        div.HasAttribute("src").Should().BeTrue();
+        div["src"].Should().Be("test src");
+      }
+
+      [Fact]
+      public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeSrc() {
+        HtmlTag div = HtmlTags.Div.Src("test src").Src("new src");
+        div.HasAttribute("src").Should().BeTrue();
+        div["src"].Should().Be("new src");
+      }
+    }
   }
 }

@@ -34,7 +34,10 @@ namespace HtmlBuilders {
       _content = stringHtmlContent ?? new StringHtmlContent(string.Empty);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Exposes the inner <see cref="IHtmlContent"/>, if you must.
+    /// </summary>
+    /// <returns>A reference to the inner <see cref="IHtmlContent"/> of this HTML text</returns>
     public IHtmlContent ToHtml() {
       return _content;
     }
@@ -44,6 +47,7 @@ namespace HtmlBuilders {
       _content.WriteTo(writer, encoder);
     }
 
+    /// <inheritdoc />
     public override string ToString() {
       using (var writer = new StringWriter()) {
         WriteTo(writer, HtmlEncoder.Default);
@@ -55,6 +59,7 @@ namespace HtmlBuilders {
       return string.Equals(ToString(), other.ToString());
     }
 
+    /// <inheritdoc />
     public override bool Equals(object obj) {
       if (ReferenceEquals(null, obj))
         return false;
@@ -65,6 +70,7 @@ namespace HtmlBuilders {
       return Equals((HtmlText)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode() {
       return ToString().GetHashCode();
     }

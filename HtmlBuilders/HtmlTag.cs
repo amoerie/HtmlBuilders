@@ -114,6 +114,7 @@ namespace HtmlBuilders {
 
     #region ToString
 
+    /// <inheritdoc />
     public override string ToString() {
       var tag = TagName;
       var attributes = string.Join(" ", Attributes.Select(kvp => $"{kvp.Key}=\"{kvp.Value}\""));
@@ -409,7 +410,7 @@ namespace HtmlBuilders {
 
         var styleRulesSplit = styles.Split(';');
         var styleRuleStep1 =
-          styleRulesSplit.Select(styleRule => new { StyleRule = styleRule, SeparatorIndex = styleRule.IndexOf(':') })
+          styleRulesSplit.Select(styleRule => new {StyleRule = styleRule, SeparatorIndex = styleRule.IndexOf(':')})
             .ToArray();
         var styleRuleStep2 = styleRuleStep1.Select(a =>
           new {
@@ -540,37 +541,7 @@ namespace HtmlBuilders {
       return WithTagRenderMode(tagRenderMode);
     }
 
-    /// <summary>
-    ///   Renders and returns the HTML tag by using the specified render mode.
-    ///   If the <see cref="Render" /> method was never called for this <see cref="HtmlTag" />, the
-    ///   <see cref="TagRenderMode" /> will default to <see cref="TagRenderMode.Normal" />
-    ///   <br /><strong>IMPORTANT: </strong> When using <see cref="TagRenderMode.StartTag" /> or
-    ///   <see cref="TagRenderMode.EndTag" />,
-    ///   the <see cref="Contents" /> of this <see cref="HtmlTag" /> will not be rendered.
-    ///   This is because when you have more than 1 content element, it does not make sense to only render the start or end
-    ///   tags. Since the API exposes the
-    ///   <see cref="Contents" /> and <see cref="Children" /> separately, the responsibility is then with the developer to
-    ///   render the HTML as he or she wishes.
-    ///   However, when using <see cref="TagRenderMode.Normal" /> (or passing no parameters, since
-    ///   <see cref="TagRenderMode.Normal" /> is the default value),
-    ///   the <see cref="Contents" /> <strong> will</strong> be taken into account since there can't be any confusion as to
-    ///   what the expected HTML output would be.
-    ///   You can specify <see cref="TagRenderMode" /> for this <see cref="HtmlTag" /> (or any of its <see cref="Children" /> )
-    ///   by using the <see cref="Render" /> method.
-    /// </summary>
-    /// <returns>The rendered HTML tag by using the specified render mode</returns>
-    /// <exception cref="InvalidOperationException">
-    ///   When <see cref="TagRenderMode.SelfClosing" /> is used but the
-    ///   <see cref="HtmlTag" /> is not empty. (The <see cref="Contents" /> are not empty)
-    /// </exception>
-    public IHtmlContent ToHtml() {
-      var encoder = HtmlEncoder.Default;
-      using (var writer = new StringWriter()) {
-        WriteTo(writer, encoder);
-        return new HtmlString(writer.ToString());
-      }
-    }
-
+    /// <inheritdoc />
     public void WriteTo(TextWriter writer, HtmlEncoder encoder) {
       var tagBuilder = new TagBuilder(_tagName) {
         TagRenderMode = _tagRenderMode ?? TagRenderMode.Normal
@@ -608,7 +579,7 @@ namespace HtmlBuilders {
     #endregion
 
     #region Factory methods
-
+    
     /// <summary>
     ///   Parses an <see cref="HtmlTag" /> from the given <paramref name="html" />
     /// </summary>
@@ -643,7 +614,7 @@ namespace HtmlBuilders {
         throw new ArgumentNullException(nameof(textReader));
       }
 
-      var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
+      var htmlDocument = new HtmlDocument {OptionCheckSyntax = validateSyntax};
       HtmlNode.ElementsFlags.Remove("option");
       htmlDocument.Load(textReader);
       return Parse(htmlDocument, validateSyntax);
@@ -693,9 +664,29 @@ namespace HtmlBuilders {
       if (htmlContent == null) {
         throw new ArgumentNullException(nameof(htmlContent));
       }
+      // special case: html content is already an HtmlTag!
+      if (htmlContent is HtmlTag alreadyHtmlTag) {
+        return new[] {alreadyHtmlTag};
+      }
       // special case: string that may contain HTML but must be encoded when writing
       if (htmlContent is StringHtmlContent s) {
         return new[] { new HtmlText(s) };
+      }
+      // special case: TagBuilder
+      if (htmlContent is TagBuilder tagBuilder) {
+        var htmlTag = new HtmlTag(tagBuilder.TagName)
+          .WithTagRenderMode(tagBuilder.TagRenderMode);
+
+        if (tagBuilder.Attributes.Any()) {
+          htmlTag = tagBuilder.Attributes
+            .Aggregate(htmlTag,
+              (tag, attribute) => tag.Attribute(attribute.Key, HtmlEntity.DeEntitize(attribute.Value)));
+        }
+
+        if (tagBuilder.HasInnerHtml)
+          htmlTag = htmlTag.WithContents(ParseAll(tagBuilder.InnerHtml, validateSyntax).ToImmutableList());
+
+        return new[] { htmlTag };
       }
       return ParseAll(htmlContent.ToHtmlString(), validateSyntax);
     }
@@ -735,7 +726,7 @@ namespace HtmlBuilders {
         throw new ArgumentNullException(nameof(textReader));
       }
 
-      var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
+      var htmlDocument = new HtmlDocument {OptionCheckSyntax = validateSyntax};
       HtmlNode.ElementsFlags.Remove("option");
       htmlDocument.Load(textReader);
       return ParseAll(htmlDocument, validateSyntax);
@@ -762,7 +753,7 @@ namespace HtmlBuilders {
       foreach (var childNode in htmlDocument.DocumentNode.ChildNodes) {
         if (childNode.NodeType == HtmlNodeType.Text) yield return ParseHtmlText(childNode);
         if (childNode.NodeType == HtmlNodeType.Element) {
-          if (string.IsNullOrEmpty(childNode.Name))
+          if (string.IsNullOrEmpty(childNode.Name)) 
             continue;
           yield return ParseHtmlTag(childNode);
 
@@ -861,9 +852,10 @@ namespace HtmlBuilders {
         return true;
       }
 
-      return other.GetType() == GetType() && Equals((HtmlTag)other);
+      return other.GetType() == GetType() && Equals((HtmlTag) other);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode() {
       var hash = 17;
       hash = hash * 23 + TagName.GetHashCode();

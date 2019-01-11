@@ -92,5 +92,20 @@ namespace HtmlBuilders {
     public static HtmlTag Href(this HtmlTag htmlTag, string href, bool replaceExisting = true) {
       return htmlTag.Attribute("href", href, replaceExisting);
     }
+
+    /// <summary>
+    ///   Sets the src property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'src' as the
+    ///   attribute parameter value.
+    /// </summary>
+    /// <param name="htmlTag">This <see cref="HtmlTag" /></param>
+    /// <param name="src">The value for the 'src' attribute</param>
+    /// <param name="replaceExisting">
+    ///   A value indicating whether the existing attribute, if any, should have its value replaced
+    ///   by the <paramref name="src" /> provided.
+    /// </param>
+    /// <returns>This <see cref="HtmlTag" /></returns>
+    public static HtmlTag Src(this HtmlTag htmlTag, string src, bool replaceExisting = true) {
+      return htmlTag.Attribute("src", src, replaceExisting);
+    }
   }
 }
