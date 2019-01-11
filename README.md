@@ -3,7 +3,7 @@ HtmlBuilders
 
 [![Build Status](https://travis-ci.org/amoerie/HtmlBuilders.svg?branch=master)](https://travis-ci.org/amoerie/HtmlBuilders)
 
-_C#'s TagBuilder on steroids_
+_C#'s TagBuilder on steroids :muscle:_
 
 ***
 
