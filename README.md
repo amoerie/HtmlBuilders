@@ -20,7 +20,7 @@ You could see it as a more advanced version of C#'s built-in TagBuilder.
 
 ### Part 1: Creating HTML
 
-What if we wanted to make this HTML in C#:
+What if we wanted to make this HTML in C# from within a HtmlHelper extension or tag helper?
 
 ```html
 	<div class="control-group">
