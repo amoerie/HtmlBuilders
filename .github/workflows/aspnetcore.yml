@@ -1,0 +1,24 @@
+name: ASP.NET Core CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        dotnet-version: [2.2.402]
+    
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v1
+      
+    - name: Setup .NET Core ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+      
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
