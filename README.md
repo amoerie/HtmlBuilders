@@ -158,3 +158,4 @@ its attributes. It also allows for some language sugar:
 
 - [amoerie](https://github.com/amoerie)
 - [KriNiTo](https://github.com/KriNiTo)
+- [jenscski](https://github.com/jenscski)
