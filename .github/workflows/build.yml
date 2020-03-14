@@ -30,5 +30,5 @@ jobs:
     - name: Build HtmlBuilders.Tests
       run: dotnet build ./HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
     
-    - name: Run DeadManSwitch.Tests
+    - name: Run HtmlBuilders.Tests
       run: dotnet test ./HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
