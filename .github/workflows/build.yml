@@ -1,27 +1,34 @@
-name: ASP.NET Core CI
+name: build
 
-on: [push]
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-    
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        dotnet-version: [2.2.402]
-    
+        os: [windows-2019, ubuntu-18.04, macOS-latest]
+        dotnet-version: [3.1.2]
+
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
       
-    - name: Setup .NET Core ${{ matrix.dotnet-version }}
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
       
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+    - name: Build HtmlBuilders
+      run: dotnet build ./src/HtmlBuilders/HtmlBuilders.csproj --configuration Release
       
-    - name: Run tests
-      run: dotnet test --configuration Release
+    - name: Build HtmlBuilders.Tests
+      run: dotnet build ./src/HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
+    
+    - name: Run DeadManSwitch.Tests
+      run: dotnet test ./src/HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
