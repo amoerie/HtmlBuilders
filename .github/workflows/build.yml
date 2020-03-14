@@ -25,10 +25,10 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
       
     - name: Build HtmlBuilders
-      run: dotnet build ./src/HtmlBuilders/HtmlBuilders.csproj --configuration Release
+      run: dotnet build ./HtmlBuilders/HtmlBuilders.csproj --configuration Release
       
     - name: Build HtmlBuilders.Tests
-      run: dotnet build ./src/HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
+      run: dotnet build ./HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
     
     - name: Run DeadManSwitch.Tests
-      run: dotnet test ./src/HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
+      run: dotnet test ./HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
