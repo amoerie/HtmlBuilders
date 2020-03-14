@@ -1,0 +1,34 @@
+name: build
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019, ubuntu-18.04, macOS-latest]
+        dotnet-version: [3.1.102]
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+      
+    - name: Build HtmlBuilders
+      run: dotnet build ./HtmlBuilders/HtmlBuilders.csproj --configuration Release
+      
+    - name: Build HtmlBuilders.Tests
+      run: dotnet build ./HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
+    
+    - name: Run HtmlBuilders.Tests
+      run: dotnet test ./HtmlBuilders.Tests/HtmlBuilders.Tests.csproj --configuration Release
