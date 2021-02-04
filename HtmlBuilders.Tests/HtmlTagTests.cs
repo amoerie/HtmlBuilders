@@ -486,6 +486,16 @@ namespace HtmlBuilders.Tests {
                                 "</div>");
         div.Should().NotBeNull();
       }
+
+      [Fact]
+      public void WhenHtmlIsFreeText_ShouldNotReEncode() {
+        var input = new HtmlString("var pathToToc = \"/toc-placeholder.json\";");
+
+        var parsed = HtmlTag.ParseAll(input).Single();
+
+        parsed.Should().BeOfType<HtmlText>();
+        parsed.ToHtmlString().Should().Be("var pathToToc = \"/toc-placeholder.json\";");
+      }
     }
 
 
