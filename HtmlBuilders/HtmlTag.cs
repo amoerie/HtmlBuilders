@@ -796,7 +796,7 @@ namespace HtmlBuilders {
     }
 
     private static HtmlText ParseHtmlText(HtmlNode htmlNode) {
-      return new HtmlText(htmlNode.InnerText);
+      return new HtmlText(new HtmlString(htmlNode.InnerText));
     }
 
     #endregion

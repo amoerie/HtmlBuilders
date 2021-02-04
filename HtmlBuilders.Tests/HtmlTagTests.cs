@@ -66,6 +66,13 @@ namespace HtmlBuilders.Tests {
 
         result.ToHtmlString().Should().Be("<div>Hi everybody!<div>Hi doctor Nick!</div></div>");
       }
+
+      [Fact]
+      public void AppendingFreeHtmlContent_ShouldAppendCorrectly() {
+        var script = HtmlTags.Script.Append(new HtmlString("var pathToToc = \"/toc-placeholder.json\";"));
+
+        script.ToHtmlString().Should().Be("<script>var pathToToc = \"/toc-placeholder.json\";</script>");
+      }
     }
 
     public class Attribute : HtmlTagTests {
