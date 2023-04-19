@@ -8,7 +8,7 @@ namespace HtmlBuilders;
 /// <summary>
 ///     Represents a text node that has an optional parent and some text
 /// </summary>
-public class HtmlText : IHtmlElement
+public sealed class HtmlText : IHtmlElement
 {
     private readonly IHtmlContent _content;
 

@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -457,6 +458,39 @@ public class HtmlTagTests
             tags[2].As<object>().Should().Be(new HtmlText("Is that even valid"));
             tags[3].As<object>().Should().Be(HtmlTags.Li.Append("The second"));
             tags[4].As<object>().Should().Be(new HtmlText("And this is my story"));
+        }
+
+        [Fact]
+        public void WhenElementIsAlreadyAnHtmlTagShouldReuseTag()
+        {
+            var content = HtmlTags.Label.Append("Hello");
+            var parsed = HtmlTag.ParseAll(content).ToArray();
+            parsed.Length.Should().Be(1);
+            parsed[0].Should().BeSameAs(content);
+        }
+
+        [Fact]
+        public void WhenElementIsAlreadyAStringHtmlContentShouldReuseContent()
+        {
+            var content = new StringHtmlContent("Hello");
+            var parsed = HtmlTag.ParseAll(content).ToArray();
+            parsed.Length.Should().Be(1);
+            var text = parsed[0];
+            text.Should().BeOfType<HtmlText>();
+            text.As<HtmlText>().ToHtmlString().Should().Be("Hello");
+        }
+
+        [Fact]
+        public void WhenElementIsAlreadyATagBuilderShouldReuseProperties()
+        {
+            var ul = new TagBuilder("ul");
+            var li = new TagBuilder("li");
+            ul.MergeAttribute("class", "sample-list");
+            li.MergeAttribute("class", "sample-list-item");
+            ul.InnerHtml.AppendHtml(li);
+            var parsed = HtmlTag.ParseAll(ul).ToArray();
+            parsed.Length.Should().Be(1);
+            parsed[0].Should().Be(HtmlTags.Ul.Class("sample-list").Append(HtmlTags.Li.Class("sample-list-item")));
         }
     }
 

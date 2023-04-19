@@ -1,11 +1,12 @@
 # Changelog
 
 ## 7.0.0
+
 - Target .NET 7
 - Add support for nullable annotations
 
 ## 6.0.0
- 
+
 - Migrate to .NET Core 3.1
 
 ## 5.0.0
@@ -14,7 +15,8 @@
 
 ## 3.0.1
 
-- Expose HtmlTag.WithAttributes and HtmlTag.WithContents publically to enable full control on the consumer side. This might be necessary to keep supporting all use cases since the move to immutable HtmlTags.
+- Expose HtmlTag.WithAttributes and HtmlTag.WithContents publically to enable full control on the consumer side. This might be necessary to keep supporting all use cases since the
+  move to immutable HtmlTags.
 
 ## 3.0.0
 

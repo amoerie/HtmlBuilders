@@ -1,7 +1,8 @@
 $nugetUrl = $env:NUGET_URL
 $nugetApiKey = $env:NUGET_API_KEY
 
-if(-not $nugetUrl) {
+if (-not$nugetUrl)
+{
     $nugetUrl = "https://api.nuget.org/v3/index.json";
 }
 
@@ -21,7 +22,7 @@ $nupkgFile = Resolve-Path (Join-Path "$projectPath/bin/Release" "$projectName.$v
 
 Write-Host "Publishing NuGet package file"
 
-if($nugetApiKey)
+if ($nugetApiKey)
 {
     nuget push $nupkgFile -skipduplicate -source $nugetUrl -apikey $nugetApiKey
 }

@@ -40,5 +40,14 @@ public partial class HtmlTagExtensionsTests
             text.Should().NotBeNull();
             text.Should().BeEmpty();
         }
+
+        [Fact]
+        public void WhenTagIsNullShouldReturnEmptyString()
+        {
+            var tag = (HtmlTag?) null;
+            var text = tag.Text();
+            text.Should().NotBeNull();
+            text.Should().BeEmpty();
+        }
     }
 }
