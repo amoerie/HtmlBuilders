@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlBuilders.Tests", "HtmlB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{80305863-CCFB-430E-A51B-4F597D4B8595}"
 	ProjectSection(SolutionItems) = preProject
-		Rebracer.xml = Rebracer.xml
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		.editorconfig = .editorconfig
+		publish.ps1 = publish.ps1
 	EndProjectSection
 EndProject
 Global
