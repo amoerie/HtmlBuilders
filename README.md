@@ -97,9 +97,9 @@ HtmlTag is fully compatible with IHtmlContent, the core interface in .NET MVC an
 	@Html.TextBoxFor(m => m.Name).ToHtmlTag().Class("add-stuff-to-existing-MVC-things");
 ```
 
-# It's tested! 
+# It's tested!
 
-There's an extensive suite of more than 100 unit tests making sure I haven't forgotten anything. 
+There's an extensive suite of more than 100 unit tests making sure I haven't forgotten anything.
 For those of you who get a kick out of juicy syntax and unit tests, here are some snippets from the tests:
 
 ```c#

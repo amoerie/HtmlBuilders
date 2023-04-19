@@ -13,10 +13,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Width(this HtmlTag htmlTag, string width, bool replaceExisting = true)
     {
-        if (width == null)
-        {
-            throw new ArgumentNullException(nameof(width));
-        }
+        ArgumentNullException.ThrowIfNull(width);
 
         return htmlTag.Style("width", width, replaceExisting);
     }
@@ -30,10 +27,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Height(this HtmlTag htmlTag, string height, bool replaceExisting = true)
     {
-        if (height == null)
-        {
-            throw new ArgumentNullException(nameof(height));
-        }
+        ArgumentNullException.ThrowIfNull(height);
 
         return htmlTag.Style("height", height, replaceExisting);
     }
@@ -47,10 +41,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Margin(this HtmlTag htmlTag, string margin, bool replaceExisting = true)
     {
-        if (margin == null)
-        {
-            throw new ArgumentNullException(nameof(margin));
-        }
+        ArgumentNullException.ThrowIfNull(margin);
 
         return htmlTag.Style("margin", margin, replaceExisting);
     }
@@ -65,10 +56,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Padding(this HtmlTag htmlTag, string padding, bool replaceExisting = true)
     {
-        if (padding == null)
-        {
-            throw new ArgumentNullException(nameof(padding));
-        }
+        ArgumentNullException.ThrowIfNull(padding);
 
         return htmlTag.Style("padding", padding, replaceExisting);
     }
@@ -82,10 +70,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Color(this HtmlTag htmlTag, string color, bool replaceExisting = true)
     {
-        if (color == null)
-        {
-            throw new ArgumentNullException(nameof(color));
-        }
+        ArgumentNullException.ThrowIfNull(color);
 
         return htmlTag.Style("color", color, replaceExisting);
     }
@@ -100,10 +85,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag TextAlign(this HtmlTag htmlTag, string textAlign, bool replaceExisting = true)
     {
-        if (textAlign == null)
-        {
-            throw new ArgumentNullException(nameof(textAlign));
-        }
+        ArgumentNullException.ThrowIfNull(textAlign);
 
         return htmlTag.Style("text-align", textAlign, replaceExisting);
     }
@@ -117,10 +99,7 @@ public static partial class HtmlTagExtensions
     /// <returns>This <see cref="HtmlTag" /></returns>
     public static HtmlTag Border(this HtmlTag htmlTag, string border, bool replaceExisting = true)
     {
-        if (border == null)
-        {
-            throw new ArgumentNullException(nameof(border));
-        }
+        ArgumentNullException.ThrowIfNull(border);
 
         return htmlTag.Style("border", border, replaceExisting);
     }

@@ -15,7 +15,7 @@ namespace HtmlBuilders;
 ///     Represents an html tag that can have a parent, children, attributes, etc.
 ///     This is a wrapper around the built in <see cref="TagBuilder" /> class but with a lot more convenience and builder style patterns.
 /// </summary>
-public class HtmlTag : IHtmlElement
+public sealed class HtmlTag : IHtmlElement
 {
     /// <summary>
     ///     The attributes of this tag
@@ -72,10 +72,7 @@ public class HtmlTag : IHtmlElement
     /// <returns>This <see cref="HtmlTag" /></returns>
     public HtmlTag ToggleAttribute(string attribute, bool value)
     {
-        if (attribute == null)
-        {
-            throw new ArgumentNullException(nameof(attribute));
-        }
+        ArgumentNullException.ThrowIfNull(attribute);
 
         return value ? Attribute(attribute, attribute) : RemoveAttribute(attribute);
     }
@@ -373,10 +370,7 @@ public class HtmlTag : IHtmlElement
     /// <returns>This <see cref="HtmlTag" /></returns>
     public HtmlTag Attribute(string attribute, string? value, bool replaceExisting = true)
     {
-        if (attribute == null)
-        {
-            throw new ArgumentNullException(nameof(attribute));
-        }
+        ArgumentNullException.ThrowIfNull(attribute);
 
         return replaceExisting || !_attributes.ContainsKey(attribute)
             ? WithAttributes(_attributes.SetItem(attribute, value))
@@ -390,10 +384,7 @@ public class HtmlTag : IHtmlElement
     /// <returns>This <see cref="HtmlTag" /></returns>
     public HtmlTag RemoveAttribute(string attribute)
     {
-        if (attribute == null)
-        {
-            throw new ArgumentNullException(nameof(attribute));
-        }
+        ArgumentNullException.ThrowIfNull(attribute);
 
         return WithAttributes(_attributes.Remove(attribute));
     }
@@ -415,10 +406,7 @@ public class HtmlTag : IHtmlElement
     /// <returns>This <see cref="HtmlTag" /></returns>
     public HtmlTag Data(string attribute, string value, bool replaceExisting = true)
     {
-        if (attribute == null)
-        {
-            throw new ArgumentNullException(nameof(attribute));
-        }
+        ArgumentNullException.ThrowIfNull(attribute);
 
         return Attribute(attribute.StartsWith("data-", StringComparison.InvariantCulture) ? attribute : "data-" + attribute, value, replaceExisting);
     }
@@ -441,10 +429,7 @@ public class HtmlTag : IHtmlElement
     /// <returns>This <see cref="HtmlTag" /></returns>
     public HtmlTag Data(object data, bool replaceExisting = true)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         var newAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(data)
             .Select(entry => new
@@ -500,8 +485,8 @@ public class HtmlTag : IHtmlElement
                 var key = styleEntry.Substring(0, separatorIndex);
                 var value = styleEntry.Substring(separatorIndex + 1, styleEntry.Length - separatorIndex - 1);
                 styles[key] = value;
-
             }
+
             return styles.ToImmutableDictionary();
         }
     }
@@ -518,15 +503,8 @@ public class HtmlTag : IHtmlElement
     /// <returns></returns>
     public HtmlTag Style(string key, string value, bool replaceExisting = true)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        ArgumentNullException.ThrowIfNull(key);
+        ArgumentNullException.ThrowIfNull(value);
 
         if (key.Contains(';'))
         {
@@ -553,10 +531,7 @@ public class HtmlTag : IHtmlElement
     /// <returns></returns>
     public HtmlTag RemoveStyle(string key)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
+        ArgumentNullException.ThrowIfNull(key);
 
         return WithStyles(Styles.Remove(key));
     }
@@ -694,10 +669,7 @@ public class HtmlTag : IHtmlElement
     /// </exception>
     public static HtmlTag Parse(string html, bool validateSyntax = false)
     {
-        if (html == null)
-        {
-            throw new ArgumentNullException(nameof(html));
-        }
+        ArgumentNullException.ThrowIfNull(html);
 
         return Parse(new StringReader(HtmlEntity.DeEntitize(html)), validateSyntax);
     }
@@ -715,10 +687,7 @@ public class HtmlTag : IHtmlElement
     /// </exception>
     public static HtmlTag Parse(TextReader textReader, bool validateSyntax = false)
     {
-        if (textReader == null)
-        {
-            throw new ArgumentNullException(nameof(textReader));
-        }
+        ArgumentNullException.ThrowIfNull(textReader);
 
         var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
         HtmlNode.ElementsFlags.Remove("option");
@@ -771,10 +740,7 @@ public class HtmlTag : IHtmlElement
     /// </exception>
     public static IEnumerable<IHtmlElement> ParseAll(IHtmlContent htmlContent, bool validateSyntax = false)
     {
-        if (htmlContent == null)
-        {
-            throw new ArgumentNullException(nameof(htmlContent));
-        }
+        ArgumentNullException.ThrowIfNull(htmlContent);
 
         // special case: html content is already an HtmlTag!
         if (htmlContent is HtmlTag alreadyHtmlTag)
@@ -824,10 +790,7 @@ public class HtmlTag : IHtmlElement
     /// </exception>
     public static IEnumerable<IHtmlElement> ParseAll(string html, bool validateSyntax = false)
     {
-        if (html == null)
-        {
-            throw new ArgumentNullException(nameof(html));
-        }
+        ArgumentNullException.ThrowIfNull(html);
 
         using var reader = new StringReader(html);
         return ParseAll(reader, validateSyntax);
@@ -845,10 +808,7 @@ public class HtmlTag : IHtmlElement
     /// </exception>
     public static IEnumerable<IHtmlElement> ParseAll(TextReader textReader, bool validateSyntax = false)
     {
-        if (textReader == null)
-        {
-            throw new ArgumentNullException(nameof(textReader));
-        }
+        ArgumentNullException.ThrowIfNull(textReader);
 
         var htmlDocument = new HtmlDocument { OptionCheckSyntax = validateSyntax };
         HtmlNode.ElementsFlags.Remove("option");

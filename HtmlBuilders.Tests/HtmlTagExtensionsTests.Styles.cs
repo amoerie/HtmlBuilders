@@ -1,3 +1,4 @@
+using System.Collections;
 using FluentAssertions;
 using Xunit;
 
@@ -92,6 +93,66 @@ public partial class HtmlTagExtensionsTests
             div.Styles.Count.Should().Be(1);
             div.Styles.ContainsKey("width").Should().BeTrue();
             div.Styles["width"].Should().Be("25px");
+        }
+    }
+
+    public class Margin : HtmlTagExtensionsTests
+    {
+        [Fact]
+        public void AddMarginShouldUpdateStyle()
+        {
+            var div = HtmlTags.Div.Margin("10px");
+            div.Styles.Count.Should().Be(1);
+            div.Styles.ContainsKey("margin").Should().BeTrue();
+            div.Styles["margin"].Should().Be("10px");
+        }
+    }
+
+    public class Padding : HtmlTagExtensionsTests
+    {
+        [Fact]
+        public void AddPaddingShouldUpdateStyle()
+        {
+            var div = HtmlTags.Div.Padding("10px");
+            div.Styles.Count.Should().Be(1);
+            div.Styles.ContainsKey("padding").Should().BeTrue();
+            div.Styles["padding"].Should().Be("10px");
+        }
+    }
+
+    public class Color : HtmlTagExtensionsTests
+    {
+        [Fact]
+        public void AddColorShouldUpdateStyle()
+        {
+            var div = HtmlTags.Div.Color("red");
+            div.Styles.Count.Should().Be(1);
+            div.Styles.ContainsKey("color").Should().BeTrue();
+            div.Styles["color"].Should().Be("red");
+        }
+    }
+
+    public class TextAlign : HtmlTagExtensionsTests
+    {
+        [Fact]
+        public void AddTextAlignShouldUpdateStyle()
+        {
+            var div = HtmlTags.Div.TextAlign("right");
+            div.Styles.Count.Should().Be(1);
+            div.Styles.ContainsKey("text-align").Should().BeTrue();
+            div.Styles["text-align"].Should().Be("right");
+        }
+    }
+
+    public class Border : HtmlTagExtensionsTests
+    {
+        [Fact]
+        public void AddBorderShouldUpdateStyle()
+        {
+            var div = HtmlTags.Div.Border("1px solid red");
+            div.Styles.Count.Should().Be(1);
+            div.Styles.ContainsKey("border").Should().BeTrue();
+            div.Styles["border"].Should().Be("1px solid red");
         }
     }
 }
