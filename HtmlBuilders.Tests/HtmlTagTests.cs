@@ -717,7 +717,7 @@ public class HtmlTagTests
             div.Styles.ContainsKey("filter").Should().BeTrue();
             div.Styles["filter"].Should().Be("progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')");
             var toHtml = div.ToHtmlString();
-            toHtml.Should().Be("<div style=\"filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=&#x27;#cccccc&#x27;, endColorstr=&#x27;#000000&#x27;)\"></div>");
+            toHtml.Should().Be("<div style=\"filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=&#x27;#cccccc&#x27;, endColorstr=&#x27;#000000&#x27;);\"></div>");
         }
     }
 
