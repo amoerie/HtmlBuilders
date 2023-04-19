@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0
+
+- Add overloads to Insert, Prepend and Append to avoid allocating arrays
+- Keep original HTML entities when appending raw HTML
+- Increase coverage
+
 ## 7.0.0
 
 - Target .NET 7
