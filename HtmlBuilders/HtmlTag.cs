@@ -142,6 +142,15 @@ public class HtmlTag : IHtmlElement
     /// <summary>
     ///     Prepends <see cref="IHtmlContent" /> to the <see cref="Contents" />
     /// </summary>
+    /// <param name="htmlContent">
+    ///     The html contents that will be inserted at the beginning of the contents of this tag, before all other content
+    /// </param>
+    /// <returns>this <see cref="HtmlTag" /></returns>
+    public HtmlTag Prepend(IHtmlContent? htmlContent) => htmlContent == null ? this : Insert(0, ParseAll(htmlContent));
+
+    /// <summary>
+    ///     Prepends <see cref="IHtmlContent" /> to the <see cref="Contents" />
+    /// </summary>
     /// <param name="htmlContents">
     ///     The html contents that will be inserted at the beginning of the contents of this tag, before all other content
     /// </param>
@@ -156,6 +165,15 @@ public class HtmlTag : IHtmlElement
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
     public HtmlTag Prepend(IEnumerable<IHtmlContent>? htmlContents) => htmlContents == null ? this : Prepend(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+
+    /// <summary>
+    ///     Prepends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
+    /// </summary>
+    /// <param name="element">
+    ///     The element that will be inserted at the beginning of the contents of this tag, before all other content
+    /// </param>
+    /// <returns>this <see cref="HtmlTag" /></returns>
+    public HtmlTag Prepend(IHtmlElement? element) => element == null ? this : Insert(0, element);
 
     /// <summary>
     ///     Prepends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -223,23 +241,28 @@ public class HtmlTag : IHtmlElement
     }
 
     /// <summary>
-    ///     Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
+    ///     Inserts an <see cref="IHtmlElement" /> to the <see cref="Contents" /> at the given <paramref name="index" />
     /// </summary>
-    /// <param name="htmlContents">
-    ///     The html contents that will be inserted at the end of the contents of this tag, after all other
-    ///     content elements
+    /// <param name="index">The index at which the <paramref name="element" /> should be inserted</param>
+    /// <param name="element">
+    ///     The elements that will be inserted at the specific <paramref name="index" /> of the contents of
+    ///     this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(params IHtmlContent[]? htmlContents) => htmlContents == null ? this : Append(htmlContents.AsEnumerable());
+    public HtmlTag Insert(int index, IHtmlElement? element)
+    {
+        if (element == null)
+        {
+            return this;
+        }
 
-    /// <summary>
-    ///     Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
-    /// </summary>
-    /// <param name="htmlContents">
-    ///     The html contents that will be inserted at the end of the contents of this tag, after all other content
-    /// </param>
-    /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IEnumerable<IHtmlContent>? htmlContents) => htmlContents == null ? this : Append(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+        if (index < 0 || index > _contents.Count)
+        {
+            throw new ArgumentException($"Cannot insert anything at index '{index}', content elements count = {Contents.Count}");
+        }
+
+        return WithContents(_contents.Insert(index, element));
+    }
 
     /// <summary>
     ///     Inserts an <see cref="IHtmlElement" /> to the <see cref="Contents" /> at the given <paramref name="index" />
@@ -253,7 +276,47 @@ public class HtmlTag : IHtmlElement
     public HtmlTag Insert(int index, string? text) => text == null ? this : Insert(index, new HtmlText(text));
 
     /// <summary>
+    ///     Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
+    /// </summary>
+    /// <param name="htmlContent">
+    ///     The html contents that will be inserted at the end of the contents of this tag, after all other
+    ///     content elements
+    /// </param>
+    /// <returns>this <see cref="HtmlTag" /></returns>
+    public HtmlTag Append(IHtmlContent? htmlContent) => htmlContent == null ? this : Append(ParseAll(htmlContent));
+
+    /// <summary>
+    ///     Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
+    /// </summary>
+    /// <param name="htmlContent">
+    ///     The html contents that will be inserted at the end of the contents of this tag, after all other
+    ///     content elements
+    /// </param>
+    /// <returns>this <see cref="HtmlTag" /></returns>
+    public HtmlTag Append(params IHtmlContent[]? htmlContent) => htmlContent == null ? this : Append(htmlContent.AsEnumerable());
+
+    /// <summary>
+    ///     Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
+    /// </summary>
+    /// <param name="htmlContents">
+    ///     The html contents that will be inserted at the end of the contents of this tag, after all other content
+    /// </param>
+    /// <returns>this <see cref="HtmlTag" /></returns>
+    public HtmlTag Append(IEnumerable<IHtmlContent>? htmlContents) => htmlContents == null ? this : Append(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+
+
+    /// <summary>
     ///     Appends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
+    /// </summary>
+    /// <param name="element">
+    ///     The elements that will be inserted at the end of the contents of this tag, after all other
+    ///     content elements
+    /// </param>
+    /// <returns>this <see cref="HtmlTag" /></returns>
+    public HtmlTag Append(IHtmlElement? element) => element == null ? this : WithContents(_contents.Add(element));
+
+    /// <summary>
+    ///     Appends <see cref="IHtmlElement" />s to the <see cref="Contents" />
     /// </summary>
     /// <param name="elements">
     ///     The elements that will be inserted at the end of the contents of this tag, after all other
