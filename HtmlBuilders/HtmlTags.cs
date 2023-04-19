@@ -230,6 +230,7 @@ public static class HtmlTags
 
     public static class Input
     {
+        [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass", Justification = "This is a different kind of button")]
         public static readonly HtmlTag Button = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("button");
 
         public static readonly HtmlTag CheckBox = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("checkbox");
@@ -270,6 +271,7 @@ public static class HtmlTags
 
         public static readonly HtmlTag Text = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("text");
 
+        [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass", Justification = "This is a different kind of time")]
         public static readonly HtmlTag Time = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("time");
 
         public static readonly HtmlTag Url = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("url");

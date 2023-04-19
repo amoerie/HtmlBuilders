@@ -192,7 +192,7 @@ public class HtmlTag : IHtmlElement
     /// </summary>
     /// <param name="index">The index at which the <paramref name="elements" /> should be inserted</param>
     /// <param name="elements">
-    ///     The elements that will be inserted at the specifix <paramref name="index" /> of the contents of
+    ///     The elements that will be inserted at the specific <paramref name="index" /> of the contents of
     ///     this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
@@ -203,7 +203,7 @@ public class HtmlTag : IHtmlElement
     /// </summary>
     /// <param name="index">The index at which the <paramref name="elements" /> should be inserted</param>
     /// <param name="elements">
-    ///     The elements that will be inserted at the specifix <paramref name="index" /> of the contents of
+    ///     The elements that will be inserted at the specific <paramref name="index" /> of the contents of
     ///     this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
@@ -219,7 +219,7 @@ public class HtmlTag : IHtmlElement
             throw new ArgumentException($"Cannot insert anything at index '{index}', content elements count = {Contents.Count}");
         }
 
-        return WithContents(_contents.InsertRange(index, elements.Where(e => e != null)));
+        return WithContents(_contents.InsertRange(index, elements));
     }
 
     /// <summary>
@@ -246,7 +246,7 @@ public class HtmlTag : IHtmlElement
     /// </summary>
     /// <param name="index">The index at which the <paramref name="text" /> should be inserted</param>
     /// <param name="text">
-    ///     The text that will be inserted as a <see cref="HtmlText" /> at the specifix
+    ///     The text that will be inserted as a <see cref="HtmlText" /> at the specific
     ///     <paramref name="index" /> of the contents of this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
@@ -270,7 +270,7 @@ public class HtmlTag : IHtmlElement
     ///     content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IEnumerable<IHtmlElement>? elements) => elements == null ? this : WithContents(_contents.AddRange(elements.Where(e => e != null)));
+    public HtmlTag Append(IEnumerable<IHtmlElement>? elements) => elements == null ? this : WithContents(_contents.AddRange(elements));
 
     /// <summary>
     ///     Appends an <see cref="IHtmlElement" /> to the <see cref="Contents" />

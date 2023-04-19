@@ -17,7 +17,7 @@ Write-Host "Packing version $version"
 
 dotnet pack $csprojPath --configuration Release
 
-$nupkgFile = Resolve-Path (Join-Path "$projectPath/nupkg" "$projectName.$version.nupkg")
+$nupkgFile = Resolve-Path (Join-Path "$projectPath/bin/Release" "$projectName.$version.nupkg")
 
 Write-Host "Publishing NuGet package file"
 

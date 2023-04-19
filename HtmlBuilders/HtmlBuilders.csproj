@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Version>7.0</Version>
+    <Version>7.0.0</Version>
     <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Alexander Moerman, Christian Pfahl, Jens-Christian Skibakk</Authors>
     <Company />
@@ -12,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>HTML, Utility</PackageTags>
     <PackageReleaseNotes>See https://github.com/amoerie/HtmlBuilders/blob/main/CHANGELOG.MD</PackageReleaseNotes>
-    <IncludeSymbols>true</IncludeSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>Embedded</DebugType>
     <Copyright>MIT</Copyright>
   </PropertyGroup>
