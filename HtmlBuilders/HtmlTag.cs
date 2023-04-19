@@ -766,7 +766,7 @@ public class HtmlTag : IHtmlElement
             throw new ArgumentNullException(nameof(html));
         }
 
-        using var reader = new StringReader(HtmlEntity.DeEntitize(html));
+        using var reader = new StringReader(html);
         return ParseAll(reader, validateSyntax);
     }
 

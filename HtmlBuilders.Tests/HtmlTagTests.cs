@@ -83,6 +83,17 @@ public class HtmlTagTests
 
             script.ToHtmlString().Should().Be("<script>var pathToToc = \"/toc-placeholder.json\";</script>");
         }
+
+        [Fact]
+        public void AppendingNonBreakingSpaceShouldAppendCorrectly()
+        {
+            var label = HtmlTags.Label.Append("Bonjour");
+
+            label = label.Append(new HtmlString("&nbsp;"));
+            label = label.Append("It is I");
+
+            label.ToHtmlString().Should().Be("<label>Bonjour&nbsp;It is I</label>");
+        }
     }
 
     public class Attribute : HtmlTagTests
