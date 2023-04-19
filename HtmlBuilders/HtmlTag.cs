@@ -384,7 +384,10 @@ public class HtmlTag : IHtmlElement
         }
 
         var newAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(data)
-            .Select(entry => new { Attribute = entry.Key.StartsWith("data-", StringComparison.InvariantCulture) ? entry.Key : "data-" + entry.Key, Value = Convert.ToString(entry.Value) });
+            .Select(entry => new
+            {
+                Attribute = entry.Key.StartsWith("data-", StringComparison.InvariantCulture) ? entry.Key : "data-" + entry.Key, Value = Convert.ToString(entry.Value)
+            });
 
         return newAttributes.Aggregate(this, (htmlTag, next) => htmlTag.Attribute(next.Attribute, next.Value, replaceExisting));
     }
@@ -403,7 +406,7 @@ public class HtmlTag : IHtmlElement
             return RemoveAttribute("style");
         }
 
-        var style = string.Join(";", styles.Select(kvp => kvp.Key + ":" + kvp.Value));
+        var style = string.Join(";", styles.Select(kvp => kvp.Key + ":" + kvp.Value)) + ";";
         return WithAttributes(_attributes.SetItem("style", style));
     }
 
@@ -416,25 +419,27 @@ public class HtmlTag : IHtmlElement
     {
         get
         {
-            if (!_attributes.TryGetValue("style", out var styles) || styles == null)
+            if (!_attributes.TryGetValue("style", out var stylesAttribute) || stylesAttribute == null)
             {
                 return ImmutableDictionary<string, string?>.Empty;
             }
 
-            var styleRulesSplit = styles.Split(';');
-            var styleRuleStep1 =
-                styleRulesSplit.Select(styleRule => new { StyleRule = styleRule, SeparatorIndex = styleRule.IndexOf(':') })
-                    .ToArray();
-            var styleRuleStep2 = styleRuleStep1.Select(a =>
-                    new
-                    {
-                        StyleKey = a.StyleRule.Substring(0, a.SeparatorIndex),
-                        StyleValue = a.StyleRule.Substring(a.SeparatorIndex + 1, a.StyleRule.Length - a.SeparatorIndex - 1)
-                    })
-                .ToArray();
+            var styleEntries = stylesAttribute.Split(';');
+            var styles = new Dictionary<string, string?>(styleEntries.Length);
+            foreach (var styleEntry in styleEntries)
+            {
+                if (string.IsNullOrEmpty(styleEntry))
+                {
+                    continue;
+                }
 
+                var separatorIndex = styleEntry.IndexOf(':');
+                var key = styleEntry.Substring(0, separatorIndex);
+                var value = styleEntry.Substring(separatorIndex + 1, styleEntry.Length - separatorIndex - 1);
+                styles[key] = value;
 
-            return styleRuleStep2.ToImmutableDictionary(a => a.StyleKey, a => (string?)a.StyleValue);
+            }
+            return styles.ToImmutableDictionary();
         }
     }
 
@@ -523,7 +528,7 @@ public class HtmlTag : IHtmlElement
     /// </summary>
     /// <param name="class">The class</param>
     /// <returns>True if this <see cref="HtmlTag" /> has the <paramref name="class" /> or false otherwise</returns>
-    public bool HasClass(string @class) => Classes.Any(c => string.Equals(c, @class));
+    public bool HasClass(string @class) => Classes.Contains(@class);
 
     /// <summary>
     ///     Adds a class to this tag.
@@ -589,7 +594,7 @@ public class HtmlTag : IHtmlElement
                 tagBuilder.RenderEndTag().WriteTo(writer, encoder);
                 break;
             case TagRenderMode.SelfClosing:
-                if (Contents.Any())
+                if (Contents.Count > 0)
                 {
                     throw new InvalidOperationException(
                         "Cannot render this tag with the self closing TagRenderMode because this tag has inner contents: " + this);
@@ -726,7 +731,7 @@ public class HtmlTag : IHtmlElement
             var htmlTag = new HtmlTag(tagBuilder.TagName)
                 .WithTagRenderMode(tagBuilder.TagRenderMode);
 
-            if (tagBuilder.Attributes.Any())
+            if (tagBuilder.Attributes.Count > 0)
             {
                 htmlTag = tagBuilder.Attributes
                     .Aggregate(htmlTag,
@@ -832,7 +837,7 @@ public class HtmlTag : IHtmlElement
     private static HtmlTag ParseHtmlTag(HtmlNode htmlNode)
     {
         var htmlTag = new HtmlTag(htmlNode.Name);
-        if (htmlNode.Closed && !htmlNode.ChildNodes.Any())
+        if (htmlNode.Closed && htmlNode.ChildNodes.Count == 0)
         {
             htmlTag = htmlTag.Render(TagRenderMode.SelfClosing);
 
