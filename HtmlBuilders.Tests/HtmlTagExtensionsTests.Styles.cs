@@ -8,7 +8,7 @@ public partial class HtmlTagExtensionsTests
     public class Height : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewHeightToElementWithStyleAttribute_ShouldUpdateStyle()
+        public void AddingNewHeightToElementWithStyleAttributeShouldUpdateStyle()
         {
             var div = HtmlTags.Div.Style("padding", "10px").Height("15px");
             div.HasAttribute("style").Should().BeTrue();
@@ -20,7 +20,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void AddingNewHeightToElementWithoutStyleAttribute_ShouldAddStyleAndHeight()
+        public void AddingNewHeightToElementWithoutStyleAttributeShouldAddStyleAndHeight()
         {
             var div = HtmlTags.Div.Height("10px");
             div.HasAttribute("style").Should().BeTrue();
@@ -30,7 +30,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingHeightWithReplaceExistingFalse_ShouldNotUpdateHeight()
+        public void UpdatingHeightWithReplaceExistingFalseShouldNotUpdateHeight()
         {
             var div = HtmlTags.Div.Height("10px").Height("25px", false);
             div.HasAttribute("style").Should().BeTrue();
@@ -40,7 +40,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingHeightWithReplaceExistingTrue_ShouldUpdateHeight()
+        public void UpdatingHeightWithReplaceExistingTrueShouldUpdateHeight()
         {
             var div = HtmlTags.Div.Height("10px").Height("25px");
             div.HasAttribute("style").Should().BeTrue();
@@ -53,7 +53,7 @@ public partial class HtmlTagExtensionsTests
     public class Width : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewWidthToElementWithStyleAttribute_ShouldUpdateStyle()
+        public void AddingNewWidthToElementWithStyleAttributeShouldUpdateStyle()
         {
             var div = HtmlTags.Div.Style("padding", "10px").Width("15px");
             div.HasAttribute("style").Should().BeTrue();
@@ -65,7 +65,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void AddingNewWidthToElementWithoutStyleAttribute_ShouldAddStyleAndWidth()
+        public void AddingNewWidthToElementWithoutStyleAttributeShouldAddStyleAndWidth()
         {
             var div = HtmlTags.Div.Width("10px");
             div.HasAttribute("style").Should().BeTrue();
@@ -75,7 +75,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingWidthWithReplaceExistingFalse_ShouldNotUpdateWidth()
+        public void UpdatingWidthWithReplaceExistingFalseShouldNotUpdateWidth()
         {
             var div = HtmlTags.Div.Width("10px").Width("25px", false);
             div.HasAttribute("style").Should().BeTrue();
@@ -85,7 +85,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingWidthWithReplaceExistingTrue_ShouldUpdateWidth()
+        public void UpdatingWidthWithReplaceExistingTrueShouldUpdateWidth()
         {
             var div = HtmlTags.Div.Width("10px").Width("25px");
             div.HasAttribute("style").Should().BeTrue();

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -140,6 +141,7 @@ public static class HtmlTags
 
     public static readonly HtmlTag NoScript = new HtmlTag("noscript");
 
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Wasn't my decision to name this HTML tag")]
     public static readonly HtmlTag Object = new HtmlTag("object");
 
     public static readonly HtmlTag Ol = new HtmlTag("ol");

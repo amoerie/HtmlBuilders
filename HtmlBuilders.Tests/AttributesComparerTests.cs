@@ -18,7 +18,7 @@ public class AttributesComparerTests
     public new class Equals : AttributesComparerTests
     {
         [Fact]
-        public void TwoDictionariesWhereMostEntriesAreEqualButTheUnequalEntriesAreExcludedByKey_ShouldBeTrue()
+        public void TwoDictionariesWhereMostEntriesAreEqualButTheUnequalEntriesAreExcludedByKeyShouldBeTrue()
         {
             _dictionary1["test1"] = "value1";
             _dictionary1["test2"] = "value2";
@@ -28,7 +28,7 @@ public class AttributesComparerTests
         }
 
         [Fact]
-        public void TwoDictionariesWhereOneHasOneEntryExtra_ShouldBeFalse()
+        public void TwoDictionariesWhereOneHasOneEntryExtraShouldBeFalse()
         {
             _dictionary1["test1"] = "value1";
             _dictionary1["test2"] = "value2";
@@ -37,7 +37,7 @@ public class AttributesComparerTests
         }
 
         [Fact]
-        public void TwoDictionariesWithEachOneEqualEntry_ShouldBeEqual()
+        public void TwoDictionariesWithEachOneEqualEntryShouldBeEqual()
         {
             _dictionary1["test"] = "value";
             _dictionary2["test"] = "value";
@@ -45,7 +45,7 @@ public class AttributesComparerTests
         }
 
         [Fact]
-        public void TwoDictionariesWithEachTwoEqualEntries_ShouldBeEqual()
+        public void TwoDictionariesWithEachTwoEqualEntriesShouldBeEqual()
         {
             _dictionary1["test1"] = "value1";
             _dictionary1["test2"] = "value2";
@@ -55,6 +55,6 @@ public class AttributesComparerTests
         }
 
         [Fact]
-        public void TwoEmptyDictionaries_ShouldBeEqual() => AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
+        public void TwoEmptyDictionariesShouldBeEqual() => AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
     }
 }

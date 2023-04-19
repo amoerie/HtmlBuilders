@@ -8,7 +8,7 @@ public partial class HtmlTagExtensionsTests
     public class Text : HtmlTagExtensionsTests
     {
         [Fact]
-        public void WhenTagIsSimpleLabel_ShouldReturnLabelContents()
+        public void WhenTagIsSimpleLabelShouldReturnLabelContents()
         {
             var tag = HtmlTags.Label.Append("This is the content");
             var text = tag.Text();
@@ -16,7 +16,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void WhenTagIsEmpty_ShouldReturnEmptyString()
+        public void WhenTagIsEmptyShouldReturnEmptyString()
         {
             var tag = HtmlTags.Label;
             var text = tag.Text();
@@ -25,7 +25,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void WhenTagContainsMultipleChildren_ShouldReturnAllContentsOfChildren()
+        public void WhenTagContainsMultipleChildrenShouldReturnAllContentsOfChildren()
         {
             var tag = HtmlTag.Parse("<div class='readonlygroup period'><label>Period</label><span>Friday 17 October 2014 - Thursday 30 October 2014</span></div>");
             var text = tag.Text();
@@ -33,7 +33,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void WhenTagContainsMultipleEmptyChildren_ShouldReturnEmptyString()
+        public void WhenTagContainsMultipleEmptyChildrenShouldReturnEmptyString()
         {
             var tag = HtmlTags.Div.Append(HtmlTags.Label).Append(HtmlTags.Div);
             var text = tag.Text();

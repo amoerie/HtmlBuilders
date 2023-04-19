@@ -216,8 +216,7 @@ public class HtmlTag : IHtmlElement
 
         if (index < 0 || index > _contents.Count)
         {
-            throw new IndexOutOfRangeException(
-                $"Cannot insert anything at index '{index}', content elements count = {Contents.Count()}");
+            throw new ArgumentException($"Cannot insert anything at index '{index}', content elements count = {Contents.Count}");
         }
 
         return WithContents(_contents.InsertRange(index, elements.Where(e => e != null)));
@@ -358,7 +357,7 @@ public class HtmlTag : IHtmlElement
             throw new ArgumentNullException(nameof(attribute));
         }
 
-        return Attribute(attribute.StartsWith("data-") ? attribute : "data-" + attribute, value, replaceExisting);
+        return Attribute(attribute.StartsWith("data-", StringComparison.InvariantCulture) ? attribute : "data-" + attribute, value, replaceExisting);
     }
 
     /// <summary>
@@ -385,7 +384,7 @@ public class HtmlTag : IHtmlElement
         }
 
         var newAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(data)
-            .Select(entry => new { Attribute = entry.Key.StartsWith("data-") ? entry.Key : "data-" + entry.Key, Value = Convert.ToString(entry.Value) });
+            .Select(entry => new { Attribute = entry.Key.StartsWith("data-", StringComparison.InvariantCulture) ? entry.Key : "data-" + entry.Key, Value = Convert.ToString(entry.Value) });
 
         return newAttributes.Aggregate(this, (htmlTag, next) => htmlTag.Attribute(next.Attribute, next.Value, replaceExisting));
     }
@@ -461,12 +460,12 @@ public class HtmlTag : IHtmlElement
             throw new ArgumentNullException(nameof(value));
         }
 
-        if (key.Contains(";"))
+        if (key.Contains(';'))
         {
             throw new ArgumentException($"Style key cannot contain ';'! Key was '{key}'");
         }
 
-        if (value.Contains(";"))
+        if (value.Contains(';'))
         {
             throw new ArgumentException($"Style value cannot contain ';'! Value was '{key}'");
         }
@@ -914,7 +913,7 @@ public class HtmlTag : IHtmlElement
     }
 
     /// <summary>
-    ///     Returns true if this <see cref="HtmlTag" /> is equivalent to <paramref name="other" />. If any of the attributes or
+    ///     Returns true if this <see cref="HtmlTag" /> is equivalent to <paramref name="obj" />. If any of the attributes or
     ///     the children are different,
     ///     this method will return false. It is important to note that the order in which styles and classes appear will not
     ///     affect the equality in any way.
@@ -922,21 +921,21 @@ public class HtmlTag : IHtmlElement
     ///     As a rule of thumb, if one <see cref="HtmlTag" /> would have the same display presentation and behavior in a browser
     ///     as another <see cref="HtmlTag" />, they are considered equal.
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    public override bool Equals(object? other)
+    /// <param name="obj">The other object</param>
+    /// <returns>true or false</returns>
+    public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, other))
+        if (ReferenceEquals(null, obj))
         {
             return false;
         }
 
-        if (ReferenceEquals(this, other))
+        if (ReferenceEquals(this, obj))
         {
             return true;
         }
 
-        return other.GetType() == GetType() && Equals((HtmlTag)other);
+        return obj.GetType() == GetType() && Equals((HtmlTag)obj);
     }
 
     /// <inheritdoc />

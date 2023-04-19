@@ -8,14 +8,14 @@ public partial class HtmlTagExtensionsTests
     public class Checked : HtmlTagExtensionsTests
     {
         [Fact]
-        public void WhenFalse_AttributeShouldBeRemoved()
+        public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Checked(true).Checked(false);
             input.HasAttribute("checked").Should().BeFalse();
         }
 
         [Fact]
-        public void WhenTrue_AttributeShouldBeAdded()
+        public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Checked(true);
             input.HasAttribute("checked").Should().BeTrue();
@@ -26,14 +26,14 @@ public partial class HtmlTagExtensionsTests
     public class Disabled : HtmlTagExtensionsTests
     {
         [Fact]
-        public void WhenFalse_AttributeShouldBeRemoved()
+        public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Disabled(true).Disabled(false);
             input.HasAttribute("disabled").Should().BeFalse();
         }
 
         [Fact]
-        public void WhenTrue_AttributeShouldBeAdded()
+        public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Disabled(true);
             input.HasAttribute("disabled").Should().BeTrue();
@@ -44,7 +44,7 @@ public partial class HtmlTagExtensionsTests
     public class Readonly : HtmlTagExtensionsTests
     {
         [Fact]
-        public void WhenFalse_AttributeShouldBeRemoved()
+        public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Readonly(true).Readonly(false);
 
@@ -52,7 +52,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void WhenTrue_AttributeShouldBeAdded()
+        public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Readonly(true);
             input.HasAttribute("readonly").Should().BeTrue();
@@ -63,14 +63,14 @@ public partial class HtmlTagExtensionsTests
     public class Selected : HtmlTagExtensionsTests
     {
         [Fact]
-        public void WhenFalse_AttributeShouldBeRemoved()
+        public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Selected(true).Selected(false);
             input.HasAttribute("selected").Should().BeFalse();
         }
 
         [Fact]
-        public void WhenTrue_AttributeShouldBeAdded()
+        public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Selected(true);
             input.HasAttribute("selected").Should().BeTrue();

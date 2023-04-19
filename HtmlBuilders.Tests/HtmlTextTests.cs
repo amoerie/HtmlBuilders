@@ -8,16 +8,16 @@ public class HtmlTextTests
     public new class Equals : HtmlTextTests
     {
         [Fact]
-        public void WhenTextsAreEqual_ShouldBeTrue() => new HtmlText("abc").Should().Be(new HtmlText("abc"));
+        public void WhenTextsAreEqualShouldBeTrue() => new HtmlText("abc").Should().Be(new HtmlText("abc"));
 
         [Fact]
-        public void WhenTextsAreNotEqual_ShouldBeFalse() => new HtmlText("abc").Should().NotBe(new HtmlText("cba"));
+        public void WhenTextsAreNotEqualShouldBeFalse() => new HtmlText("abc").Should().NotBe(new HtmlText("cba"));
     }
 
     public class ToHtml : HtmlTextTests
     {
         [Fact]
-        public void WhenTextIsAbc_ShouldAlwaysReturnAbc()
+        public void WhenTextIsAbcShouldAlwaysReturnAbc()
         {
             var htmlText = new HtmlText("abc");
             htmlText.ToHtml().ToHtmlString().Should().Be("abc");
@@ -27,6 +27,6 @@ public class HtmlTextTests
     public new class ToString : HtmlTextTests
     {
         [Fact]
-        public void WhenTextIsAbc_ShouldBeAbc() => new HtmlText("abc").ToString().Should().Be("abc");
+        public void WhenTextIsAbcShouldBeAbc() => new HtmlText("abc").ToString().Should().Be("abc");
     }
 }

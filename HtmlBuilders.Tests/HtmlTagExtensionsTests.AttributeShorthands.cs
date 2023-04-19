@@ -8,7 +8,7 @@ public partial class HtmlTagExtensionsTests
     public class Href : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Href("test href");
             div.HasAttribute("href").Should().BeTrue();
@@ -16,7 +16,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Href("test href");
             div.Href("new href", false);
@@ -25,7 +25,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Href("test href").Href("new href");
             div.HasAttribute("href").Should().BeTrue();
@@ -36,7 +36,7 @@ public partial class HtmlTagExtensionsTests
     public class Id : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Id("test id");
             div.HasAttribute("id").Should().BeTrue();
@@ -44,7 +44,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Id("test id");
             div.Id("new id", false);
@@ -53,7 +53,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Id("test id").Id("new id");
             div.HasAttribute("id").Should().BeTrue();
@@ -64,7 +64,7 @@ public partial class HtmlTagExtensionsTests
     public class Name : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Name("test name");
             div.HasAttribute("name").Should().BeTrue();
@@ -72,7 +72,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Name("test name").Name("new name", false);
             div.HasAttribute("name").Should().BeTrue();
@@ -80,7 +80,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Name("test name").Name("new name");
             div.HasAttribute("name").Should().BeTrue();
@@ -91,7 +91,7 @@ public partial class HtmlTagExtensionsTests
     public class Type : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Type("test type");
             div.HasAttribute("type").Should().BeTrue();
@@ -99,7 +99,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Type("test type").Type("new type", false);
             div.HasAttribute("type").Should().BeTrue();
@@ -107,7 +107,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Type("test type").Type("new type");
             div.HasAttribute("type").Should().BeTrue();
@@ -118,7 +118,7 @@ public partial class HtmlTagExtensionsTests
     public class Title : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Title("test title");
             div.HasAttribute("title").Should().BeTrue();
@@ -126,7 +126,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Title("test title").Title("new title", false);
             div.HasAttribute("title").Should().BeTrue();
@@ -134,7 +134,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Title("test title").Title("new title");
             div.HasAttribute("title").Should().BeTrue();
@@ -145,7 +145,7 @@ public partial class HtmlTagExtensionsTests
     public class Value : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Value("test value");
             div.HasAttribute("value").Should().BeTrue();
@@ -153,7 +153,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Value("test value").Value("new value", false);
             div.HasAttribute("value").Should().BeTrue();
@@ -161,7 +161,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeValue()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Value("test value").Value("new value");
             div.HasAttribute("value").Should().BeTrue();
@@ -172,7 +172,7 @@ public partial class HtmlTagExtensionsTests
     public class Src : HtmlTagExtensionsTests
     {
         [Fact]
-        public void AddingNewAttribute_ShouldHaveNewAttribute()
+        public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Src("test src");
             div.HasAttribute("src").Should().BeTrue();
@@ -180,7 +180,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingFalse_ShouldStillHaveOldAttributeSrc()
+        public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeSrc()
         {
             var div = HtmlTags.Div.Src("test src").Src("new src", false);
             div.HasAttribute("src").Should().BeTrue();
@@ -188,7 +188,7 @@ public partial class HtmlTagExtensionsTests
         }
 
         [Fact]
-        public void UpdatingOldAttributeWithReplaceExistingTrue_ShouldHaveUpdatedAttributeSrc()
+        public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeSrc()
         {
             var div = HtmlTags.Div.Src("test src").Src("new src");
             div.HasAttribute("src").Should().BeTrue();
