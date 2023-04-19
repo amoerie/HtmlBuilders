@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.AspNetCore.Html;
@@ -94,6 +95,33 @@ public class HtmlTagTests
             label = label.Append("It is I");
 
             label.ToHtmlString().Should().Be("<label>Bonjour&nbsp;It is I</label>");
+        }
+
+        [Fact]
+        public void AppendingNullShouldReturnThis()
+        {
+            var label = HtmlTags.Label.Append("Bonjour");
+
+            label.Append((IEnumerable<IHtmlContent?>?)null).Should().BeSameAs(label);
+            label.Append((IEnumerable<IHtmlElement?>?)null).Should().BeSameAs(label);
+            label.Append((IHtmlContent?[]?)null).Should().BeSameAs(label);
+            label.Append((IHtmlElement?[]?)null).Should().BeSameAs(label);
+            label.Append((IHtmlContent?) null).Should().BeSameAs(label);
+            label.Append((IHtmlElement?) null).Should().BeSameAs(label);
+        }
+
+        [Fact]
+        public void AppendingSomeNullsShouldIgnoreNulls()
+        {
+            var label = HtmlTags.Label;
+
+            label = label.Append(
+                HtmlTags.Span.Append("This is "),
+                null,
+                HtmlTags.Span.Append("Sparta")
+            );
+
+            label.ToHtmlString().Should().Be("<label><span>This is </span><span>Sparta</span></label>");
         }
     }
 
@@ -383,6 +411,30 @@ public class HtmlTagTests
             children[2].As<object>().Should().Be(HtmlTag.Parse("<li>This is the third item</li>"));
             children[3].As<object>().Should().Be(HtmlTag.Parse("<li>This is the fourth item</li>"));
         }
+
+        [Fact]
+        public void InsertingNullShouldReturnThis()
+        {
+            var label = HtmlTags.Label.Append("Bonjour");
+
+            label.Insert(0, (IEnumerable<IHtmlElement?>?)null).Should().BeSameAs(label);
+            label.Insert(0, (IHtmlElement?[]?)null).Should().BeSameAs(label);
+            label.Insert(0, (IHtmlElement?) null).Should().BeSameAs(label);
+        }
+
+        [Fact]
+        public void AppendingSomeNullsShouldIgnoreNulls()
+        {
+            var label = HtmlTags.Label;
+
+            label = label.Insert(0,
+                HtmlTags.Span.Append("This is "),
+                null,
+                HtmlTags.Span.Append("Sparta")
+            );
+
+            label.ToHtmlString().Should().Be("<label><span>This is </span><span>Sparta</span></label>");
+        }
     }
 
     public class ParseAll : HtmlTagTests
@@ -654,6 +706,33 @@ public class HtmlTagTests
             contents[0].Should().Be(new HtmlText("These are the items"));
             contents[1].Should().Be(new HtmlText("So much prepending"));
             contents[2].Should().Be(HtmlTag.Parse("<li>This is the first item</li>"));
+        }
+
+        [Fact]
+        public void PrependingNullShouldReturnThis()
+        {
+            var label = HtmlTags.Label.Append("Bonjour");
+
+            label.Prepend((IEnumerable<IHtmlContent?>?)null).Should().BeSameAs(label);
+            label.Prepend((IEnumerable<IHtmlElement?>?)null).Should().BeSameAs(label);
+            label.Prepend((IHtmlContent?[]?)null).Should().BeSameAs(label);
+            label.Prepend((IHtmlElement?[]?)null).Should().BeSameAs(label);
+            label.Prepend((IHtmlContent?) null).Should().BeSameAs(label);
+            label.Prepend((IHtmlElement?) null).Should().BeSameAs(label);
+        }
+
+        [Fact]
+        public void PrependingSomeNullsShouldIgnoreNulls()
+        {
+            var label = HtmlTags.Label;
+
+            label = label.Prepend(
+                HtmlTags.Span.Append("This is "),
+                null,
+                HtmlTags.Span.Append("Sparta")
+            );
+
+            label.ToHtmlString().Should().Be("<label><span>This is </span><span>Sparta</span></label>");
         }
     }
 

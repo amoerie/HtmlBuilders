@@ -152,7 +152,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     The html contents that will be inserted at the beginning of the contents of this tag, before all other content
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(params IHtmlContent[]? htmlContents) => htmlContents == null ? this : Prepend(htmlContents.AsEnumerable());
+    public HtmlTag Prepend(params IHtmlContent?[]? htmlContents) => htmlContents == null
+        ? this
+        : Prepend(htmlContents.AsEnumerable());
 
     /// <summary>
     ///     Prepends <see cref="IHtmlContent" /> to the <see cref="Contents" />
@@ -161,7 +163,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     The html contents that will be inserted at the beginning of the contents of this tag, before all other content
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(IEnumerable<IHtmlContent>? htmlContents) => htmlContents == null ? this : Prepend(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+    public HtmlTag Prepend(IEnumerable<IHtmlContent?>? htmlContents) => htmlContents == null
+        ? this
+        : Prepend(htmlContents.Where(htmlContent => htmlContent != null).SelectMany(htmlContent => ParseAll(htmlContent!)));
 
     /// <summary>
     ///     Prepends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -180,7 +184,7 @@ public sealed class HtmlTag : IHtmlElement
     ///     other content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(params IHtmlElement[]? elements) => Insert(0, elements);
+    public HtmlTag Prepend(params IHtmlElement?[]? elements) => Insert(0, elements);
 
     /// <summary>
     ///     Prepends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -190,7 +194,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     other content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(IEnumerable<IHtmlElement> elements) => Insert(0, elements);
+    public HtmlTag Prepend(IEnumerable<IHtmlElement?>? elements) => elements == null
+        ? this
+        : Insert(0, elements);
 
     /// <summary>
     ///     Prepends an <see cref="HtmlText" /> to the <see cref="Contents" />
@@ -200,7 +206,7 @@ public sealed class HtmlTag : IHtmlElement
     ///     tag, before all other content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Prepend(string text) => Insert(0, new HtmlText(text));
+    public HtmlTag Prepend(string? text) => text == null ? this : Insert(0, new HtmlText(text));
 
     /// <summary>
     ///     Inserts an <see cref="IHtmlElement" /> to the <see cref="Contents" /> at the given <paramref name="index" />
@@ -211,7 +217,7 @@ public sealed class HtmlTag : IHtmlElement
     ///     this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Insert(int index, params IHtmlElement[]? elements) => elements == null ? this : Insert(index, elements.AsEnumerable());
+    public HtmlTag Insert(int index, params IHtmlElement?[]? elements) => elements == null ? this : Insert(index, elements.AsEnumerable());
 
     /// <summary>
     ///     Inserts an <see cref="IHtmlElement" /> to the <see cref="Contents" /> at the given <paramref name="index" />
@@ -222,7 +228,7 @@ public sealed class HtmlTag : IHtmlElement
     ///     this tag
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Insert(int index, IEnumerable<IHtmlElement>? elements)
+    public HtmlTag Insert(int index, IEnumerable<IHtmlElement?>? elements)
     {
         if (elements == null)
         {
@@ -234,7 +240,7 @@ public sealed class HtmlTag : IHtmlElement
             throw new ArgumentException($"Cannot insert anything at index '{index}', content elements count = {Contents.Count}");
         }
 
-        return WithContents(_contents.InsertRange(index, elements));
+        return WithContents(_contents.InsertRange(index, elements.Where(e => e != null)!));
     }
 
     /// <summary>
@@ -290,7 +296,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(params IHtmlContent[]? htmlContent) => htmlContent == null ? this : Append(htmlContent.AsEnumerable());
+    public HtmlTag Append(params IHtmlContent?[]? htmlContent) => htmlContent == null
+        ? this
+        : Append(htmlContent.AsEnumerable());
 
     /// <summary>
     ///     Appends <see cref="IHtmlContent" /> to the <see cref="Contents" />
@@ -299,7 +307,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     The html contents that will be inserted at the end of the contents of this tag, after all other content
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IEnumerable<IHtmlContent>? htmlContents) => htmlContents == null ? this : Append(htmlContents.SelectMany(htmlContent => ParseAll(htmlContent)));
+    public HtmlTag Append(IEnumerable<IHtmlContent?>? htmlContents) => htmlContents == null
+        ? this
+        : Append(htmlContents.Where(htmlContent => htmlContent != null).SelectMany(htmlContent => ParseAll(htmlContent!)));
 
 
     /// <summary>
@@ -310,7 +320,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IHtmlElement? element) => element == null ? this : WithContents(_contents.Add(element));
+    public HtmlTag Append(IHtmlElement? element) => element == null
+        ? this
+        : WithContents(_contents.Add(element));
 
     /// <summary>
     ///     Appends <see cref="IHtmlElement" />s to the <see cref="Contents" />
@@ -320,7 +332,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(params IHtmlElement[]? elements) => elements == null ? this : Append(elements.AsEnumerable());
+    public HtmlTag Append(params IHtmlElement?[]? elements) => elements == null
+        ? this
+        : Append(elements.AsEnumerable());
 
     /// <summary>
     ///     Appends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -330,7 +344,9 @@ public sealed class HtmlTag : IHtmlElement
     ///     content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(IEnumerable<IHtmlElement>? elements) => elements == null ? this : WithContents(_contents.AddRange(elements));
+    public HtmlTag Append(IEnumerable<IHtmlElement?>? elements) => elements == null
+        ? this
+        : WithContents(_contents.AddRange(elements.Where(e => e != null)!));
 
     /// <summary>
     ///     Appends an <see cref="IHtmlElement" /> to the <see cref="Contents" />
@@ -340,7 +356,7 @@ public sealed class HtmlTag : IHtmlElement
     ///     after all other content elements
     /// </param>
     /// <returns>this <see cref="HtmlTag" /></returns>
-    public HtmlTag Append(string text) => Append(new HtmlText(text));
+    public HtmlTag Append(string? text) => text == null ? this : Append(new HtmlText(text));
 
     #endregion
 
