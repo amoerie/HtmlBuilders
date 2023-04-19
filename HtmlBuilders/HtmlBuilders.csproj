@@ -27,7 +27,4 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" />
   </ItemGroup>
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
 </Project>
