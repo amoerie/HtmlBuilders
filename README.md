@@ -1,7 +1,7 @@
 HtmlBuilders
 ============
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Famoerie%2Fhtmlbuilders%2Fbadge%3Fref%3Dmaster&style=for-the-badge&label=Build)](https://actions-badge.atrox.dev/amoerie/htmlbuilders/goto?ref=master) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/HtmlBuilders?label=HtmlBuilders&style=for-the-badge)](https://www.nuget.org/packages/HtmlBuilders)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Famoerie%2Fhtmlbuilders%2Fbadge%3Fref%3Dmain&style=for-the-badge&label=Build)](https://actions-badge.atrox.dev/amoerie/htmlbuilders/goto?ref=main) [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/HtmlBuilders?label=HtmlBuilders&style=for-the-badge)](https://www.nuget.org/packages/HtmlBuilders)
 
 _C#'s TagBuilder on steroids :muscle:_
 
