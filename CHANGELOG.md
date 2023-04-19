@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.2.0
+
+- Allow null in more places (Append/Prepend/Insert)
+
+
 ## 7.1.0
 
 - Add overloads to Insert, Prepend and Append to avoid allocating arrays
