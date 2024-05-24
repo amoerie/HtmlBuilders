@@ -13,7 +13,7 @@ internal static class AttributesComparer
 
     private static bool Equals(IEnumerable<KeyValuePair<string, string?>> leftAttributes,
         IEnumerable<KeyValuePair<string, string?>> rightAttributes,
-        IEqualityComparer<string> equalityComparer,
+        EqualityComparer<string> equalityComparer,
         params string[]? keysToExclude)
     {
         var leftDictionary = leftAttributes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -23,7 +23,7 @@ internal static class AttributesComparer
             return false;
         }
 
-        keysToExclude ??= Array.Empty<string>();
+        keysToExclude ??= [];
         foreach (var keyValuePair in leftDictionary.Where(kvp => !keysToExclude.Contains(kvp.Key)))
         {
             if (!rightDictionary.TryGetValue(keyValuePair.Key, out var value))
