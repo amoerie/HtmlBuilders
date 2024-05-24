@@ -8,45 +8,53 @@ namespace HtmlBuilders.Tests;
 
 public class HtmlTagsTests
 {
-    public static readonly IEnumerable<object[]> Fields = typeof(HtmlTags)
+    public static readonly TheoryData<string> Fields = typeof(HtmlTags)
         .GetFields(BindingFlags.Public | BindingFlags.Static)
-        .Select(f => new object[] { f });
+        .Aggregate(new TheoryData<string>(), (data, info) =>
+        {
+            data.Add(info.Name);
+            return data;
+        });
 
-    public static readonly IEnumerable<object[]> InputFields = typeof(HtmlTags.Input)
+    public static readonly TheoryData<string> InputFields = typeof(HtmlTags.Input)
         .GetFields(BindingFlags.Public | BindingFlags.Static)
-        .Select(f => new object[] { f });
+        .Aggregate(new TheoryData<string>(), (data, info) =>
+        {
+            data.Add(info.Name);
+            return data;
+        });
 
     [Theory]
     [MemberData(nameof(Fields))]
-    public void TagsShouldReturnTagWithCorrectName(FieldInfo field)
+    public void TagsShouldReturnTagWithCorrectName(string field)
     {
         // Arrange + Act
-        var tag = field.GetValue(null) as HtmlTag;
+        var tag = typeof(HtmlTags).GetField(field)!.GetValue(null) as HtmlTag;
 
         // Assert
         tag.Should().NotBeNull();
-        tag!.TagName.Should().Be(field.Name.ToLowerInvariant());
+        tag!.TagName.Should().Be(field.ToLowerInvariant());
     }
 
     [Theory]
     [MemberData(nameof(InputFields))]
-    public void InputTagsShouldReturnTagWithCorrectNameAndType(FieldInfo field)
+    public void InputTagsShouldReturnTagWithCorrectNameAndType(string field)
     {
         // Arrange + Act
-        var tag = field.GetValue(null) as HtmlTag;
+        var tag = typeof(HtmlTags.Input).GetField(field)!.GetValue(null) as HtmlTag;
 
         // Assert
         tag.Should().NotBeNull();
         tag!.TagName.Should().Be("input");
         tag.HasAttribute("type").Should().BeTrue();
-        if (field.Name == nameof(HtmlTags.Input.DateTimeLocal))
+        if (field == nameof(HtmlTags.Input.DateTimeLocal))
         {
             // special case
             tag["type"].Should().Be("datetime-local");
         }
         else
         {
-            tag["type"].Should().Be(field.Name.ToLowerInvariant());
+            tag["type"].Should().Be(field.ToLowerInvariant());
         }
     }
 }
