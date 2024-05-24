@@ -2,7 +2,6 @@
 <Project>
   <PropertyGroup>
     <LangVersion>Latest</LangVersion>
-    <Version>3.3.700.0</Version>
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <OutputPath>bin\$(Configuration)\</OutputPath>
