@@ -9,7 +9,7 @@
     </PackageVersion>
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.62" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageVersion Include="xunit" Version="2.9.2" />
     <PackageVersion Include="xunit.runner.console" Version="2.9.0">
       <PrivateAssets>all</PrivateAssets>
