@@ -17,4 +17,4 @@ jobs:
       - name: test
         run: dotnet test --configuration Release --verbosity normal --collect:"XPlat Code Coverage" --settings coverlet.runsettings
       - name: coverage
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v6
