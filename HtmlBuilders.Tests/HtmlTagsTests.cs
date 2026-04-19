@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -38,8 +37,8 @@ public class HtmlTagsTests
         var tag = typeof(HtmlTags).GetField(field)!.GetValue(null) as HtmlTag;
 
         // Assert
-        tag.Should().NotBeNull();
-        tag!.TagName.Should().Be(field.ToLowerInvariant());
+        Assert.NotNull(tag);
+        Assert.Equal(field.ToLowerInvariant(), tag!.TagName);
     }
 
     [Theory]
@@ -50,17 +49,17 @@ public class HtmlTagsTests
         var tag = typeof(HtmlTags.Input).GetField(field)!.GetValue(null) as HtmlTag;
 
         // Assert
-        tag.Should().NotBeNull();
-        tag!.TagName.Should().Be("input");
-        tag.HasAttribute("type").Should().BeTrue();
+        Assert.NotNull(tag);
+        Assert.Equal("input", tag!.TagName);
+        Assert.True(tag.HasAttribute("type"));
         if (field == nameof(HtmlTags.Input.DateTimeLocal))
         {
             // special case
-            tag["type"].Should().Be("datetime-local");
+            Assert.Equal("datetime-local", tag["type"]);
         }
         else
         {
-            tag["type"].Should().Be(field.ToLowerInvariant());
+            Assert.Equal(field.ToLowerInvariant(), tag["type"]);
         }
     }
 }

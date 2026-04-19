@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -12,7 +11,7 @@ public partial class HtmlTagExtensionsTests
         {
             var tag = HtmlTags.Label.Append("This is the content");
             var text = tag.Text();
-            text.Should().Be("This is the content");
+            Assert.Equal("This is the content", text);
         }
 
         [Fact]
@@ -20,8 +19,8 @@ public partial class HtmlTagExtensionsTests
         {
             var tag = HtmlTags.Label;
             var text = tag.Text();
-            text.Should().NotBeNull();
-            text.Should().BeEmpty();
+            Assert.NotNull(text);
+            Assert.Empty(text ?? "");
         }
 
         [Fact]
@@ -31,7 +30,7 @@ public partial class HtmlTagExtensionsTests
                 "<div class='readonlygroup period'><label>Period</label><span>Friday 17 October 2014 - Thursday 30 October 2014</span></div>"
             );
             var text = tag.Text();
-            text.Should().Be("PeriodFriday 17 October 2014 - Thursday 30 October 2014");
+            Assert.Equal("PeriodFriday 17 October 2014 - Thursday 30 October 2014", text);
         }
 
         [Fact]
@@ -39,8 +38,8 @@ public partial class HtmlTagExtensionsTests
         {
             var tag = HtmlTags.Div.Append(HtmlTags.Label).Append(HtmlTags.Div);
             var text = tag.Text();
-            text.Should().NotBeNull();
-            text.Should().BeEmpty();
+            Assert.NotNull(text);
+            Assert.Empty(text ?? "");
         }
 
         [Fact]
@@ -48,8 +47,8 @@ public partial class HtmlTagExtensionsTests
         {
             var tag = (HtmlTag?)null;
             var text = tag.Text();
-            text.Should().NotBeNull();
-            text.Should().BeEmpty();
+            Assert.NotNull(text);
+            Assert.Empty(text ?? "");
         }
     }
 }

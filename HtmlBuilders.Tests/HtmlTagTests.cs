@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -18,8 +17,8 @@ public class HtmlTagTests
         {
             var div = HtmlTag.Parse("<div><div id='child1'></div></div>");
             div = div.Append(HtmlTags.Div.Id("child2"));
-            div.Children.Count().Should().Be(2);
-            div.Children.Last()["id"].Should().Be("child2");
+            Assert.Equal(2, div.Children.Count());
+            Assert.Equal("child2", div.Children.Last()["id"]);
         }
 
         [Fact]
@@ -27,10 +26,10 @@ public class HtmlTagTests
         {
             var div = HtmlTag.Parse("<label>This is a label</label>");
             div = div.Append(HtmlTags.I.Class("icon icon-label"));
-            div.Children.Count().Should().Be(1); // text nodes don't count as a child, so the count should be 1
-            div.Contents.Count.Should().Be(2);
-            div.Children.Last()["class"].Should().Be("icon icon-label");
-            div.Contents[0].ToHtmlString().Should().Be("This is a label");
+            Assert.Single(div.Children); // text nodes don't count as a child, so the count should be 1
+            Assert.Equal(2, div.Contents.Count);
+            Assert.Equal("icon icon-label", div.Children.Last()["class"]);
+            Assert.Equal("This is a label", div.Contents[0].ToHtmlString());
         }
 
         [Fact]
@@ -39,8 +38,8 @@ public class HtmlTagTests
             var div = HtmlTags.Div;
             var child = HtmlTags.Div;
             div = div.Append(child);
-            div.Children.Count().Should().Be(1);
-            div.Children.Single().As<object>().Should().Be(child);
+            Assert.Single(div.Children);
+            Assert.Equal(child, div.Children.Single());
         }
 
         [Fact]
@@ -48,10 +47,10 @@ public class HtmlTagTests
         {
             var ul = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
             ul = ul.Append("These are the items");
-            ul.Children.Count().Should().Be(1);
-            ul.Contents.Count.Should().Be(2);
-            ul.Contents[0].ToHtmlString().Should().Be("<li>This is the first item</li>");
-            ul.Contents[1].ToHtmlString().Should().Be("These are the items");
+            Assert.Single(ul.Children);
+            Assert.Equal(2, ul.Contents.Count);
+            Assert.Equal("<li>This is the first item</li>", ul.Contents[0].ToHtmlString());
+            Assert.Equal("These are the items", ul.Contents[1].ToHtmlString());
         }
 
         [Fact]
@@ -65,11 +64,11 @@ public class HtmlTagTests
                 HtmlTag.Parse("<li>This is the fourth item</li>")
             );
             var children = div.Children.ToArray();
-            children.Length.Should().Be(4);
-            children[0].As<object>().Should().Be(HtmlTag.Parse("<li>This is the first item</li>"));
-            children[1].As<object>().Should().Be(HtmlTag.Parse("<li>This is the second item</li>"));
-            children[2].As<object>().Should().Be(HtmlTag.Parse("<li>This is the third item</li>"));
-            children[3].As<object>().Should().Be(HtmlTag.Parse("<li>This is the fourth item</li>"));
+            Assert.Equal(4, children.Length);
+            Assert.Equal(HtmlTag.Parse("<li>This is the first item</li>"), children[0]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the second item</li>"), children[1]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the third item</li>"), children[2]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the fourth item</li>"), children[3]);
         }
 
         [Fact]
@@ -80,7 +79,10 @@ public class HtmlTagTests
 
             var result = hiEverybody.Append(hiDoctorNick);
 
-            result.ToHtmlString().Should().Be("<div>Hi everybody!<div>Hi doctor Nick!</div></div>");
+            Assert.Equal(
+                "<div>Hi everybody!<div>Hi doctor Nick!</div></div>",
+                result.ToHtmlString()
+            );
         }
 
         [Fact]
@@ -90,10 +92,10 @@ public class HtmlTagTests
                 new HtmlString("var pathToToc = \"/toc-placeholder.json\";")
             );
 
-            script
-                .ToHtmlString()
-                .Should()
-                .Be("<script>var pathToToc = \"/toc-placeholder.json\";</script>");
+            Assert.Equal(
+                "<script>var pathToToc = \"/toc-placeholder.json\";</script>",
+                script.ToHtmlString()
+            );
         }
 
         [Fact]
@@ -104,7 +106,7 @@ public class HtmlTagTests
             label = label.Append(new HtmlString("&nbsp;"));
             label = label.Append("It is I");
 
-            label.ToHtmlString().Should().Be("<label>Bonjour&nbsp;It is I</label>");
+            Assert.Equal("<label>Bonjour&nbsp;It is I</label>", label.ToHtmlString());
         }
 
         [Fact]
@@ -112,12 +114,12 @@ public class HtmlTagTests
         {
             var label = HtmlTags.Label.Append("Bonjour");
 
-            label.Append((IEnumerable<IHtmlContent?>?)null).Should().BeSameAs(label);
-            label.Append((IEnumerable<IHtmlElement?>?)null).Should().BeSameAs(label);
-            label.Append((IHtmlContent?[]?)null).Should().BeSameAs(label);
-            label.Append((IHtmlElement?[]?)null).Should().BeSameAs(label);
-            label.Append((IHtmlContent?)null).Should().BeSameAs(label);
-            label.Append((IHtmlElement?)null).Should().BeSameAs(label);
+            Assert.Same(label, label.Append((IEnumerable<IHtmlContent?>?)null));
+            Assert.Same(label, label.Append((IEnumerable<IHtmlElement?>?)null));
+            Assert.Same(label, label.Append((IHtmlContent?[]?)null));
+            Assert.Same(label, label.Append((IHtmlElement?[]?)null));
+            Assert.Same(label, label.Append((IHtmlContent?)null));
+            Assert.Same(label, label.Append((IHtmlElement?)null));
         }
 
         [Fact]
@@ -131,10 +133,10 @@ public class HtmlTagTests
                 HtmlTags.Span.Append("Sparta")
             );
 
-            label
-                .ToHtmlString()
-                .Should()
-                .Be("<label><span>This is </span><span>Sparta</span></label>");
+            Assert.Equal(
+                "<label><span>This is </span><span>Sparta</span></label>",
+                label.ToHtmlString()
+            );
         }
     }
 
@@ -144,8 +146,8 @@ public class HtmlTagTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Attribute("id", "testid");
-            div.HasAttribute("id").Should().BeTrue();
-            div["id"].Should().Be("testid");
+            Assert.True(div.HasAttribute("id"));
+            Assert.Equal("testid", div["id"]);
         }
 
         [Fact]
@@ -153,16 +155,16 @@ public class HtmlTagTests
         {
             var div = HtmlTags.Div.Attribute("id", "testid");
             div.Attribute("id", "newid", false);
-            div.HasAttribute("id").Should().BeTrue();
-            div["id"].Should().Be("testid");
+            Assert.True(div.HasAttribute("id"));
+            Assert.Equal("testid", div["id"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Attribute("id", "testid").Attribute("id", "newid");
-            div.HasAttribute("id").Should().BeTrue();
-            div["id"].Should().Be("newid");
+            Assert.True(div.HasAttribute("id"));
+            Assert.Equal("newid", div["id"]);
         }
     }
 
@@ -172,17 +174,17 @@ public class HtmlTagTests
         public void SettingClassToElementWithClassAttributeShouldUpdateClassAttributeWithNewValue()
         {
             var div = HtmlTags.Div.Class("existing").Class("new");
-            div.HasAttribute("class").Should().BeTrue();
-            div.HasClass("existing").Should().BeTrue();
-            div.HasClass("new").Should().BeTrue();
+            Assert.True(div.HasAttribute("class"));
+            Assert.True(div.HasClass("existing"));
+            Assert.True(div.HasClass("new"));
         }
 
         [Fact]
         public void SettingClassToElementWithoutClassAttributeShouldAddClassAttributeAndValue()
         {
             var div = HtmlTags.Div.Class("new");
-            div.HasAttribute("class").Should().BeTrue();
-            div.HasClass("new").Should().BeTrue();
+            Assert.True(div.HasAttribute("class"));
+            Assert.True(div.HasClass("new"));
         }
     }
 
@@ -192,18 +194,18 @@ public class HtmlTagTests
         public void WhenGettingShouldReturnCorrectHtmlTag()
         {
             var tag = HtmlTag.Parse("<div><span>This is the span</span></div>");
-            tag.Contents.Count.Should().Be(1);
-            tag.Contents[0]
-                .ToString()
-                .Should()
-                .Be(HtmlTags.Span.Append("This is the span").ToString());
+            Assert.Single(tag.Contents);
+            Assert.Equal(
+                HtmlTags.Span.Append("This is the span").ToString(),
+                tag.Contents[0].ToString()
+            );
         }
 
         [Fact]
         public void WhenGettingAndContentsAreEmptyShouldReturnEmpty()
         {
             var tag = HtmlTag.Parse("<div></div>");
-            tag.Contents.Count.Should().Be(0);
+            Assert.Empty(tag.Contents);
         }
     }
 
@@ -223,12 +225,12 @@ public class HtmlTagTests
                     },
                     false
                 );
-            div.HasAttribute("data-test").Should().BeTrue();
-            div["data-test"].Should().Be("data test");
-            div.HasAttribute("data-test2").Should().BeTrue();
-            div["data-test2"].Should().Be("data test 2");
-            div.HasAttribute("data-test3").Should().BeTrue();
-            div["data-test3"].Should().Be("data test 3");
+            Assert.True(div.HasAttribute("data-test"));
+            Assert.Equal("data test", div["data-test"]);
+            Assert.True(div.HasAttribute("data-test2"));
+            Assert.Equal("data test 2", div["data-test2"]);
+            Assert.True(div.HasAttribute("data-test3"));
+            Assert.Equal("data test 3", div["data-test3"]);
         }
 
         [Fact]
@@ -242,44 +244,44 @@ public class HtmlTagTests
                     data_test3 = "data test 3",
                 }
             );
-            div.HasAttribute("data-test").Should().BeTrue();
-            div["data-test"].Should().Be("data test");
-            div.HasAttribute("data-test2").Should().BeTrue();
-            div["data-test2"].Should().Be("data test 2");
-            div.HasAttribute("data-test3").Should().BeTrue();
-            div["data-test3"].Should().Be("data test 3");
+            Assert.True(div.HasAttribute("data-test"));
+            Assert.Equal("data test", div["data-test"]);
+            Assert.True(div.HasAttribute("data-test2"));
+            Assert.Equal("data test 2", div["data-test2"]);
+            Assert.True(div.HasAttribute("data-test3"));
+            Assert.Equal("data test 3", div["data-test3"]);
         }
 
         [Fact]
         public void WhenAttributeIsAlreadyPrefixedWithDataAttributeShouldNotBePrefixedAgain()
         {
             var div = HtmlTags.Div.Data("data-test", "datatest");
-            div.HasAttribute("data-test").Should().BeTrue();
-            div["data-test"].Should().Be("datatest");
+            Assert.True(div.HasAttribute("data-test"));
+            Assert.Equal("datatest", div["data-test"]);
         }
 
         [Fact]
         public void WhenExistingAttributeAndReplaceExistingIsFalseOldAttributeValueIsStillPresent()
         {
             var div = HtmlTags.Div.Data("test", "datatest").Data("test", "new datatest", false);
-            div.HasAttribute("data-test").Should().BeTrue();
-            div["data-test"].Should().Be("datatest");
+            Assert.True(div.HasAttribute("data-test"));
+            Assert.Equal("datatest", div["data-test"]);
         }
 
         [Fact]
         public void WhenExistingAttributeAndReplaceExistingIsTrueExistingAttributeValueShouldBeUpdated()
         {
             var div = HtmlTags.Div.Data("test", "datatest").Data("test", "new datatest");
-            div.HasAttribute("data-test").Should().BeTrue();
-            div["data-test"].Should().Be("new datatest");
+            Assert.True(div.HasAttribute("data-test"));
+            Assert.Equal("new datatest", div["data-test"]);
         }
 
         [Fact]
         public void WhenNewAttributeNewDataAttributeShouldBeAdded()
         {
             var div = HtmlTags.Div.Data("test", "datatest");
-            div.HasAttribute("data-test").Should().BeTrue();
-            div["data-test"].Should().Be("datatest");
+            Assert.True(div.HasAttribute("data-test"));
+            Assert.Equal("datatest", div["data-test"]);
         }
     }
 
@@ -290,7 +292,7 @@ public class HtmlTagTests
         {
             var tag1 = HtmlTags.Span;
             var tag2 = HtmlTags.Div;
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -298,7 +300,7 @@ public class HtmlTagTests
         {
             var tag1 = HtmlTags.Div;
             var tag2 = HtmlTags.Div;
-            tag1.Equals(tag2).Should().BeTrue();
+            Assert.True(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -306,7 +308,7 @@ public class HtmlTagTests
         {
             var tag1 = new HtmlTag("span").Class("class1 class2");
             var tag2 = new HtmlTag("span").Class("class1 class2 class3");
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -314,7 +316,7 @@ public class HtmlTagTests
         {
             var tag1 = new HtmlTag("span").Width("10px").Height("15px");
             var tag2 = new HtmlTag("span").Height("15px").Width("10px").Style("padding", "5px");
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -322,7 +324,7 @@ public class HtmlTagTests
         {
             var tag1 = HtmlTag.Parse("<div><ul><li>This is some text<li></ul></div>");
             var tag2 = HtmlTag.Parse("<div><ul><li>This is some other text<li></ul></div>");
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -330,7 +332,7 @@ public class HtmlTagTests
         {
             var tag1 = new HtmlTag("span").Class("class1 class2");
             var tag2 = new HtmlTag("span").Class("class1 class3");
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -338,7 +340,7 @@ public class HtmlTagTests
         {
             var tag1 = new HtmlTag("span").Width("9px").Height("15px");
             var tag2 = new HtmlTag("span").Height("15px").Width("10px");
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -346,7 +348,7 @@ public class HtmlTagTests
         {
             var tag1 = HtmlTags.Span.Name("test");
             var tag2 = HtmlTags.Span.Name("test");
-            tag1.Equals(tag2).Should().BeTrue();
+            Assert.True(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -356,7 +358,7 @@ public class HtmlTagTests
                 "<div><ul><li class='active'>This is some text<li></ul></div>"
             );
             var tag2 = HtmlTag.Parse("<div><ul><li>This is some text<li></ul></div>");
-            tag1.Equals(tag2).Should().BeFalse();
+            Assert.False(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -364,7 +366,7 @@ public class HtmlTagTests
         {
             var tag1 = HtmlTag.Parse("<div><ul><li>This is some text<li></ul></div>");
             var tag2 = HtmlTag.Parse("<div><ul><li>This is some text<li></ul></div>");
-            tag1.Equals(tag2).Should().BeTrue();
+            Assert.True(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -372,7 +374,7 @@ public class HtmlTagTests
         {
             var tag1 = new HtmlTag("span").Class("class1 class2");
             var tag2 = new HtmlTag("span").Class("class1 class2");
-            tag1.Equals(tag2).Should().BeTrue();
+            Assert.True(tag1.Equals(tag2));
         }
 
         [Fact]
@@ -380,7 +382,7 @@ public class HtmlTagTests
         {
             var tag1 = new HtmlTag("span").Width("10px").Height("15px");
             var tag2 = new HtmlTag("span").Height("15px").Width("10px");
-            tag1.Equals(tag2).Should().BeTrue();
+            Assert.True(tag1.Equals(tag2));
         }
     }
 
@@ -393,10 +395,7 @@ public class HtmlTagTests
                 "<ul><li class='active'><span id='first'>This is the first</span></li><li><label>This is the second</label></li></ul>"
             );
             var first = ul.Find(tag => tag.HasAttribute("id") && tag["id"] == "first").Single();
-            first
-                .As<object>()
-                .Should()
-                .Be(new HtmlTag("span").Id("first").Append("This is the first"));
+            Assert.Equal(new HtmlTag("span").Id("first").Append("This is the first"), first);
         }
 
         [Fact]
@@ -406,15 +405,12 @@ public class HtmlTagTests
                 "<ul><li class='active'>This is the first</li><li>This is the second</li></ul>"
             );
             var active = ul.Find(tag => tag.HasClass("active")).Single();
-            active
-                .As<object>()
-                .Should()
-                .Be(HtmlTags.Li.Class("active").Append("This is the first"));
+            Assert.Equal(HtmlTags.Li.Class("active").Append("This is the first"), active);
         }
 
         [Fact]
         public void WhenThereAreNoChildrenShouldReturnEmptyEnumerable() =>
-            HtmlTags.Li.Find(tag => tag.TagName == "li").Should().BeEmpty();
+            Assert.Empty(HtmlTags.Li.Find(tag => tag.TagName == "li") ?? []);
     }
 
     public class Insert : HtmlTagTests
@@ -425,10 +421,10 @@ public class HtmlTagTests
             var div = HtmlTag.Parse(
                 "<ul><li>This is the first item</li><li>This is the second item</li></ul>"
             );
-            div.Insert(2, HtmlTags.Li.Append("This is the third item"))
-                .Children.Count()
-                .Should()
-                .Be(3);
+            Assert.Equal(
+                3,
+                div.Insert(2, HtmlTags.Li.Append("This is the third item")).Children.Count()
+            );
         }
 
         [Fact]
@@ -437,9 +433,9 @@ public class HtmlTagTests
             var div = HtmlTag.Parse(
                 "<ul><li>This is the first item</li><li>This is the second item</li></ul>"
             );
-            new Action(() => div.Insert(3, HtmlTags.Li.Append("This is the fourth item")))
-                .Should()
-                .Throw<ArgumentException>();
+            Assert.Throws<ArgumentException>(() =>
+                div.Insert(3, HtmlTags.Li.Append("This is the fourth item"))
+            );
         }
 
         [Fact]
@@ -448,9 +444,9 @@ public class HtmlTagTests
             var div = HtmlTag.Parse(
                 "<ul><li>This is the first item</li><li>This is the second item</li></ul>"
             );
-            new Action(() => div.Insert(-1, HtmlTags.Li.Append("This is the minus first item")))
-                .Should()
-                .Throw<ArgumentException>();
+            Assert.Throws<ArgumentException>(() =>
+                div.Insert(-1, HtmlTags.Li.Append("This is the minus first item"))
+            );
         }
 
         [Fact]
@@ -465,11 +461,11 @@ public class HtmlTagTests
                 HtmlTag.Parse("<li>This is the third item</li>")
             );
             var children = div.Children.ToArray();
-            children.Length.Should().Be(4);
-            children[0].As<object>().Should().Be(HtmlTag.Parse("<li>This is the first item</li>"));
-            children[1].As<object>().Should().Be(HtmlTag.Parse("<li>This is the second item</li>"));
-            children[2].As<object>().Should().Be(HtmlTag.Parse("<li>This is the third item</li>"));
-            children[3].As<object>().Should().Be(HtmlTag.Parse("<li>This is the fourth item</li>"));
+            Assert.Equal(4, children.Length);
+            Assert.Equal(HtmlTag.Parse("<li>This is the first item</li>"), children[0]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the second item</li>"), children[1]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the third item</li>"), children[2]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the fourth item</li>"), children[3]);
         }
 
         [Fact]
@@ -477,9 +473,9 @@ public class HtmlTagTests
         {
             var label = HtmlTags.Label.Append("Bonjour");
 
-            label.Insert(0, (IEnumerable<IHtmlElement?>?)null).Should().BeSameAs(label);
-            label.Insert(0, (IHtmlElement?[]?)null).Should().BeSameAs(label);
-            label.Insert(0, (IHtmlElement?)null).Should().BeSameAs(label);
+            Assert.Same(label, label.Insert(0, (IEnumerable<IHtmlElement?>?)null));
+            Assert.Same(label, label.Insert(0, (IHtmlElement?[]?)null));
+            Assert.Same(label, label.Insert(0, (IHtmlElement?)null));
         }
 
         [Fact]
@@ -494,10 +490,10 @@ public class HtmlTagTests
                 HtmlTags.Span.Append("Sparta")
             );
 
-            label
-                .ToHtmlString()
-                .Should()
-                .Be("<label><span>This is </span><span>Sparta</span></label>");
+            Assert.Equal(
+                "<label><span>This is </span><span>Sparta</span></label>",
+                label.ToHtmlString()
+            );
         }
     }
 
@@ -505,7 +501,7 @@ public class HtmlTagTests
     {
         [Fact]
         public void WhenEmptyShouldReturnEmpty() =>
-            HtmlTag.ParseAll(string.Empty).Should().BeEmpty();
+            Assert.Empty(HtmlTag.ParseAll(string.Empty) ?? []);
 
         [Fact]
         public void WhenHtmlIsSelectWithTwoOptionsShouldContain2Children()
@@ -524,22 +520,22 @@ public class HtmlTagTests
                 )
                 .OfType<HtmlTag>()
                 .ToList();
-            tags.Should().HaveCount(1);
+            Assert.Single(tags);
             var select = tags.Single();
-            select["data-val"].Should().Be("true");
-            select["data-val-number"].Should().Be("The field Tarief must be a number.");
-            select["data-val-required"].Should().Be("Tarief is een vereist veld");
-            select.Children.ToList().Should().HaveCount(2);
+            Assert.Equal("true", select["data-val"]);
+            Assert.Equal("The field Tarief must be a number.", select["data-val-number"]);
+            Assert.Equal("Tarief is een vereist veld", select["data-val-required"]);
+            Assert.Equal(2, select.Children.Count());
             var option41 = select.Children.ElementAt(0);
-            option41["value"].Should().Be("41");
-            option41.Contents.ToList().Should().HaveCount(1);
-            option41.Contents[0].Should().BeOfType<HtmlText>();
-            option41.Contents[0].ToString().Should().Be("test");
+            Assert.Equal("41", option41["value"]);
+            Assert.Single(option41.Contents.ToList() ?? []);
+            Assert.True((option41.Contents[0]) is HtmlText);
+            Assert.Equal("test", option41.Contents[0].ToString());
             var option42 = select.Children.ElementAt(1);
-            option42["value"].Should().Be("42");
-            option42.Contents.ToList().Should().HaveCount(1);
-            option42.Contents[0].Should().BeOfType<HtmlText>();
-            option42.Contents[0].ToString().Should().Be("tweede");
+            Assert.Equal("42", option42["value"]);
+            Assert.Single(option42.Contents.ToList() ?? []);
+            Assert.True((option42.Contents[0]) is HtmlText);
+            Assert.Equal("tweede", option42.Contents[0].ToString());
         }
 
         [Fact]
@@ -556,19 +552,19 @@ public class HtmlTagTests
                 )
                 .OfType<HtmlTag>()
                 .ToList();
-            tags.Count.Should().Be(1);
+            Assert.Single(tags);
             var tag = tags.Single();
-            tag.TagName.Should().Be("select");
-            tag.Children.Count().Should().Be(4);
+            Assert.Equal("select", tag.TagName);
+            Assert.Equal(4, tag.Children.Count());
         }
 
         [Fact]
         public void WhenTwoElementsShouldReturnTwoElements()
         {
             var tags = HtmlTag.ParseAll("<li>The first</li><li>The second</li>").ToArray();
-            tags.Length.Should().Be(2);
-            tags[0].As<object>().Should().Be(HtmlTags.Li.Append("The first"));
-            tags[1].As<object>().Should().Be(HtmlTags.Li.Append("The second"));
+            Assert.Equal(2, tags.Length);
+            Assert.Equal(HtmlTags.Li.Append("The first"), tags[0]);
+            Assert.Equal(HtmlTags.Li.Append("The second"), tags[1]);
         }
 
         [Fact]
@@ -579,12 +575,12 @@ public class HtmlTagTests
                     "Hello I am Jeff<li>The first</li>Is that even valid<li>The second</li>And this is my story"
                 )
                 .ToArray();
-            tags.Length.Should().Be(5);
-            tags[0].As<object>().Should().Be(new HtmlText("Hello I am Jeff"));
-            tags[1].As<object>().Should().Be(HtmlTags.Li.Append("The first"));
-            tags[2].As<object>().Should().Be(new HtmlText("Is that even valid"));
-            tags[3].As<object>().Should().Be(HtmlTags.Li.Append("The second"));
-            tags[4].As<object>().Should().Be(new HtmlText("And this is my story"));
+            Assert.Equal(5, tags.Length);
+            Assert.Equal(new HtmlText("Hello I am Jeff"), tags[0]);
+            Assert.Equal(HtmlTags.Li.Append("The first"), tags[1]);
+            Assert.Equal(new HtmlText("Is that even valid"), tags[2]);
+            Assert.Equal(HtmlTags.Li.Append("The second"), tags[3]);
+            Assert.Equal(new HtmlText("And this is my story"), tags[4]);
         }
 
         [Fact]
@@ -592,8 +588,8 @@ public class HtmlTagTests
         {
             var content = HtmlTags.Label.Append("Hello");
             var parsed = HtmlTag.ParseAll(content).ToArray();
-            parsed.Length.Should().Be(1);
-            parsed[0].Should().BeSameAs(content);
+            Assert.Single(parsed);
+            Assert.Same(content, parsed[0]);
         }
 
         [Fact]
@@ -601,10 +597,10 @@ public class HtmlTagTests
         {
             var content = new StringHtmlContent("Hello");
             var parsed = HtmlTag.ParseAll(content).ToArray();
-            parsed.Length.Should().Be(1);
+            Assert.Single(parsed);
             var text = parsed[0];
-            text.Should().BeOfType<HtmlText>();
-            text.As<HtmlText>().ToHtmlString().Should().Be("Hello");
+            Assert.True((text) is HtmlText);
+            Assert.Equal("Hello", ((HtmlText)text).ToHtmlString());
         }
 
         [Fact]
@@ -616,10 +612,11 @@ public class HtmlTagTests
             li.MergeAttribute("class", "sample-list-item");
             ul.InnerHtml.AppendHtml(li);
             var parsed = HtmlTag.ParseAll(ul).ToArray();
-            parsed.Length.Should().Be(1);
-            parsed[0]
-                .Should()
-                .Be(HtmlTags.Ul.Class("sample-list").Append(HtmlTags.Li.Class("sample-list-item")));
+            Assert.Single(parsed);
+            Assert.Equal(
+                HtmlTags.Ul.Class("sample-list").Append(HtmlTags.Li.Class("sample-list-item")),
+                parsed[0]
+            );
         }
     }
 
@@ -629,40 +626,40 @@ public class HtmlTagTests
         public void DivWithoutAttributesWith2ChildrenReturnsHtmlTagWithoutAttributesWith2Children()
         {
             var div = HtmlTag.Parse("<div><a href='testhref'></a><img src='testsrc'/></div>");
-            div.TagName.Should().Be("div");
-            div.Children.Count().Should().Be(2);
+            Assert.Equal("div", div.TagName);
+            Assert.Equal(2, div.Children.Count());
 
             var a = div.Children.First();
-            a.TagName.Should().Be("a");
-            a.HasAttribute("href").Should().BeTrue();
-            a["href"].Should().Be("testhref");
+            Assert.Equal("a", a.TagName);
+            Assert.True(a.HasAttribute("href"));
+            Assert.Equal("testhref", a["href"]);
 
             var img = div.Children.Last();
-            img.TagName.Should().Be("img");
-            img.HasAttribute("src").Should().BeTrue();
-            img["src"].Should().Be("testsrc");
+            Assert.Equal("img", img.TagName);
+            Assert.True(img.HasAttribute("src"));
+            Assert.Equal("testsrc", img["src"]);
         }
 
         [Fact]
         public void EmptyDivWith2AttributesReturnsHtmlTagWith2AttributesWithoutContent()
         {
             var div = HtmlTag.Parse("<div id='testid' name='testname'></div>");
-            div.TagName.Should().Be("div");
-            div.HasAttribute("id").Should().BeTrue();
-            div.HasAttribute("name").Should().BeTrue();
-            div["id"].Should().Be("testid");
-            div["name"].Should().Be("testname");
-            div.Attributes.Count.Should().Be(2);
-            div.Contents.Should().BeEmpty();
+            Assert.Equal("div", div.TagName);
+            Assert.True(div.HasAttribute("id"));
+            Assert.True(div.HasAttribute("name"));
+            Assert.Equal("testid", div["id"]);
+            Assert.Equal("testname", div["name"]);
+            Assert.Equal(2, div.Attributes.Count);
+            Assert.Empty(div.Contents ?? []);
         }
 
         [Fact]
         public void EmptyDivReturnsHtmlTagWithoutAttributesOrContent()
         {
             var div = HtmlTag.Parse("<div></div>");
-            div.TagName.Should().Be("div");
-            div.Contents.Should().BeEmpty();
-            div.Children.Should().BeEmpty();
+            Assert.Equal("div", div.TagName);
+            Assert.Empty(div.Contents ?? []);
+            Assert.Empty(div.Children ?? []);
         }
 
         [Fact]
@@ -679,20 +676,20 @@ public class HtmlTagTests
                     + "<option value=\"42\">tweede</option>"
                     + "</select>"
             );
-            select["data-val"].Should().Be("true");
-            select["data-val-number"].Should().Be("The field Tarief must be a number.");
-            select["data-val-required"].Should().Be("Tarief is een vereist veld");
-            select.Children.ToList().Should().HaveCount(2);
+            Assert.Equal("true", select["data-val"]);
+            Assert.Equal("The field Tarief must be a number.", select["data-val-number"]);
+            Assert.Equal("Tarief is een vereist veld", select["data-val-required"]);
+            Assert.Equal(2, select.Children.Count());
             var option41 = select.Children.ElementAt(0);
-            option41["value"].Should().Be("41");
-            option41.Contents.ToList().Should().HaveCount(1);
-            option41.Contents[0].Should().BeOfType<HtmlText>();
-            option41.Contents[0].ToString().Should().Be("test");
+            Assert.Equal("41", option41["value"]);
+            Assert.Single(option41.Contents.ToList() ?? []);
+            Assert.True((option41.Contents[0]) is HtmlText);
+            Assert.Equal("test", option41.Contents[0].ToString());
             var option42 = select.Children.ElementAt(1);
-            option42["value"].Should().Be("42");
-            option42.Contents.ToList().Should().HaveCount(1);
-            option42.Contents[0].Should().BeOfType<HtmlText>();
-            option42.Contents[0].ToString().Should().Be("tweede");
+            Assert.Equal("42", option42["value"]);
+            Assert.Single(option42.Contents.ToList() ?? []);
+            Assert.True((option42.Contents[0]) is HtmlText);
+            Assert.Equal("tweede", option42.Contents[0].ToString());
         }
 
         [Fact]
@@ -717,7 +714,7 @@ public class HtmlTagTests
                     + "</div>"
                     + "</div>"
             );
-            div.Should().NotBeNull();
+            Assert.NotNull(div);
         }
 
         [Fact]
@@ -727,8 +724,8 @@ public class HtmlTagTests
 
             var parsed = HtmlTag.ParseAll(input).Single();
 
-            parsed.Should().BeOfType<HtmlText>();
-            parsed.ToHtmlString().Should().Be("var pathToToc = \"/toc-placeholder.json\";");
+            Assert.True((parsed) is HtmlText);
+            Assert.Equal("var pathToToc = \"/toc-placeholder.json\";", parsed.ToHtmlString());
         }
     }
 
@@ -739,8 +736,8 @@ public class HtmlTagTests
         {
             var div = HtmlTag.Parse("<div><div id='child1'></div></div>");
             div = div.Prepend(HtmlTags.Div.Id("child2"));
-            div.Children.Count().Should().Be(2);
-            div.Children.First()["id"].Should().Be("child2");
+            Assert.Equal(2, div.Children.Count());
+            Assert.Equal("child2", div.Children.First()["id"]);
         }
 
         [Fact]
@@ -748,10 +745,10 @@ public class HtmlTagTests
         {
             var div = HtmlTag.Parse("<label>This is a label</label>");
             div = div.Prepend(HtmlTags.I.Class("icon icon-label"));
-            div.Children.Count().Should().Be(1); // text nodes don't count as a child, so the count should be 1
-            div.Contents.Count.Should().Be(2);
-            div.Children.First()["class"].Should().Be("icon icon-label");
-            div.Contents[1].ToHtmlString().Should().Be("This is a label");
+            Assert.Single(div.Children); // text nodes don't count as a child, so the count should be 1
+            Assert.Equal(2, div.Contents.Count);
+            Assert.Equal("icon icon-label", div.Children.First()["class"]);
+            Assert.Equal("This is a label", div.Contents[1].ToHtmlString());
         }
 
         [Fact]
@@ -760,8 +757,8 @@ public class HtmlTagTests
             var div = HtmlTags.Div;
             var child = HtmlTags.Div;
             div = div.Prepend(child);
-            div.Children.Count().Should().Be(1);
-            div.Children.Single().As<object>().Should().Be(child);
+            Assert.Single(div.Children);
+            Assert.Equal(child, div.Children.Single());
         }
 
         [Fact]
@@ -769,10 +766,10 @@ public class HtmlTagTests
         {
             var div = HtmlTag.Parse("<ul><li>This is the first item</li></ul>");
             div = div.Prepend("These are the items");
-            div.Children.Count().Should().Be(1);
-            div.Contents.Count.Should().Be(2);
-            div.Contents[0].Should().Be(new HtmlText("These are the items"));
-            div.Contents[1].Should().Be(HtmlTag.Parse("<li>This is the first item</li>"));
+            Assert.Single(div.Children);
+            Assert.Equal(2, div.Contents.Count);
+            Assert.Equal(new HtmlText("These are the items"), div.Contents[0]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the first item</li>"), div.Contents[1]);
         }
 
         [Fact]
@@ -783,12 +780,12 @@ public class HtmlTagTests
                 new HtmlText("These are the items"),
                 new HtmlText("So much prepending")
             );
-            div.Children.Count().Should().Be(1);
+            Assert.Single(div.Children);
             var contents = div.Contents.ToArray();
-            contents.Length.Should().Be(3);
-            contents[0].Should().Be(new HtmlText("These are the items"));
-            contents[1].Should().Be(new HtmlText("So much prepending"));
-            contents[2].Should().Be(HtmlTag.Parse("<li>This is the first item</li>"));
+            Assert.Equal(3, contents.Length);
+            Assert.Equal(new HtmlText("These are the items"), contents[0]);
+            Assert.Equal(new HtmlText("So much prepending"), contents[1]);
+            Assert.Equal(HtmlTag.Parse("<li>This is the first item</li>"), contents[2]);
         }
 
         [Fact]
@@ -796,12 +793,12 @@ public class HtmlTagTests
         {
             var label = HtmlTags.Label.Append("Bonjour");
 
-            label.Prepend((IEnumerable<IHtmlContent?>?)null).Should().BeSameAs(label);
-            label.Prepend((IEnumerable<IHtmlElement?>?)null).Should().BeSameAs(label);
-            label.Prepend((IHtmlContent?[]?)null).Should().BeSameAs(label);
-            label.Prepend((IHtmlElement?[]?)null).Should().BeSameAs(label);
-            label.Prepend((IHtmlContent?)null).Should().BeSameAs(label);
-            label.Prepend((IHtmlElement?)null).Should().BeSameAs(label);
+            Assert.Same(label, label.Prepend((IEnumerable<IHtmlContent?>?)null));
+            Assert.Same(label, label.Prepend((IEnumerable<IHtmlElement?>?)null));
+            Assert.Same(label, label.Prepend((IHtmlContent?[]?)null));
+            Assert.Same(label, label.Prepend((IHtmlElement?[]?)null));
+            Assert.Same(label, label.Prepend((IHtmlContent?)null));
+            Assert.Same(label, label.Prepend((IHtmlElement?)null));
         }
 
         [Fact]
@@ -815,10 +812,10 @@ public class HtmlTagTests
                 HtmlTags.Span.Append("Sparta")
             );
 
-            label
-                .ToHtmlString()
-                .Should()
-                .Be("<label><span>This is </span><span>Sparta</span></label>");
+            Assert.Equal(
+                "<label><span>This is </span><span>Sparta</span></label>",
+                label.ToHtmlString()
+            );
         }
     }
 
@@ -826,29 +823,29 @@ public class HtmlTagTests
     {
         [Fact]
         public void WhenElementDoesNotHaveClassAttributeShouldDoNothing() =>
-            new Action(() => HtmlTags.Div.RemoveClass("test")).Should().NotThrow();
+            Assert.Null(Record.Exception(new Action(() => HtmlTags.Div.RemoveClass("test"))));
 
         [Fact]
         public void WhenElementDoesNotHaveThatClassShouldDoNothing() =>
-            new Action(() => HtmlTags.Div.Class("some other classes").RemoveClass("test"))
-                .Should()
-                .NotThrow();
+            Assert.Null(
+                Record.Exception(() => HtmlTags.Div.Class("some other classes").RemoveClass("test"))
+            );
 
         [Fact]
         public void WhenElementHasOnlyThatClassShouldRemoveItAndRemoveAttribute()
         {
             var div = HtmlTags.Div.Class("test").RemoveClass("test");
-            div.HasAttribute("class").Should().BeFalse();
-            div.HasClass("test").Should().BeFalse();
+            Assert.False(div.HasAttribute("class"));
+            Assert.False(div.HasClass("test"));
         }
 
         [Fact]
         public void WhenElementHasThatClassButAlsoOthersShouldRemoveTheClassButKeepTheAttribute()
         {
             var div = HtmlTags.Div.Class("test othertest").RemoveClass("test");
-            div.HasAttribute("class").Should().BeTrue();
-            div.HasClass("test").Should().BeFalse();
-            div.HasClass("othertest").Should().BeTrue();
+            Assert.True(div.HasAttribute("class"));
+            Assert.False(div.HasClass("test"));
+            Assert.True(div.HasClass("othertest"));
         }
     }
 
@@ -856,19 +853,19 @@ public class HtmlTagTests
     {
         [Fact]
         public void WhenElementDoesNotHaveSuchAStyleShouldDoNothing() =>
-            new Action(() => HtmlTags.Div.Style("height", "15px").RemoveStyle("width"))
-                .Should()
-                .NotThrow();
+            Assert.Null(
+                Record.Exception(() => HtmlTags.Div.Style("height", "15px").RemoveStyle("width"))
+            );
 
         [Fact]
         public void WhenElementDoesntEvenHaveStyleAttributeShouldDoNothing() =>
-            new Action(() => HtmlTags.Div.RemoveStyle("width")).Should().NotThrow();
+            Assert.Null(Record.Exception(new Action(() => HtmlTags.Div.RemoveStyle("width"))));
 
         [Fact]
         public void WhenElementHasOnlyThatStyleShouldRemoveStyle()
         {
             var div = HtmlTags.Div.Style("width", "15px").RemoveStyle("width");
-            div.Styles.ContainsKey("width").Should().BeFalse();
+            Assert.False(div.Styles.ContainsKey("width"));
         }
 
         [Fact]
@@ -878,9 +875,9 @@ public class HtmlTagTests
                 .Div.Style("width", "15px")
                 .Style("height", "15px")
                 .RemoveStyle("width");
-            div.Styles.ContainsKey("width").Should().BeFalse();
-            div.Styles.ContainsKey("height").Should().BeTrue();
-            div.Styles["height"].Should().Be("15px");
+            Assert.False(div.Styles.ContainsKey("width"));
+            Assert.True(div.Styles.ContainsKey("height"));
+            Assert.Equal("15px", div.Styles["height"]);
         }
     }
 
@@ -890,42 +887,42 @@ public class HtmlTagTests
         public void AddingNewStyleToElementWithStyleAttributeShouldUpdateStyle()
         {
             var div = HtmlTags.Div.Style("width", "10px").Style("height", "15px");
-            div.HasAttribute("style").Should().BeTrue();
-            div.Styles.Count.Should().Be(2);
-            div.Styles.ContainsKey("width").Should().BeTrue();
-            div.Styles["width"].Should().Be("10px");
-            div.Styles.ContainsKey("height").Should().BeTrue();
-            div.Styles["height"].Should().Be("15px");
+            Assert.True(div.HasAttribute("style"));
+            Assert.Equal(2, div.Styles.Count);
+            Assert.True(div.Styles.ContainsKey("width"));
+            Assert.Equal("10px", div.Styles["width"]);
+            Assert.True(div.Styles.ContainsKey("height"));
+            Assert.Equal("15px", div.Styles["height"]);
         }
 
         [Fact]
         public void AddingNewStyleToElementWithoutStyleAttributeShouldAddStyle()
         {
             var div = HtmlTags.Div.Style("width", "10px");
-            div.HasAttribute("style").Should().BeTrue();
-            div.Styles.Count.Should().Be(1);
-            div.Styles.ContainsKey("width").Should().BeTrue();
-            div.Styles["width"].Should().Be("10px");
+            Assert.True(div.HasAttribute("style"));
+            Assert.Single(div.Styles);
+            Assert.True(div.Styles.ContainsKey("width"));
+            Assert.Equal("10px", div.Styles["width"]);
         }
 
         [Fact]
         public void UpdatingStyleWithReplaceExistingFalseShouldNotUpdateStyle()
         {
             var div = HtmlTags.Div.Style("width", "10px").Style("width", "25px", false);
-            div.HasAttribute("style").Should().BeTrue();
-            div.Styles.Count.Should().Be(1);
-            div.Styles.ContainsKey("width").Should().BeTrue();
-            div.Styles["width"].Should().Be("10px");
+            Assert.True(div.HasAttribute("style"));
+            Assert.Single(div.Styles);
+            Assert.True(div.Styles.ContainsKey("width"));
+            Assert.Equal("10px", div.Styles["width"]);
         }
 
         [Fact]
         public void UpdatingStyleWithReplaceExistingTrueShouldUpdateStyle()
         {
             var div = HtmlTags.Div.Style("width", "10px").Style("width", "25px");
-            div.HasAttribute("style").Should().BeTrue();
-            div.Styles.Count.Should().Be(1);
-            div.Styles.ContainsKey("width").Should().BeTrue();
-            div.Styles["width"].Should().Be("25px");
+            Assert.True(div.HasAttribute("style"));
+            Assert.Single(div.Styles);
+            Assert.True(div.Styles.ContainsKey("width"));
+            Assert.Equal("25px", div.Styles["width"]);
         }
 
         [Fact]
@@ -935,20 +932,17 @@ public class HtmlTagTests
                 "filter",
                 "progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')"
             );
-            div.HasAttribute("style").Should().BeTrue();
-            div.Styles.Count.Should().Be(1);
-            div.Styles.ContainsKey("filter").Should().BeTrue();
-            div.Styles["filter"]
-                .Should()
-                .Be(
-                    "progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')"
-                );
-            var toHtml = div.ToHtmlString();
-            toHtml
-                .Should()
-                .Be(
-                    "<div style=\"filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=&#x27;#cccccc&#x27;, endColorstr=&#x27;#000000&#x27;);\"></div>"
-                );
+            Assert.True(div.HasAttribute("style"));
+            Assert.Single(div.Styles);
+            Assert.True(div.Styles.ContainsKey("filter"));
+            Assert.Equal(
+                "progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')",
+                div.Styles["filter"]
+            );
+            Assert.Equal(
+                "<div style=\"filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=&#x27;#cccccc&#x27;, endColorstr=&#x27;#000000&#x27;);\"></div>",
+                div.ToHtmlString()
+            );
         }
     }
 
@@ -962,7 +956,7 @@ public class HtmlTagTests
             );
             var html = div.ToHtmlString();
             var reparsedDiv = HtmlTag.Parse(html);
-            div.Equals(reparsedDiv).Should().BeTrue();
+            Assert.True(div.Equals(reparsedDiv));
         }
 
         [Fact]
@@ -973,7 +967,7 @@ public class HtmlTagTests
             );
             var html = div.ToHtmlString();
             var reparsedDiv = HtmlTag.Parse(html);
-            div.Equals(reparsedDiv).Should().BeTrue();
+            Assert.True(div.Equals(reparsedDiv));
         }
 
         [Fact]
@@ -982,9 +976,9 @@ public class HtmlTagTests
             var div = HtmlTag.Parse(
                 "<div><ul><li><label>This is the label</label></li></ul></div>"
             );
-            new Action(() => div.Render(TagRenderMode.SelfClosing).ToHtmlString())
-                .Should()
-                .Throw<InvalidOperationException>();
+            Assert.Throws<InvalidOperationException>(() =>
+                div.Render(TagRenderMode.SelfClosing).ToHtmlString()
+            );
         }
 
         [Fact]
@@ -993,7 +987,7 @@ public class HtmlTagTests
             var div = HtmlTag.Parse(
                 "<div><ul><li><label>This is the label</label></li></ul></div>"
             );
-            div.Render(TagRenderMode.EndTag).ToHtmlString().Should().Be("</div>");
+            Assert.Equal("</div>", div.Render(TagRenderMode.EndTag).ToHtmlString());
         }
 
         [Fact]
@@ -1002,14 +996,14 @@ public class HtmlTagTests
             var div = HtmlTag.Parse(
                 "<div><ul><li><label>This is the label</label></li></ul></div>"
             );
-            div.Render(TagRenderMode.StartTag).ToHtmlString().Should().Be("<div>");
+            Assert.Equal("<div>", div.Render(TagRenderMode.StartTag).ToHtmlString());
         }
 
         [Fact]
         public void ImgShouldBeSelfclosingByDefault()
         {
             var img = HtmlTags.Img;
-            img.ToHtmlString().Should().Be("<img />");
+            Assert.Equal("<img />", img.ToHtmlString());
         }
 
         [Fact]
@@ -1019,7 +1013,7 @@ public class HtmlTagTests
             var input = div.Children.Single();
             input.Render(TagRenderMode.SelfClosing);
             var html = div.ToHtmlString().Replace(" ", "");
-            html.Should().Be("<div><input/></div>");
+            Assert.Equal("<div><input/></div>", html);
         }
 
         [Fact]
@@ -1027,7 +1021,7 @@ public class HtmlTagTests
         {
             var input = HtmlTag.Parse("<input/>").Render(TagRenderMode.SelfClosing);
             var html = input.ToHtmlString().Replace(" ", "");
-            html.Should().Be("<input/>");
+            Assert.Equal("<input/>", html);
         }
     }
 
@@ -1039,15 +1033,15 @@ public class HtmlTagTests
             var input = new HtmlTag("input")
                 .ToggleAttribute("disabled", true)
                 .ToggleAttribute("disabled", false);
-            input.HasAttribute("disabled").Should().BeFalse();
+            Assert.False(input.HasAttribute("disabled"));
         }
 
         [Fact]
         public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").ToggleAttribute("disabled", true);
-            input.HasAttribute("disabled").Should().BeTrue();
-            input["disabled"].Should().Be("disabled");
+            Assert.True(input.HasAttribute("disabled"));
+            Assert.Equal("disabled", input["disabled"]);
         }
     }
 }

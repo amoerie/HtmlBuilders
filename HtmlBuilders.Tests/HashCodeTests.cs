@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -32,67 +31,61 @@ public class HashCodeTests
         }
 
         // Assert
-        hashSet.Contains(tagElements[0]).Should().BeTrue();
-        hashSet.Contains(tagElements[^1]).Should().BeTrue();
-        hashSet.Contains(textElements[0]).Should().BeTrue();
-        hashSet.Contains(textElements[^1]).Should().BeTrue();
-        hashSet.Contains(HtmlTags.Div).Should().BeFalse();
-        hashSet.Contains(new HtmlText("Some other text")).Should().BeFalse();
+        Assert.Contains(tagElements[0], hashSet);
+        Assert.Contains(tagElements[^1], hashSet);
+        Assert.Contains(textElements[0], hashSet);
+        Assert.Contains(textElements[^1], hashSet);
+        Assert.DoesNotContain(HtmlTags.Div, hashSet);
+        Assert.DoesNotContain(new HtmlText("Some other text"), hashSet);
     }
 
     [Fact]
     public void ShouldProduceSameHashCodesForSameTagNames() =>
-        HtmlTags.Div.GetHashCode().Should().Be(HtmlTags.Div.GetHashCode());
+        Assert.Equal(HtmlTags.Div.GetHashCode(), HtmlTags.Div.GetHashCode());
 
     [Fact]
     public void ShouldProduceDifferentHashCodesForDifferentTagNames() =>
-        HtmlTags.Div.GetHashCode().Should().NotBe(HtmlTags.Label.GetHashCode());
+        Assert.NotEqual(HtmlTags.Label.GetHashCode(), HtmlTags.Div.GetHashCode());
 
     [Fact]
     public void ShouldProduceSameHashCodesForSameAttributes() =>
-        HtmlTags
-            .Div.Class("div-1")
-            .GetHashCode()
-            .Should()
-            .Be(HtmlTags.Div.Class("div-1").GetHashCode());
+        Assert.Equal(
+            HtmlTags.Div.Class("div-1").GetHashCode(),
+            HtmlTags.Div.Class("div-1").GetHashCode()
+        );
 
     [Fact]
     public void ShouldProduceDifferentHashCodesForDifferentAttributes() =>
-        HtmlTags
-            .Div.Class("div-1")
-            .GetHashCode()
-            .Should()
-            .NotBe(HtmlTags.Div.Class("div-2").GetHashCode());
+        Assert.NotEqual(
+            HtmlTags.Div.Class("div-2").GetHashCode(),
+            HtmlTags.Div.Class("div-1").GetHashCode()
+        );
 
     [Fact]
     public void ShouldProduceSameHashCodesForSameChildren() =>
-        HtmlTags
-            .Div.Append(HtmlTags.Span)
-            .GetHashCode()
-            .Should()
-            .Be(HtmlTags.Div.Append(HtmlTags.Span).GetHashCode());
+        Assert.Equal(
+            HtmlTags.Div.Append(HtmlTags.Span).GetHashCode(),
+            HtmlTags.Div.Append(HtmlTags.Span).GetHashCode()
+        );
 
     [Fact]
     public void ShouldProduceDifferentHashCodesForDifferentChildren() =>
-        HtmlTags
-            .Div.Append(HtmlTags.Span)
-            .GetHashCode()
-            .Should()
-            .NotBe(HtmlTags.Div.Append(HtmlTags.Legend).GetHashCode());
+        Assert.NotEqual(
+            HtmlTags.Div.Append(HtmlTags.Legend).GetHashCode(),
+            HtmlTags.Div.Append(HtmlTags.Span).GetHashCode()
+        );
 
     [Fact]
     public void ClassesInDifferentOrderShouldProduceSameHashCode() =>
-        HtmlTags
-            .Div.Class("class1 class2")
-            .GetHashCode()
-            .Should()
-            .Be(HtmlTags.Div.Class("class2 class1").GetHashCode());
+        Assert.Equal(
+            HtmlTags.Div.Class("class2 class1").GetHashCode(),
+            HtmlTags.Div.Class("class1 class2").GetHashCode()
+        );
 
     [Fact]
     public void StylesInDifferentOrderShouldProduceSameHashCode() =>
-        HtmlTags
-            .Div.Attribute("style", "width:10px;height:20px;")
-            .GetHashCode()
-            .Should()
-            .Be(HtmlTags.Div.Attribute("style", "height:20px;width:10px;").GetHashCode());
+        Assert.Equal(
+            HtmlTags.Div.Attribute("style", "height:20px;width:10px;").GetHashCode(),
+            HtmlTags.Div.Attribute("style", "width:10px;height:20px;").GetHashCode()
+        );
 }

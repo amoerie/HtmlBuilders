@@ -1,5 +1,4 @@
 ﻿using System;
-using FluentAssertions;
 using Microsoft.AspNetCore.Html;
 using Xunit;
 
@@ -19,8 +18,8 @@ public class HtmlContentTests
             var tag = content.ToHtmlTag();
 
             // Assert
-            tag.TagName.Should().Be(HtmlTags.Label.TagName);
-            tag.Text().Should().Be("Hello");
+            Assert.Equal(HtmlTags.Label.TagName, tag.TagName);
+            Assert.Equal("Hello", tag.Text());
         }
 
         [Fact]
@@ -30,7 +29,7 @@ public class HtmlContentTests
             IHtmlContent content = new HtmlString("");
 
             // Act + Assert
-            content.Invoking(c => c.ToHtmlTag()).Should().Throw<ArgumentException>();
+            Assert.Throws<ArgumentException>(() => content.ToHtmlTag());
         }
 
         [Fact]
@@ -40,7 +39,7 @@ public class HtmlContentTests
             IHtmlContent content = new HtmlString("<label>Hello</label><label>Hello again</label>");
 
             // Act + Assert
-            content.Invoking(c => c.ToHtmlTag()).Should().Throw<ArgumentException>();
+            Assert.Throws<ArgumentException>(() => content.ToHtmlTag());
         }
     }
 }

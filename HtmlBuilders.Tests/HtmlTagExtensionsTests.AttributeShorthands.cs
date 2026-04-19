@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -11,8 +10,8 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Href("test href");
-            div.HasAttribute("href").Should().BeTrue();
-            div["href"].Should().Be("test href");
+            Assert.True(div.HasAttribute("href"));
+            Assert.Equal("test href", div["href"]);
         }
 
         [Fact]
@@ -20,16 +19,16 @@ public partial class HtmlTagExtensionsTests
         {
             var div = HtmlTags.Div.Href("test href");
             div.Href("new href", false);
-            div.HasAttribute("href").Should().BeTrue();
-            div["href"].Should().Be("test href");
+            Assert.True(div.HasAttribute("href"));
+            Assert.Equal("test href", div["href"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Href("test href").Href("new href");
-            div.HasAttribute("href").Should().BeTrue();
-            div["href"].Should().Be("new href");
+            Assert.True(div.HasAttribute("href"));
+            Assert.Equal("new href", div["href"]);
         }
     }
 
@@ -39,8 +38,8 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Id("test id");
-            div.HasAttribute("id").Should().BeTrue();
-            div["id"].Should().Be("test id");
+            Assert.True(div.HasAttribute("id"));
+            Assert.Equal("test id", div["id"]);
         }
 
         [Fact]
@@ -48,16 +47,16 @@ public partial class HtmlTagExtensionsTests
         {
             var div = HtmlTags.Div.Id("test id");
             div.Id("new id", false);
-            div.HasAttribute("id").Should().BeTrue();
-            div["id"].Should().Be("test id");
+            Assert.True(div.HasAttribute("id"));
+            Assert.Equal("test id", div["id"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Id("test id").Id("new id");
-            div.HasAttribute("id").Should().BeTrue();
-            div["id"].Should().Be("new id");
+            Assert.True(div.HasAttribute("id"));
+            Assert.Equal("new id", div["id"]);
         }
     }
 
@@ -67,24 +66,24 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Name("test name");
-            div.HasAttribute("name").Should().BeTrue();
-            div["name"].Should().Be("test name");
+            Assert.True(div.HasAttribute("name"));
+            Assert.Equal("test name", div["name"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Name("test name").Name("new name", false);
-            div.HasAttribute("name").Should().BeTrue();
-            div["name"].Should().Be("test name");
+            Assert.True(div.HasAttribute("name"));
+            Assert.Equal("test name", div["name"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Name("test name").Name("new name");
-            div.HasAttribute("name").Should().BeTrue();
-            div["name"].Should().Be("new name");
+            Assert.True(div.HasAttribute("name"));
+            Assert.Equal("new name", div["name"]);
         }
     }
 
@@ -94,24 +93,24 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Type("test type");
-            div.HasAttribute("type").Should().BeTrue();
-            div["type"].Should().Be("test type");
+            Assert.True(div.HasAttribute("type"));
+            Assert.Equal("test type", div["type"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Type("test type").Type("new type", false);
-            div.HasAttribute("type").Should().BeTrue();
-            div["type"].Should().Be("test type");
+            Assert.True(div.HasAttribute("type"));
+            Assert.Equal("test type", div["type"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Type("test type").Type("new type");
-            div.HasAttribute("type").Should().BeTrue();
-            div["type"].Should().Be("new type");
+            Assert.True(div.HasAttribute("type"));
+            Assert.Equal("new type", div["type"]);
         }
     }
 
@@ -121,24 +120,24 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Title("test title");
-            div.HasAttribute("title").Should().BeTrue();
-            div["title"].Should().Be("test title");
+            Assert.True(div.HasAttribute("title"));
+            Assert.Equal("test title", div["title"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Title("test title").Title("new title", false);
-            div.HasAttribute("title").Should().BeTrue();
-            div["title"].Should().Be("test title");
+            Assert.True(div.HasAttribute("title"));
+            Assert.Equal("test title", div["title"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Title("test title").Title("new title");
-            div.HasAttribute("title").Should().BeTrue();
-            div["title"].Should().Be("new title");
+            Assert.True(div.HasAttribute("title"));
+            Assert.Equal("new title", div["title"]);
         }
     }
 
@@ -148,24 +147,24 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Value("test value");
-            div.HasAttribute("value").Should().BeTrue();
-            div["value"].Should().Be("test value");
+            Assert.True(div.HasAttribute("value"));
+            Assert.Equal("test value", div["value"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeValue()
         {
             var div = HtmlTags.Div.Value("test value").Value("new value", false);
-            div.HasAttribute("value").Should().BeTrue();
-            div["value"].Should().Be("test value");
+            Assert.True(div.HasAttribute("value"));
+            Assert.Equal("test value", div["value"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeValue()
         {
             var div = HtmlTags.Div.Value("test value").Value("new value");
-            div.HasAttribute("value").Should().BeTrue();
-            div["value"].Should().Be("new value");
+            Assert.True(div.HasAttribute("value"));
+            Assert.Equal("new value", div["value"]);
         }
     }
 
@@ -175,24 +174,24 @@ public partial class HtmlTagExtensionsTests
         public void AddingNewAttributeShouldHaveNewAttribute()
         {
             var div = HtmlTags.Div.Src("test src");
-            div.HasAttribute("src").Should().BeTrue();
-            div["src"].Should().Be("test src");
+            Assert.True(div.HasAttribute("src"));
+            Assert.Equal("test src", div["src"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingFalseShouldStillHaveOldAttributeSrc()
         {
             var div = HtmlTags.Div.Src("test src").Src("new src", false);
-            div.HasAttribute("src").Should().BeTrue();
-            div["src"].Should().Be("test src");
+            Assert.True(div.HasAttribute("src"));
+            Assert.Equal("test src", div["src"]);
         }
 
         [Fact]
         public void UpdatingOldAttributeWithReplaceExistingTrueShouldHaveUpdatedAttributeSrc()
         {
             var div = HtmlTags.Div.Src("test src").Src("new src");
-            div.HasAttribute("src").Should().BeTrue();
-            div["src"].Should().Be("new src");
+            Assert.True(div.HasAttribute("src"));
+            Assert.Equal("new src", div["src"]);
         }
     }
 }
