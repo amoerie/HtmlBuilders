@@ -83,7 +83,11 @@ public static partial class HtmlTagExtensions
     /// <param name="textAlign">The text alignment. This can be any valid css value for 'text-align'</param>
     /// <param name="replaceExisting">A value indicating whether the existing text-align, if any, should be overriden or not</param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag TextAlign(this HtmlTag htmlTag, string textAlign, bool replaceExisting = true)
+    public static HtmlTag TextAlign(
+        this HtmlTag htmlTag,
+        string textAlign,
+        bool replaceExisting = true
+    )
     {
         ArgumentNullException.ThrowIfNull(textAlign);
 

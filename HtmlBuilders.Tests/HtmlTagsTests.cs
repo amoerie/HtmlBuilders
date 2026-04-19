@@ -10,19 +10,25 @@ public class HtmlTagsTests
 {
     public static readonly TheoryData<string> Fields = typeof(HtmlTags)
         .GetFields(BindingFlags.Public | BindingFlags.Static)
-        .Aggregate(new TheoryData<string>(), (data, info) =>
-        {
-            data.Add(info.Name);
-            return data;
-        });
+        .Aggregate(
+            new TheoryData<string>(),
+            (data, info) =>
+            {
+                data.Add(info.Name);
+                return data;
+            }
+        );
 
     public static readonly TheoryData<string> InputFields = typeof(HtmlTags.Input)
         .GetFields(BindingFlags.Public | BindingFlags.Static)
-        .Aggregate(new TheoryData<string>(), (data, info) =>
-        {
-            data.Add(info.Name);
-            return data;
-        });
+        .Aggregate(
+            new TheoryData<string>(),
+            (data, info) =>
+            {
+                data.Add(info.Name);
+                return data;
+            }
+        );
 
     [Theory]
     [MemberData(nameof(Fields))]

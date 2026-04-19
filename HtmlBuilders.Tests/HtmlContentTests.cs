@@ -30,23 +30,17 @@ public class HtmlContentTests
             IHtmlContent content = new HtmlString("");
 
             // Act + Assert
-            content.Invoking(c => c.ToHtmlTag())
-                .Should().Throw<ArgumentException>();
+            content.Invoking(c => c.ToHtmlTag()).Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public void ParsingMultipleShouldThrow()
         {
             // Arrange
-            IHtmlContent content = new HtmlString(
-                "<label>Hello</label><label>Hello again</label>"
-            );
+            IHtmlContent content = new HtmlString("<label>Hello</label><label>Hello again</label>");
 
             // Act + Assert
-            content.Invoking(c => c.ToHtmlTag())
-                .Should().Throw<ArgumentException>();
+            content.Invoking(c => c.ToHtmlTag()).Should().Throw<ArgumentException>();
         }
     }
-
-
 }

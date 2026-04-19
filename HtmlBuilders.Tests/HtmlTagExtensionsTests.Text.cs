@@ -27,7 +27,9 @@ public partial class HtmlTagExtensionsTests
         [Fact]
         public void WhenTagContainsMultipleChildrenShouldReturnAllContentsOfChildren()
         {
-            var tag = HtmlTag.Parse("<div class='readonlygroup period'><label>Period</label><span>Friday 17 October 2014 - Thursday 30 October 2014</span></div>");
+            var tag = HtmlTag.Parse(
+                "<div class='readonlygroup period'><label>Period</label><span>Friday 17 October 2014 - Thursday 30 October 2014</span></div>"
+            );
             var text = tag.Text();
             text.Should().Be("PeriodFriday 17 October 2014 - Thursday 30 October 2014");
         }
@@ -44,7 +46,7 @@ public partial class HtmlTagExtensionsTests
         [Fact]
         public void WhenTagIsNullShouldReturnEmptyString()
         {
-            var tag = (HtmlTag?) null;
+            var tag = (HtmlTag?)null;
             var text = tag.Text();
             text.Should().NotBeNull();
             text.Should().BeEmpty();

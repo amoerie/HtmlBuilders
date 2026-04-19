@@ -141,7 +141,11 @@ public static class HtmlTags
 
     public static readonly HtmlTag NoScript = new HtmlTag("noscript");
 
-    [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Wasn't my decision to name this HTML tag")]
+    [SuppressMessage(
+        "Naming",
+        "CA1720:Identifier contains type name",
+        Justification = "Wasn't my decision to name this HTML tag"
+    )]
     public static readonly HtmlTag Object = new HtmlTag("object");
 
     public static readonly HtmlTag Ol = new HtmlTag("ol");
@@ -230,53 +234,107 @@ public static class HtmlTags
 
     public static class Input
     {
-        [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass", Justification = "This is a different kind of button")]
-        public static readonly HtmlTag Button = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("button");
+        [SuppressMessage(
+            "ReSharper",
+            "MemberHidesStaticFromOuterClass",
+            Justification = "This is a different kind of button"
+        )]
+        public static readonly HtmlTag Button = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("button");
 
-        public static readonly HtmlTag CheckBox = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("checkbox");
+        public static readonly HtmlTag CheckBox = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("checkbox");
 
-        public static readonly HtmlTag Color = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("color");
+        public static readonly HtmlTag Color = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("color");
 
-        public static readonly HtmlTag Date = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("date");
+        public static readonly HtmlTag Date = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("date");
 
-        public static readonly HtmlTag DateTime = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("datetime");
+        public static readonly HtmlTag DateTime = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("datetime");
 
-        public static readonly HtmlTag DateTimeLocal = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("datetime-local");
+        public static readonly HtmlTag DateTimeLocal = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("datetime-local");
 
-        public static readonly HtmlTag Email = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("email");
+        public static readonly HtmlTag Email = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("email");
 
-        public static readonly HtmlTag File = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("file");
+        public static readonly HtmlTag File = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("file");
 
-        public static readonly HtmlTag Hidden = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("hidden");
+        public static readonly HtmlTag Hidden = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("hidden");
 
-        public static readonly HtmlTag Image = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("image");
+        public static readonly HtmlTag Image = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("image");
 
-        public static readonly HtmlTag Month = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("month");
+        public static readonly HtmlTag Month = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("month");
 
-        public static readonly HtmlTag Number = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("number");
+        public static readonly HtmlTag Number = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("number");
 
-        public static readonly HtmlTag Password = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("password");
+        public static readonly HtmlTag Password = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("password");
 
-        public static readonly HtmlTag Radio = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("radio");
+        public static readonly HtmlTag Radio = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("radio");
 
-        public static readonly HtmlTag Range = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("range");
+        public static readonly HtmlTag Range = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("range");
 
-        public static readonly HtmlTag Reset = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("reset");
+        public static readonly HtmlTag Reset = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("reset");
 
-        public static readonly HtmlTag Search = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("search");
+        public static readonly HtmlTag Search = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("search");
 
-        public static readonly HtmlTag Submit = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("submit");
+        public static readonly HtmlTag Submit = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("submit");
 
-        public static readonly HtmlTag Tel = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("tel");
+        public static readonly HtmlTag Tel = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("tel");
 
-        public static readonly HtmlTag Text = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("text");
+        public static readonly HtmlTag Text = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("text");
 
-        [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass", Justification = "This is a different kind of time")]
-        public static readonly HtmlTag Time = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("time");
+        [SuppressMessage(
+            "ReSharper",
+            "MemberHidesStaticFromOuterClass",
+            Justification = "This is a different kind of time"
+        )]
+        public static readonly HtmlTag Time = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("time");
 
-        public static readonly HtmlTag Url = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("url");
+        public static readonly HtmlTag Url = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("url");
 
-        public static readonly HtmlTag Week = new HtmlTag("input").Render(TagRenderMode.SelfClosing).Type("week");
+        public static readonly HtmlTag Week = new HtmlTag("input")
+            .Render(TagRenderMode.SelfClosing)
+            .Type("week");
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
