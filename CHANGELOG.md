@@ -1,9 +1,18 @@
 # Changelog
 
+## 8.1.0
+
+- Multi target .NET 8.0, .NET 9.0 and .NET 10.0
+- Update dependencies
+
+## 8.0.0
+
+- Bump .NET to 8.0
+- Update dependencies
+
 ## 7.2.0
 
 - Allow null in more places (Append/Prepend/Insert)
-
 
 ## 7.1.0
 
