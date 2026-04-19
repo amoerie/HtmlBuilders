@@ -5,7 +5,6 @@
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 </Project>
