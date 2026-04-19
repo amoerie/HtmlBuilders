@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using FluentAssertions;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -24,7 +23,7 @@ public class AttributesComparerTests
             _dictionary1["test2"] = "value2";
             _dictionary2["test1"] = "w sfqffqf";
             _dictionary2["test2"] = "value2";
-            AttributesComparer.Equals(_dictionary1, _dictionary2, "test1").Should().BeTrue();
+            Assert.True(AttributesComparer.Equals(_dictionary1, _dictionary2, "test1"));
         }
 
         [Fact]
@@ -33,7 +32,7 @@ public class AttributesComparerTests
             _dictionary1["test1"] = "value1";
             _dictionary1["test2"] = "value2";
             _dictionary2["test1"] = "value1";
-            AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeFalse();
+            Assert.False(AttributesComparer.Equals(_dictionary1, _dictionary2));
         }
 
         [Fact]
@@ -41,7 +40,7 @@ public class AttributesComparerTests
         {
             _dictionary1["test"] = "value";
             _dictionary2["test"] = "value";
-            AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
+            Assert.True(AttributesComparer.Equals(_dictionary1, _dictionary2));
         }
 
         [Fact]
@@ -51,11 +50,11 @@ public class AttributesComparerTests
             _dictionary1["test2"] = "value2";
             _dictionary2["test1"] = "value1";
             _dictionary2["test2"] = "value2";
-            AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
+            Assert.True(AttributesComparer.Equals(_dictionary1, _dictionary2));
         }
 
         [Fact]
         public void TwoEmptyDictionariesShouldBeEqual() =>
-            AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
+            Assert.True(AttributesComparer.Equals(_dictionary1, _dictionary2));
     }
 }

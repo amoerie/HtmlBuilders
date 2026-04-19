@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Xunit;
 
 namespace HtmlBuilders.Tests;
@@ -11,15 +10,15 @@ public partial class HtmlTagExtensionsTests
         public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Checked(true).Checked(false);
-            input.HasAttribute("checked").Should().BeFalse();
+            Assert.False(input.HasAttribute("checked"));
         }
 
         [Fact]
         public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Checked(true);
-            input.HasAttribute("checked").Should().BeTrue();
-            input["checked"].Should().Be("checked");
+            Assert.True(input.HasAttribute("checked"));
+            Assert.Equal("checked", input["checked"]);
         }
     }
 
@@ -29,15 +28,15 @@ public partial class HtmlTagExtensionsTests
         public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Disabled(true).Disabled(false);
-            input.HasAttribute("disabled").Should().BeFalse();
+            Assert.False(input.HasAttribute("disabled"));
         }
 
         [Fact]
         public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Disabled(true);
-            input.HasAttribute("disabled").Should().BeTrue();
-            input["disabled"].Should().Be("disabled");
+            Assert.True(input.HasAttribute("disabled"));
+            Assert.Equal("disabled", input["disabled"]);
         }
     }
 
@@ -48,15 +47,15 @@ public partial class HtmlTagExtensionsTests
         {
             var input = new HtmlTag("input").Readonly(true).Readonly(false);
 
-            input.HasAttribute("readonly").Should().BeFalse();
+            Assert.False(input.HasAttribute("readonly"));
         }
 
         [Fact]
         public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Readonly(true);
-            input.HasAttribute("readonly").Should().BeTrue();
-            input["readonly"].Should().Be("readonly");
+            Assert.True(input.HasAttribute("readonly"));
+            Assert.Equal("readonly", input["readonly"]);
         }
     }
 
@@ -66,15 +65,15 @@ public partial class HtmlTagExtensionsTests
         public void WhenFalseAttributeShouldBeRemoved()
         {
             var input = new HtmlTag("input").Selected(true).Selected(false);
-            input.HasAttribute("selected").Should().BeFalse();
+            Assert.False(input.HasAttribute("selected"));
         }
 
         [Fact]
         public void WhenTrueAttributeShouldBeAdded()
         {
             var input = new HtmlTag("input").Selected(true);
-            input.HasAttribute("selected").Should().BeTrue();
-            input["selected"].Should().Be("selected");
+            Assert.True(input.HasAttribute("selected"));
+            Assert.Equal("selected", input["selected"]);
         }
     }
 }
