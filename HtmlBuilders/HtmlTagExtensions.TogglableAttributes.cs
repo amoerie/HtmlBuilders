@@ -12,7 +12,8 @@ public static partial class HtmlTagExtensions
     ///     not.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Checked(this HtmlTag htmlTag, bool @checked) => htmlTag.ToggleAttribute("checked", @checked);
+    public static HtmlTag Checked(this HtmlTag htmlTag, bool @checked) =>
+        htmlTag.ToggleAttribute("checked", @checked);
 
     /// <summary>
     ///     Sets the 'disabled' attribute to 'disabled' if <paramref name="disabled" /> is true or removes the attribute if
@@ -24,7 +25,8 @@ public static partial class HtmlTagExtensions
     ///     or not.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Disabled(this HtmlTag htmlTag, bool disabled) => htmlTag.ToggleAttribute("disabled", disabled);
+    public static HtmlTag Disabled(this HtmlTag htmlTag, bool disabled) =>
+        htmlTag.ToggleAttribute("disabled", disabled);
 
     /// <summary>
     ///     Sets the 'selected' attribute to 'selected' if <paramref name="selected" /> is true or removes the attribute if
@@ -36,7 +38,8 @@ public static partial class HtmlTagExtensions
     ///     or not.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Selected(this HtmlTag htmlTag, bool selected) => htmlTag.ToggleAttribute("selected", selected);
+    public static HtmlTag Selected(this HtmlTag htmlTag, bool selected) =>
+        htmlTag.ToggleAttribute("selected", selected);
 
     /// <summary>
     ///     Sets the 'readonly' attribute to 'readonly' if <paramref name="readonly" /> is true or removes the attribute if
@@ -48,5 +51,6 @@ public static partial class HtmlTagExtensions
     ///     or not.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Readonly(this HtmlTag htmlTag, bool @readonly) => htmlTag.ToggleAttribute("readonly", @readonly);
+    public static HtmlTag Readonly(this HtmlTag htmlTag, bool @readonly) =>
+        htmlTag.ToggleAttribute("readonly", @readonly);
 }

@@ -22,16 +22,19 @@ public sealed class HtmlText : IHtmlElement
     ///     Initializes a new instance of <see cref="HtmlText" />
     /// </summary>
     /// <param name="htmlString">The already encoded HTML string</param>
-    public HtmlText(HtmlString? htmlString) => _content = htmlString ?? new HtmlString(string.Empty);
+    public HtmlText(HtmlString? htmlString) =>
+        _content = htmlString ?? new HtmlString(string.Empty);
 
     /// <summary>
     ///     Initializes a new instance of <see cref="HtmlText" />
     /// </summary>
     /// <param name="stringHtmlContent">The string HTML content that still needs to be encoded</param>
-    public HtmlText(StringHtmlContent? stringHtmlContent) => _content = stringHtmlContent ?? new StringHtmlContent(string.Empty);
+    public HtmlText(StringHtmlContent? stringHtmlContent) =>
+        _content = stringHtmlContent ?? new StringHtmlContent(string.Empty);
 
     /// <inheritdoc />
-    public void WriteTo(TextWriter writer, HtmlEncoder encoder) => _content.WriteTo(writer, encoder);
+    public void WriteTo(TextWriter writer, HtmlEncoder encoder) =>
+        _content.WriteTo(writer, encoder);
 
     /// <summary>
     ///     Exposes the inner <see cref="IHtmlContent" />, if you must.

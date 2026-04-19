@@ -16,7 +16,8 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="name" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Name(this HtmlTag htmlTag, string name, bool replaceExisting = true) => htmlTag.Attribute("name", name, replaceExisting);
+    public static HtmlTag Name(this HtmlTag htmlTag, string name, bool replaceExisting = true) =>
+        htmlTag.Attribute("name", name, replaceExisting);
 
     /// <summary>
     ///     Sets the title property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'title' as the
@@ -29,7 +30,8 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="title" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Title(this HtmlTag htmlTag, string title, bool replaceExisting = true) => htmlTag.Attribute("title", title, replaceExisting);
+    public static HtmlTag Title(this HtmlTag htmlTag, string title, bool replaceExisting = true) =>
+        htmlTag.Attribute("title", title, replaceExisting);
 
     /// <summary>
     ///     Sets the id property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'id' as the attribute
@@ -42,7 +44,8 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="id" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Id(this HtmlTag htmlTag, string id, bool replaceExisting = true) => htmlTag.Attribute("id", id, replaceExisting);
+    public static HtmlTag Id(this HtmlTag htmlTag, string id, bool replaceExisting = true) =>
+        htmlTag.Attribute("id", id, replaceExisting);
 
     /// <summary>
     ///     Sets the type property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'type' as the
@@ -55,7 +58,8 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="type" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Type(this HtmlTag htmlTag, string type, bool replaceExisting = true) => htmlTag.Attribute("type", type, replaceExisting);
+    public static HtmlTag Type(this HtmlTag htmlTag, string type, bool replaceExisting = true) =>
+        htmlTag.Attribute("type", type, replaceExisting);
 
     /// <summary>
     ///     Sets the value property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'value' as the
@@ -68,7 +72,8 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="value" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Value(this HtmlTag htmlTag, string value, bool replaceExisting = true) => htmlTag.Attribute("value", value, replaceExisting);
+    public static HtmlTag Value(this HtmlTag htmlTag, string value, bool replaceExisting = true) =>
+        htmlTag.Attribute("value", value, replaceExisting);
 
     /// <summary>
     ///     Sets the href property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'href' as the
@@ -81,7 +86,8 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="href" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Href(this HtmlTag htmlTag, string href, bool replaceExisting = true) => htmlTag.Attribute("href", href, replaceExisting);
+    public static HtmlTag Href(this HtmlTag htmlTag, string href, bool replaceExisting = true) =>
+        htmlTag.Attribute("href", href, replaceExisting);
 
     /// <summary>
     ///     Sets the src property. This is a shorthand for the <see cref="HtmlTag.Attribute" /> method with 'src' as the
@@ -94,5 +100,6 @@ public static partial class HtmlTagExtensions
     ///     by the <paramref name="src" /> provided.
     /// </param>
     /// <returns>This <see cref="HtmlTag" /></returns>
-    public static HtmlTag Src(this HtmlTag htmlTag, string src, bool replaceExisting = true) => htmlTag.Attribute("src", src, replaceExisting);
+    public static HtmlTag Src(this HtmlTag htmlTag, string src, bool replaceExisting = true) =>
+        htmlTag.Attribute("src", src, replaceExisting);
 }

@@ -55,6 +55,7 @@ public class AttributesComparerTests
         }
 
         [Fact]
-        public void TwoEmptyDictionariesShouldBeEqual() => AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
+        public void TwoEmptyDictionariesShouldBeEqual() =>
+            AttributesComparer.Equals(_dictionary1, _dictionary2).Should().BeTrue();
     }
 }

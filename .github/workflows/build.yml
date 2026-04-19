@@ -1,4 +1,4 @@
-name: Build
+name: build
 
 on:
   push:
@@ -8,13 +8,27 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: test
-        run: dotnet test --configuration Release --verbosity normal --collect:"XPlat Code Coverage" --settings coverlet.runsettings
-      - name: coverage
-        uses: codecov/codecov-action@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore tools
+        run: dotnet tool restore
+
+      - name: Check formatting
+        run: dotnet csharpier check .
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --no-restore --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage" --settings coverlet.runsettings
+
+      - name: Coverage
+        if: github.event_name != 'pull_request'
+        uses: codecov/codecov-action@v6

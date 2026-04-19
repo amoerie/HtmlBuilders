@@ -8,13 +8,16 @@ internal static class AttributesComparer
 {
     public static bool Equals(
         IEnumerable<KeyValuePair<string, string?>> leftAttributes,
-        IEnumerable<KeyValuePair<string, string?>> rightAttributes, params string[]? keysToExclude) =>
-        Equals(leftAttributes, rightAttributes, EqualityComparer<string>.Default, keysToExclude);
+        IEnumerable<KeyValuePair<string, string?>> rightAttributes,
+        params string[]? keysToExclude
+    ) => Equals(leftAttributes, rightAttributes, EqualityComparer<string>.Default, keysToExclude);
 
-    private static bool Equals(IEnumerable<KeyValuePair<string, string?>> leftAttributes,
+    private static bool Equals(
+        IEnumerable<KeyValuePair<string, string?>> leftAttributes,
         IEnumerable<KeyValuePair<string, string?>> rightAttributes,
         EqualityComparer<string> equalityComparer,
-        params string[]? keysToExclude)
+        params string[]? keysToExclude
+    )
     {
         var leftDictionary = leftAttributes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         var rightDictionary = rightAttributes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);

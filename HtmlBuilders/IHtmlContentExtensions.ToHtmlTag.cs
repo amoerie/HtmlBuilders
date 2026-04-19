@@ -36,10 +36,12 @@ public static class IHtmlContentExtensions
         var htmlTags = HtmlTag.ParseAll(htmlContent).OfType<HtmlTag>().ToList();
         return htmlTags.Count switch
         {
-            > 1 => throw new ArgumentException($"Multiple tags parsed from html: {Environment.NewLine}" +
-                                               $"{string.Join(Environment.NewLine, htmlTags.Select(t => t.ToString()))}"),
+            > 1 => throw new ArgumentException(
+                $"Multiple tags parsed from html: {Environment.NewLine}"
+                    + $"{string.Join(Environment.NewLine, htmlTags.Select(t => t.ToString()))}"
+            ),
             0 => throw new ArgumentException("No HTML tags found in html"),
-            _ => htmlTags[0]
+            _ => htmlTags[0],
         };
     }
 }

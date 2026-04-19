@@ -8,10 +8,12 @@ public class HtmlTextTests
     public new class Equals : HtmlTextTests
     {
         [Fact]
-        public void WhenTextsAreEqualShouldBeTrue() => new HtmlText("abc").Should().Be(new HtmlText("abc"));
+        public void WhenTextsAreEqualShouldBeTrue() =>
+            new HtmlText("abc").Should().Be(new HtmlText("abc"));
 
         [Fact]
-        public void WhenTextsAreNotEqualShouldBeFalse() => new HtmlText("abc").Should().NotBe(new HtmlText("cba"));
+        public void WhenTextsAreNotEqualShouldBeFalse() =>
+            new HtmlText("abc").Should().NotBe(new HtmlText("cba"));
     }
 
     public class ToHtml : HtmlTextTests
