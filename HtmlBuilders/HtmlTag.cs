@@ -540,10 +540,7 @@ public sealed class HtmlTag : IHtmlElement
 
                 var separatorIndex = styleEntry.IndexOf(':');
                 var key = styleEntry.Substring(0, separatorIndex);
-                var value = styleEntry.Substring(
-                    separatorIndex + 1,
-                    styleEntry.Length - separatorIndex - 1
-                );
+                var value = styleEntry.Substring(separatorIndex + 1);
                 styles[key] = value;
             }
 
@@ -837,7 +834,10 @@ public sealed class HtmlTag : IHtmlElement
                 htmlTag = tagBuilder.Attributes.Aggregate(
                     htmlTag,
                     (tag, attribute) =>
-                        tag.Attribute(attribute.Key, HtmlEntity.DeEntitize(attribute.Value))
+                        tag.Attribute(
+                            attribute.Key,
+                            HtmlEntity.DeEntitize(attribute.Value ?? string.Empty)
+                        )
                 );
             }
 
